@@ -1,5 +1,9 @@
 import React from 'react';
 import Router from 'next/router';
+import { connect } from "react-redux";
+
+import DefaultLayout from '../layouts/index';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -8,17 +12,17 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import DefaultLayout from '../layouts/index';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-
 import Typography from '@material-ui/core/Typography';
-import { connect } from "react-redux";
 
 const searchWidth = 600;
 
 const useStyles = makeStyles({
+  wrapper: {
+    padding: 32,
+  },
   header: {
     display: 'block',
     marginLeft: 'auto',
@@ -41,17 +45,6 @@ const useStyles = makeStyles({
   input: {
     marginLeft: 16,
     flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    width: 1,
-    height: '28',
-    margin: 4,
-  },
-  wrapper: {
-    padding: 32,
   },
   parliament: {
     height: 300
@@ -95,7 +88,6 @@ const HomePage = ({ filters }) => {
               <MenuItem value={'topics'}>Topics</MenuItem>
               <MenuItem value={'members'}>Members</MenuItem>
             </Select>
-            <Divider className={classes.divider} />
             <InputBase
               onChange={(event) => {setSearch(event.target.value)}}
               value={search}
