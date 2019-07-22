@@ -64,15 +64,15 @@ const useStyles = makeStyles({
   }
 });
 
-const searchFun = function(){
-  Router.push('/search')
-}
-
 export default function Home() {
   const classes = useStyles();
   const [which, setWhich] = React.useState('all');
   const [search, setSearch] = React.useState('');
 
+  var searchFunc = function(){
+    Router.push('/search')
+  }
+  
   const sector = [
     {
       name: "Agriculture",
@@ -148,8 +148,6 @@ export default function Home() {
     
     }
   ]
-  
-  
 
   return (
     <DefaultLayout>
@@ -178,7 +176,7 @@ export default function Home() {
               className={classes.input}
               placeholder="Search anything"
             />
-            <IconButton className={classes.iconButton} aria-label="Search" onClick={() => searchFun()}>
+            <IconButton className={classes.iconButton} aria-label="Search" onClick={() => searchFunc()}>
               <SearchIcon />
             </IconButton>
           </Paper>

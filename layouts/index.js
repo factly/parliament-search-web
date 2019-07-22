@@ -54,7 +54,7 @@ const DefaultLayout = ({ children }) => {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap>
-              Responsive drawer
+              Factly
             </Typography>
           </Toolbar>
         </AppBar>
