@@ -1,39 +1,54 @@
 import React from 'react'
 import Head from "next/head";
+import Router from 'next/router';
+
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import AddLocationIcon from '@material-ui/icons/AddLocation';
-import CategoryIcon from '@material-ui/icons/Category';
-import MenuIcon from '@material-ui/icons/Menu';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  list: {
-    width: 250,
+  container: {
+    padding: theme.spacing(1)
   },
-  image: {
-    width: 250,
-    height: 'auto'
+  appBarContent: {
+    margin: 'auto'
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+  logo: {
+    height: '20px'
   },
-  toolbar: theme.mixins.toolbar,
+  search: {
+    backgroundColor: 'white',
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  inputInput: {
+    padding: theme.spacing(1, 2, 1, 2),
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 400,
+    },
+  },
+  iconButton: {
+    padding: theme.spacing(1),
+  },
 }));
 
 const DefaultLayout = ({ children }) => {
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [term, setTerm] = React.useState("")
+
+  var searchFunc = function(q){
+    Router.push('/search?q='+term)
+  }
 
   return (
     <div>
@@ -44,43 +59,27 @@ const DefaultLayout = ({ children }) => {
       <div>
         <CssBaseline />
         <AppBar position="fixed">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              edge="start"
-              onClick={() => setMobileOpen(true)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Factly
-            </Typography>
+          <Toolbar className={classes.appBarContent}>
+            <img className={classes.logo} src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png" />
+            <div className={classes.search}>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                value={term}
+                onChange={(event) => {setTerm(event.target.value)}}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+              <IconButton className={classes.iconButton} aria-label="Search" onClick={() => searchFunc()}>
+                <SearchIcon />
+              </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
-        <Drawer open={mobileOpen} onClose={() => setMobileOpen(false)}>
-          <div
-            className={classes.list}
-            role="presentation"
-            onClose={() => setMobileOpen(false)}
-            onKeyDown={() => setMobileOpen(false)}
-          >
-            <List>
-              <ListItem button>
-                <ListItemIcon><AddLocationIcon /></ListItemIcon>
-                <ListItemText primary={"States"} />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon><CategoryIcon /></ListItemIcon>
-                <ListItemText primary={"Topics"} />
-              </ListItem>
-            </List>
-          </div>
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          {children}
-        </main>
+        <Toolbar/>
+        <Container maxWidth={false} className={classes.container}>{children}</Container>
       </div>
     </div>
   )
