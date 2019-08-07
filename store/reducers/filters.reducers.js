@@ -26,7 +26,6 @@ initialState['topics'] = [
   },{
     name: "Defence",
     src: "https://www.data.telangana.gov.in/sites/default/files/styles/topic_icons/public/agriculture.png?itok=ztWqb-2Y"
-  
   },{
     name: "Economy",
     src: "https://www.data.telangana.gov.in/sites/default/files/styles/topic_icons/public/banking_0.png?itok=uTYj50ur"
