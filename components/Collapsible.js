@@ -56,8 +56,19 @@ const Collapsible = (props) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(false)
   const [term, setTerm] = React.useState("")
+  
+  const filtersList  = function () {
+    if(term.length === 0) 
+      return props.list
+    else {
+      let newList = []
+      props.list.map(value => {
+        if(value.name.toLowerCase().includes(term.toLowerCase())) newList.push(value)
+      })
+      return newList
+    }
+  }
 
-  var many = 0;
   return (
     <div>
       <CardHeader 
@@ -76,20 +87,6 @@ const Collapsible = (props) => {
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
-          <div className={classes.selectedRoot}>
-          {
-            props.selected[props.type].map(value => {
-              return (
-                <Chip 
-                  size="small"
-                  className={classes.selected} 
-                  label={props.list.find(each => each.id === value)['name']} 
-                  onDelete={() => props.dispatch(selectedActions[props.setFunc](value))}
-                />         
-              )
-            })
-          }
-          </div>
           <Input
             placeholder="Search..."
             value={term}
@@ -97,23 +94,14 @@ const Collapsible = (props) => {
             className={classes.input}
           />
           <List>
-            {props.list.map(value => {
+            {filtersList().slice(0, 5).map(value => {
               const labelId = `checkbox-list-label-${value.id}`;
-              many++
-
-              if(term.length > 0 && !value.name.toLowerCase().includes(term.toLowerCase())){
-                many--
-                return null
-              }
-              if(many > 5)
-                return null
-
+            
               return (
                 <ListItem key={value.id} dense onClick={() => props.dispatch(selectedActions[props.setFunc](value.id))}>
                   <ListItemIcon>
                     <Checkbox
                       className={classes.paddingZero}
-                      edge="start"
                       checked={props.selected[props.type].indexOf(value.id) !== -1}
                       tabIndex={-1}
                       disableRipple

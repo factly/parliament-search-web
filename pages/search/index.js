@@ -12,8 +12,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+
 import DefaultLayout from '../../layouts/index';
 import Collapsible from '../../components/Collapsible';
+import SelectedFilters from '../../components/SelectedFilters';
 
 const useStyles = makeStyles(theme => ({
   askedRoot: {
@@ -39,26 +41,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const HomePage = () => {
+const HomePage = (props) => {
   const classes = useStyles();
+  
   return (
     <DefaultLayout>
       <Grid container xl spacing={2}>
         <Grid item xs={2}>
           <Paper>
             <div className={classes.eachFilter}>
+              <SelectedFilters/>
+            </div>
+            <Divider />
+            <div className={classes.eachFilter}>
               <Collapsible 
                 heading={"State"}
-                list={[{id: 1, name: "MP"}, {id: 2, name: "HP"}, {id: 3, name: "AP"}]}
+                list={props.filters.states}
                 setFunc={"addState"}
                 type="states"
               />
             </div>
             <Divider />
-            <div>
+            <div className={classes.eachFilter}>
               <Collapsible 
                 heading={"Party"}
-                list={[{id: 1, name: "BJP"}, {id: 2, name: "INC"}, {id: 3, name: "SP"}, {id: 4, name: "BSP"}, {id: 5, name: "TMC"}, {id:6, name: "TRS"}, {id:7, name: "TDP"}, {id:8, name: "DMK"}, {id: 9, name: "Shiv Sena"}, {id: 10, name: "AIADMK"}, {id: 11, name: "AAP"}]}
+                list={props.filters.parties}
                 setFunc={"addParty"}
                 type="parties"
               />
