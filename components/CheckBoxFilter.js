@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import { FixedSizeList } from 'react-window';
 
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -21,6 +22,11 @@ const useStyles = makeStyles(theme => ({
   paddingZero: {
     padding: theme.spacing(0)
   },
+  dataList: {
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 250,
+  },
   cardContent: {
     padding: theme.spacing(1),
     paddingTop: theme.spacing(0)
@@ -30,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: '100%',
   },
-  paddingOne: {
+  listRow: {
     paddingLeft: theme.spacing(1),
   },
   cardHeader: {
@@ -60,19 +66,31 @@ const CheckBoxFilter = (props) => {
   const [term, setTerm] = React.useState("")
   
   const filtersList  = function () {
-    var finalList = props.list
-    if(term.length !== 0) {
+    if(term.length === 0) return props.list 
+    else {
       let newList = []
-      props.list.map(value => {
+      props.list.find(value => {
         if(value.name.toLowerCase().includes(term.toLowerCase())) newList.push(value)
       })
-      finalList =  newList
+      return newList
     }
-    if(props.limit)
-      return finalList.slice(0, props.limit)
-    else
-      return finalList
   }
+
+  const dummyList = filtersList()
+  const Row = ({ index, style }) => (
+    <ListItem style={style} key={dummyList[index].id} className={classes.listRow} dense onClick={() => props.dispatch(selectedActions[props.setFunc](dummyList[index].id))}>
+      <ListItemIcon>
+        <Checkbox
+          className={classes.paddingZero}
+          checked={props.selected[props.type].indexOf(dummyList[index].id) !== -1}
+          tabIndex={-1}
+          disableRipple
+          inputProps={{ 'aria-labelledby': 'checkbox-list-label-'+dummyList[index].id }}
+        />
+      </ListItemIcon>
+      <ListItemText id={'checkbox-list-label-'+dummyList[index].id} primary={dummyList[index].name} />
+    </ListItem>
+  );
 
   return (
     <div>
@@ -102,26 +120,11 @@ const CheckBoxFilter = (props) => {
               />
             ) : null
           }
-          <List className={classes.paddingZero}>
-            {filtersList().map(value => {
-              const labelId = `checkbox-list-label-${value.id}`;
-            
-              return (
-                <ListItem key={value.id} className={classes.paddingOne} dense onClick={() => props.dispatch(selectedActions[props.setFunc](value.id))}>
-                  <ListItemIcon>
-                    <Checkbox
-                      className={classes.paddingZero}
-                      checked={props.selected[props.type].indexOf(value.id) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText id={labelId} primary={value.name} />
-                </ListItem>
-              );
-            })}
-          </List> 
+          <div>
+            <FixedSizeList height={props.limit * 40} width={'100%'} itemSize={40} itemCount={filtersList().length}>
+              {Row}
+            </FixedSizeList>
+          </div> 
         </CardContent>
       </Collapse>
     </div>

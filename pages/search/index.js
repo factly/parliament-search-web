@@ -79,7 +79,8 @@ const HomePage = (props) => {
             </div>
             <Divider />
             <div className={classes.eachFilter}>
-              <CheckBoxFilter 
+              <CheckBoxFilter
+                limit={props.filters.education.length}
                 heading={"Education"}
                 list={props.filters.education}
                 setFunc={"addEducation"}
@@ -94,7 +95,8 @@ const HomePage = (props) => {
             </div>
             <Divider />
             <div className={classes.eachFilter}>
-              <CheckBoxFilter 
+              <CheckBoxFilter
+                limit={props.filters.genders.length}
                 heading={"Gender"}
                 list={props.filters.genders}
                 setFunc={"setGender"}
@@ -103,7 +105,8 @@ const HomePage = (props) => {
             </div>
             <Divider />
             <div className={classes.eachFilter}>
-              <CheckBoxFilter 
+              <CheckBoxFilter
+                limit={props.filters.marital.length} 
                 heading={"Marital"}
                 list={props.filters.marital}
                 setFunc={"addMarital"}
