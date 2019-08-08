@@ -5,31 +5,17 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
 import Chip from '@material-ui/core/Chip';
 
 import { selectedActions } from '../store/actions'
 const useStyles = makeStyles(theme => ({
-  paddingZero: {
-    padding: theme.spacing(0)
-  },
   cardContent: {
     padding: theme.spacing(1),
     paddingTop: theme.spacing(0)
   },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '100%',
-  },
-  CardHeader: {
+  cardHeader: {
     padding: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    cursor: 'pointer'
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
+    paddingLeft: theme.spacing(2)
   },
   selectedRoot: {
     display: 'flex',
@@ -49,15 +35,27 @@ const SelectedFilters = (props) => {
   return (
     <div>
       <CardHeader 
-        className={classes.CardHeader}
+        className={classes.cardHeader}
         title={
-          <Typography variant="h6" gutterBottom >
+          <Typography variant="h5" gutterBottom >
             Filters
           </Typography>
         }
       />
       <CardContent className={classes.cardContent}>
         <div className={classes.selectedRoot}>
+        {
+          props.selected.states.map(value => {
+              return (
+                <Chip 
+                  size="small"
+                  className={classes.selected} 
+                  label={props.filters.states.find(each => each.id === value)['name']} 
+                  onDelete={() => props.dispatch(selectedActions.addState(value))}
+                />         
+              )
+            })
+        }
         {
           props.selected.parties.map(value => {
             return (
@@ -71,13 +69,45 @@ const SelectedFilters = (props) => {
           })
         }
         {
-          props.selected.states.map(value => {
+          props.selected.education.map(value => {
               return (
                 <Chip 
                   size="small"
                   className={classes.selected} 
-                  label={props.filters.states.find(each => each.id === value)['name']} 
-                  onDelete={() => props.dispatch(selectedActions.addState(value))}
+                  label={props.filters.education.find(each => each.id === value)['name']} 
+                  onDelete={() => props.dispatch(selectedActions.addEducation(value))}
+                />         
+              )
+            })
+        }
+        {
+          props.selected.age[0] !== 25 || props.selected.age[1] !== 100 ? (
+            <Chip 
+              size="small"
+              className={classes.selected} 
+              label={props.selected.age[0] + "-" + props.selected.age[1]} 
+              onDelete={() => props.dispatch(selectedActions.setAge([25, 100]))}
+            /> 
+          ) : null
+        }
+        {
+          props.selected.genders[0] !== "all" ? (
+            <Chip 
+              size="small"
+              className={classes.selected}
+              label={props.selected.genders[0]} 
+              onDelete={() => props.dispatch(selectedActions.setGender("all"))}
+            /> 
+          ) : null
+        }
+        {
+          props.selected.marital.map(value => {
+              return (
+                <Chip 
+                  size="small"
+                  className={classes.selected} 
+                  label={props.filters.marital.find(each => each.id === value)['name']} 
+                  onDelete={() => props.dispatch(selectedActions.addMarital(value))}
                 />         
               )
             })

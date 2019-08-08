@@ -14,7 +14,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 
 import DefaultLayout from '../../layouts/index';
-import Collapsible from '../../components/Collapsible';
+import CheckBoxFilter from '../../components/CheckBoxFilter';
+import SliderFilter from "../../components/SliderFilter";
 import SelectedFilters from '../../components/SelectedFilters';
 
 const useStyles = makeStyles(theme => ({
@@ -54,7 +55,10 @@ const HomePage = (props) => {
             </div>
             <Divider />
             <div className={classes.eachFilter}>
-              <Collapsible 
+              <CheckBoxFilter 
+                limit={5}
+                search
+                show
                 heading={"State"}
                 list={props.filters.states}
                 setFunc={"addState"}
@@ -63,11 +67,47 @@ const HomePage = (props) => {
             </div>
             <Divider />
             <div className={classes.eachFilter}>
-              <Collapsible 
+              <CheckBoxFilter 
+                limit={5}
+                search
+                show
                 heading={"Party"}
                 list={props.filters.parties}
                 setFunc={"addParty"}
                 type="parties"
+              />
+            </div>
+            <Divider />
+            <div className={classes.eachFilter}>
+              <CheckBoxFilter 
+                heading={"Education"}
+                list={props.filters.education}
+                setFunc={"addEducation"}
+                type="education"
+              />
+            </div>
+            <Divider />
+            <div className={classes.eachFilter}>
+              <SliderFilter
+                heading={"Age"} 
+              />
+            </div>
+            <Divider />
+            <div className={classes.eachFilter}>
+              <CheckBoxFilter 
+                heading={"Gender"}
+                list={props.filters.genders}
+                setFunc={"setGender"}
+                type="genders"
+              />
+            </div>
+            <Divider />
+            <div className={classes.eachFilter}>
+              <CheckBoxFilter 
+                heading={"Marital"}
+                list={props.filters.marital}
+                setFunc={"addMarital"}
+                type="marital"
               />
             </div>
           </Paper>

@@ -15,9 +15,8 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Input from '@material-ui/core/Input';
-import Chip from '@material-ui/core/Chip';
 
-import { selectedActions } from './../store/actions'
+import { selectedActions } from '../store/actions'
 const useStyles = makeStyles(theme => ({
   paddingZero: {
     padding: theme.spacing(0)
@@ -31,7 +30,10 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: '100%',
   },
-  CardHeader: {
+  paddingOne: {
+    paddingLeft: theme.spacing(1),
+  },
+  cardHeader: {
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
     cursor: 'pointer'
@@ -52,28 +54,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Collapsible = (props) => {
+const CheckBoxFilter = (props) => {
   const classes = useStyles();
-  const [show, setShow] = React.useState(false)
+  const [show, setShow] = React.useState(props.show)
   const [term, setTerm] = React.useState("")
   
   const filtersList  = function () {
-    if(term.length === 0) 
-      return props.list
-    else {
+    var finalList = props.list
+    if(term.length !== 0) {
       let newList = []
       props.list.map(value => {
         if(value.name.toLowerCase().includes(term.toLowerCase())) newList.push(value)
       })
-      return newList
+      finalList =  newList
     }
+    if(props.limit)
+      return finalList.slice(0, props.limit)
+    else
+      return finalList
   }
 
   return (
     <div>
       <CardHeader 
         onClick={() => setShow(!show)}
-        className={classes.CardHeader}
+        className={classes.cardHeader}
         title={
           <Typography variant="body2" gutterBottom >
             {props.heading}
@@ -87,18 +92,22 @@ const Collapsible = (props) => {
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
-          <Input
-            placeholder="Search..."
-            value={term}
-            onChange={(event) => {setTerm(event.target.value)}}
-            className={classes.input}
-          />
-          <List>
-            {filtersList().slice(0, 5).map(value => {
+          {
+            props.search ? (
+              <Input
+                placeholder="Search..."
+                value={term}
+                onChange={(event) => {setTerm(event.target.value)}}
+                className={classes.input}
+              />
+            ) : null
+          }
+          <List className={classes.paddingZero}>
+            {filtersList().map(value => {
               const labelId = `checkbox-list-label-${value.id}`;
             
               return (
-                <ListItem key={value.id} dense onClick={() => props.dispatch(selectedActions[props.setFunc](value.id))}>
+                <ListItem key={value.id} className={classes.paddingOne} dense onClick={() => props.dispatch(selectedActions[props.setFunc](value.id))}>
                   <ListItemIcon>
                     <Checkbox
                       className={classes.paddingZero}
@@ -122,4 +131,4 @@ const mapStateToProps = state => ({
   selected: state.selected
 });
 
-export default connect(mapStateToProps)(Collapsible);
+export default connect(mapStateToProps)(CheckBoxFilter);

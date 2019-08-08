@@ -170,6 +170,28 @@ initialState['states'] = [
   {id: 29, name: "West Bengal"},
 ]
 
+initialState['education'] = [
+  {id: 1, name: "Under Metric"},
+  {id: 2, name: "Matriculate"},
+  {id: 3, name: "Inter mediate"},
+  {id: 4, name: "Graduation"},
+  {id: 5, name: "Post Graduation"},
+  {id: 6, name: "Doctrate"},
+] 
+
+initialState['genders'] = [
+  {id: "all", name: "ALL"}, 
+  {id: "male", name: "MALE"}, 
+  {id: "female", name: "FEMALE"}
+]
+
+initialState['marital'] = [
+  {id: 1, name: "Single"},
+  {id: 2, name: "Married"},
+  {id: 3, name: "Widowed"},
+  {id: 4, name: "Divorced"}
+]
+
 export function filters(state = initialState, action) {
   switch (action.type) {
     default:
