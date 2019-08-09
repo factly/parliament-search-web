@@ -46,7 +46,6 @@ const HomePage = (props) => {
   const classes = useStyles();
   
   return (
-    <DefaultLayout>
       <Grid container xl spacing={2}>
         <Grid item xs={2}>
           <Paper>
@@ -175,7 +174,6 @@ const HomePage = (props) => {
           </Paper>
         </Grid>
       </Grid>
-    </DefaultLayout>
   );
 }
 

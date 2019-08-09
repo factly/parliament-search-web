@@ -1,8 +1,5 @@
 import React from 'react';
-import Router from 'next/router';
 import { connect } from "react-redux";
-
-import DefaultLayout from '../layouts/index';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -29,29 +26,27 @@ const HomePage = ({ filters }) => {
   const classes = useStyles();
   
   return (
-    <DefaultLayout>
-      <div className={classes.wrapper}>
-        <div className={classes.topics}>
-          <Paper>
-            <Grid container spacing={3}>
-            {
-              filters.topics.map((x, i) => (
-                <Grid item md={2} sm={6} key={i}>
-                  <div className={classes.topic}>
-                    <CardContent>
-                      <Typography align="center" variant="subtitle2" gutterBottom>
-                        {x.name}
-                      </Typography>
-                    </CardContent>   
-                  </div>
-                </Grid>
-              ))
-            }
-            </Grid>
-          </Paper>
-        </div>
+    <div className={classes.wrapper}>
+      <div className={classes.topics}>
+        <Paper>
+          <Grid container spacing={3}>
+          {
+            filters.topics.map((x, i) => (
+              <Grid item md={2} sm={6} key={i}>
+                <div className={classes.topic}>
+                  <CardContent>
+                    <Typography align="center" variant="subtitle2" gutterBottom>
+                      {x.name}
+                    </Typography>
+                  </CardContent>   
+                </div>
+              </Grid>
+            ))
+          }
+          </Grid>
+        </Paper>
       </div>
-    </DefaultLayout>
+    </div>
   );
 }
 
