@@ -49,6 +49,7 @@ const SelectedFilters = (props) => {
               return (
                 <Chip 
                   size="small"
+                  key={"state"+value}
                   className={classes.selected} 
                   label={props.filters.states.find(each => each.id === value)['name']} 
                   onDelete={() => props.dispatch(selectedActions.addState(value))}
@@ -61,6 +62,7 @@ const SelectedFilters = (props) => {
             return (
               <Chip 
                 size="small"
+                key={"party"+value}
                 className={classes.selected} 
                 label={props.filters.parties.find(each => each.id === value)['name']} 
                 onDelete={() => props.dispatch(selectedActions.addParty(value))}
@@ -73,6 +75,7 @@ const SelectedFilters = (props) => {
               return (
                 <Chip 
                   size="small"
+                  key={"education"+value}
                   className={classes.selected} 
                   label={props.filters.education.find(each => each.id === value)['name']} 
                   onDelete={() => props.dispatch(selectedActions.addEducation(value))}
@@ -105,6 +108,7 @@ const SelectedFilters = (props) => {
               return (
                 <Chip 
                   size="small"
+                  key={"marital"+value}
                   className={classes.selected} 
                   label={props.filters.marital.find(each => each.id === value)['name']} 
                   onDelete={() => props.dispatch(selectedActions.addMarital(value))}
