@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -12,50 +12,51 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Slider from '@material-ui/core/Slider';
 
-import { selectedActions } from '../store/actions'
-const useStyles = makeStyles(theme => ({
+import { selectedActions } from '../store/actions';
+
+const useStyles = makeStyles((theme) => ({
   cardContent: {
     padding: theme.spacing(3),
   },
   cardHeader: {
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   eachFilter: {
-    borderRadius: theme.spacing(0)
-  }
+    borderRadius: theme.spacing(0),
+  },
 }));
 
-const SliderFilter = (props) => {
+const SliderFilter = ({ dispatch, heading, selected }) => {
   const classes = useStyles();
-  const [show, setShow] = React.useState(false)
-  
+  const [show, setShow] = React.useState(false);
+
   const handleChange = (event, value) => {
-    props.dispatch(selectedActions.setAge(value))
+    dispatch(selectedActions.setAge(value));
   };
 
 
   return (
     <Card className={classes.eachFilter}>
-      <CardHeader 
+      <CardHeader
         onClick={() => setShow(!show)}
         className={classes.cardHeader}
-        title={
-          <Typography variant="body2" gutterBottom >
-            {props.heading}
+        title={(
+          <Typography variant="body2" gutterBottom>
+            {heading}
           </Typography>
-        }
-        action={
+)}
+        action={(
           <IconButton aria-label="settings">
-          { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} 
+            { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        }
+)}
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
           <Slider
-            value={props.selected.age}
+            value={selected.age}
             min={25}
             max={100}
             step={5}
@@ -66,10 +67,10 @@ const SliderFilter = (props) => {
         </CardContent>
       </Collapse>
     </Card>
-  )
-}
-const mapStateToProps = state => ({
-  selected: state.selected
+  );
+};
+const mapStateToProps = (state) => ({
+  selected: state.selected,
 });
 
 export default connect(mapStateToProps)(SliderFilter);

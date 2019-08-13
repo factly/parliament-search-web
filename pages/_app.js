@@ -1,8 +1,7 @@
 import React from 'react';
 import { Container as NextContainer } from 'next/app';
 import { Provider } from 'react-redux';
-import withReduxStore from '../lib/with-redux-store'
-import Head from "next/head";
+import Head from 'next/head';
 import Router from 'next/router';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -13,17 +12,18 @@ import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import withReduxStore from '../lib/with-redux-store';
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   appBarContent: {
-    margin: 'auto'
+    margin: 'auto',
   },
   logo: {
-    height: '20px'
+    height: '20px',
   },
   search: {
     backgroundColor: 'white',
@@ -48,19 +48,19 @@ const useStyles = makeStyles(theme => ({
 
 const MyApp = (props) => {
   const classes = useStyles();
-  const [term, setTerm] = React.useState("")
+  const [term, setTerm] = React.useState('');
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
+    const jssStyles = window.document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
-  })
+  });
 
-  const searchFunc = function(q){
-    Router.push('/search?q='+term)
-  }
+  const searchFunc = function () {
+    Router.push(`/search?q=${term}`);
+  };
 
   const { Component, pageProps, store } = props;
   return (
@@ -70,11 +70,11 @@ const MyApp = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       </Head>
       <div>
-        <Provider store={store}>    
+        <Provider store={store}>
           <CssBaseline />
           <AppBar position="fixed">
             <Toolbar className={classes.appBarContent}>
-              <img className={classes.logo} src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png" />
+              <img className={classes.logo} alt="Home" src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png" />
               <div className={classes.search}>
                 <InputBase
                   placeholder="Search…"
@@ -83,7 +83,7 @@ const MyApp = (props) => {
                     input: classes.inputInput,
                   }}
                   value={term}
-                  onChange={(event) => {setTerm(event.target.value)}}
+                  onChange={(event) => { setTerm(event.target.value); }}
                   inputProps={{ 'aria-label': 'search' }}
                 />
                 <IconButton className={classes.iconButton} aria-label="Search" onClick={() => searchFunc()}>
@@ -92,16 +92,16 @@ const MyApp = (props) => {
               </div>
             </Toolbar>
           </AppBar>
-          <Toolbar/>
+          <Toolbar />
           <NextContainer>
             <Container maxWidth={false} className={classes.container}>
               <Component {...pageProps} />
-            </Container> 
+            </Container>
           </NextContainer>
         </Provider>
-      </div>  
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default withReduxStore(MyApp);

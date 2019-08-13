@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 
 import Card from '@material-ui/core/Card';
@@ -8,7 +8,6 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -18,10 +17,11 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Input from '@material-ui/core/Input';
 
-import { selectedActions } from '../store/actions'
-const useStyles = makeStyles(theme => ({
+import { selectedActions } from '../store/actions';
+
+const useStyles = makeStyles((theme) => ({
   paddingZero: {
-    padding: theme.spacing(0)
+    padding: theme.spacing(0),
   },
   dataList: {
     position: 'relative',
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardContent: {
     padding: theme.spacing(1),
-    paddingTop: theme.spacing(0)
+    paddingTop: theme.spacing(0),
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -43,99 +43,106 @@ const useStyles = makeStyles(theme => ({
   cardHeader: {
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
-    cursor: 'pointer'
+    cursor: 'pointer',
   },
   input: {
     marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   selectedRoot: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
   },
   selected: {
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
-    borderRadius: theme.spacing(0.5)
+    borderRadius: theme.spacing(0.5),
   },
   eachFilter: {
-    borderRadius: theme.spacing(0)
-  }
+    borderRadius: theme.spacing(0),
+  },
 }));
 
-const CheckBoxFilter = (props) => {
+const CheckBoxFilter = ({
+  defaultShow, list, heading, search, type, setFunc, limit, selected, dispatch,
+}) => {
   const classes = useStyles();
-  const [show, setShow] = React.useState(props.show)
-  const [term, setTerm] = React.useState("")
-  
-  const filtersList  = function () {
-    if(term.length === 0) return props.list 
-    else {
-      let newList = []
-      props.list.find(value => {
-        if(value.name.toLowerCase().includes(term.toLowerCase())) newList.push(value)
-      })
-      return newList
-    }
-  }
+  const [show, setShow] = React.useState(defaultShow);
+  const [term, setTerm] = React.useState('');
 
-  const dummyList = filtersList()
+  const filtersList = function () {
+    if (term.length === 0) return list;
+
+    const newList = [];
+    list.find((value) => {
+      if (value.name.toLowerCase().includes(term.toLowerCase())) newList.push(value);
+    });
+    return newList;
+  };
+
+  const dummyList = filtersList();
   const Row = ({ index, style }) => (
-    <ListItem style={style} key={dummyList[index].id} className={classes.listRow} dense onClick={() => props.dispatch(selectedActions[props.setFunc](dummyList[index].id))}>
+    <ListItem
+      style={style}
+      key={dummyList[index].id}
+      className={classes.listRow}
+      dense
+      onClick={() => dispatch(selectedActions[setFunc](dummyList[index].id))}
+    >
       <ListItemIcon>
         <Checkbox
           className={classes.paddingZero}
-          checked={props.selected[props.type].indexOf(dummyList[index].id) !== -1}
+          checked={selected[type].indexOf(dummyList[index].id) !== -1}
           tabIndex={-1}
           disableRipple
-          inputProps={{ 'aria-labelledby': 'checkbox-list-label-'+dummyList[index].id }}
+          inputProps={{ 'aria-labelledby': `checkbox-list-label-${dummyList[index].id}` }}
         />
       </ListItemIcon>
-      <ListItemText id={'checkbox-list-label-'+dummyList[index].id} primary={dummyList[index].name} />
+      <ListItemText id={`checkbox-list-label-${dummyList[index].id}`} primary={dummyList[index].name} />
     </ListItem>
   );
 
   return (
     <Card className={classes.eachFilter}>
-      <CardHeader 
+      <CardHeader
         onClick={() => setShow(!show)}
         className={classes.cardHeader}
-        title={
-          <Typography variant="body2" gutterBottom >
-            {props.heading}
+        title={(
+          <Typography variant="body2" gutterBottom>
+            {heading}
           </Typography>
-        }
-        action={
+)}
+        action={(
           <IconButton aria-label="settings">
-          { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />} 
+            { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-        }
+)}
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
           {
-            props.search ? (
+            search ? (
               <Input
                 placeholder="Search..."
                 value={term}
-                onChange={(event) => {setTerm(event.target.value)}}
+                onChange={(event) => { setTerm(event.target.value); }}
                 className={classes.input}
               />
             ) : null
           }
           <div>
-            <FixedSizeList height={props.limit * 40} width={'100%'} itemSize={40} itemCount={filtersList().length}>
+            <FixedSizeList height={limit * 40} width="100%" itemSize={40} itemCount={filtersList().length}>
               {Row}
             </FixedSizeList>
-          </div> 
+          </div>
         </CardContent>
       </Collapse>
     </Card>
-  )
-}
-const mapStateToProps = state => ({
-  selected: state.selected
+  );
+};
+const mapStateToProps = (state) => ({
+  selected: state.selected,
 });
 
 export default connect(mapStateToProps)(CheckBoxFilter);

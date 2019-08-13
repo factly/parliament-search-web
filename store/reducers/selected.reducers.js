@@ -1,103 +1,106 @@
 import { selectedConstants } from '../constants';
 
 const initialState = {};
-initialState['q'] = ""
-initialState['states'] = []
-initialState['parties'] = []
-initialState['education'] = []
-initialState['age'] = [25, 100]
-initialState['genders'] = ["all"]
-initialState['marital'] = []
-initialState['sort'] = "popular"
+initialState.q = '';
+initialState.states = [];
+initialState.parties = [];
+initialState.education = [];
+initialState.age = [25, 100];
+initialState.genders = ['all'];
+initialState.marital = [];
+initialState.sort = 'popular';
 
-export function selected(state = initialState, action) {
+function newList(list, element) {
+  const currentIndex = list.indexOf(element);
+
+  if (currentIndex === -1) {
+    list.push(element);
+  } else {
+    list.splice(currentIndex, 1);
+  }
+  return list;
+}
+
+function selected(state = initialState, action) {
   switch (action.type) {
-    case selectedConstants.SET_ALL: 
-      var newState = initialState
-      console.log(action.data)
-      if(action.data.q)
-        newState['q'] = action.data.q.trim()
-      if(action.data.states)
-        newState['states'] = action.data.states.split(',').filter(value => value.trim() && value > 0 && value < 35).map(item => parseInt(item, 10));
-      if(action.data.parties)
-        newState['parties'] = action.data.parties.split(',').filter(value => value.trim() && value > 0 && value < 61).map(item => parseInt(item, 10));
-      if(action.data.education)
-        newState['education'] = action.data.education.split(',').filter(value => value.trim() && value > 0 && value < 7).map(item => parseInt(item, 10));
-      if(action.data.marital)
-        newState['marital'] = action.data.marital.split(',').filter(value => value.trim() && value > 0 && value < 7).map(item => parseInt(item, 10));
-      if(action.data.sort && (action.data.sort === "popular" || action.data.sort === "new" || action.data.sort === "alphabetical"))
-        newState['sort'] = action.data.sort
-      if(action.data.genders === "all" || action.data.genders === "female" || action.data.genders === "male")
-        newState['genders'][0] = action.data.genders
-      if((action.data.maxAge && parseInt(action.data.maxAge) < initialState.age[1] ) && (action.data.minAge && parseInt(action.data.minAge) > initialState.age[0]) && action.data.minAge < action.data.maxAge)
-        newState['age'] = [action.data.minAge, action.data.maxAge]
-      
-      return newState
+    case selectedConstants.SET_ALL:
+      if (action.data.q) initialState.q = action.data.q.trim();
+      if (action.data.states) {
+        if (typeof (action.data.states) === 'string') action.data.states = [action.data.states];
+        initialState.states = action.data.states
+          .filter((value) => value.trim() && value > 0 && value < 35)
+          .map((item) => parseInt(item, 10));
+      }
+      if (action.data.parties) {
+        if (typeof (action.data.parties) === 'string') action.data.parties = [action.data.parties];
+        initialState.parties = action.data.parties
+          .filter((value) => value.trim() && value > 0 && value < 61)
+          .map((item) => parseInt(item, 10));
+      }
+      if (action.data.education) {
+        if (typeof (action.data.education) === 'string') action.data.education = [action.data.education];
+        initialState.education = action.data.education
+          .filter((value) => value.trim() && value > 0 && value < 7)
+          .map((item) => parseInt(item, 10));
+      }
+      if (action.data.marital) {
+        if (typeof (action.data.marital) === 'string') action.data.marital = [action.data.marital];
+        initialState.marital = action.data.marital
+          .filter((value) => value.trim() && value > 0 && value < 7)
+          .map((item) => parseInt(item, 10));
+      }
+      if (
+        action.data.sort === 'popular'
+        || action.data.sort === 'new'
+        || action.data.sort === 'alphabetical'
+      ) initialState.sort = action.data.sort;
+      if (
+        action.data.genders === 'all'
+        || action.data.genders === 'female'
+        || action.data.genders === 'male'
+      ) initialState.genders[0] = action.data.genders;
+      if (
+        action.data.age
+        && action.data.age.length === 2
+        && action.data.age.sort()[0] >= 25 && action.data.age.sort[1] <= 100
+      ) {
+        initialState.age = action.data.age.sort();
+      }
+      return initialState;
     case selectedConstants.STATE_SET:
-      var newStates = state.states
-      const currentStateIndex = newStates.indexOf(action.data);
-      
-      if (currentStateIndex === -1) {
-        newStates.push(action.data);
-      } else {
-        newStates.splice(currentStateIndex, 1);
-      }
       return {
         ...state,
-        states: newStates
-      }
+        states: newList(state.states, action.data),
+      };
     case selectedConstants.PARTY_SET:
-      var newParties = state.parties
-      const currentPartyIndex = newParties.indexOf(action.data);
-      
-      if (currentPartyIndex === -1) {
-        newParties.push(action.data);
-      } else {
-        newParties.splice(currentPartyIndex, 1);
-      }
       return {
         ...state,
-        parties: newParties
-      }
+        parties: newList(state.parties, action.data),
+      };
     case selectedConstants.EDUCATION_SET:
-      var newEducation = state.education
-      const currentEducationIndex = newEducation.indexOf(action.data);
-      
-      if (currentEducationIndex === -1) {
-        newEducation.push(action.data);
-      } else {
-        newEducation.splice(currentEducationIndex, 1);
-      }
+
       return {
         ...state,
-        education: newEducation
-      }
+        education: newList(state.education, action.data),
+      };
     case selectedConstants.AGE_SET:
       return {
         ...state,
-        age: action.data
-      }
+        age: action.data,
+      };
     case selectedConstants.GENDER_SET:
-      var newGender = []
-      newGender[0] = action.data
       return {
         ...state,
-        genders: newGender
-      }
+        genders: action.data[0],
+      };
     case selectedConstants.MARITAL_SET:
-      var newMarital = state.marital
-      const currentMaritalIndex = newMarital.indexOf(action.data);
-      
-      if (currentMaritalIndex === -1) {
-        newMarital.push(action.data);
-      } else {
-        newMarital.splice(currentMaritalIndex, 1);
-      }
       return {
         ...state,
-        marital: newMarital
-      }
+        marital: newList(state.marital, action.data),
+      };
     default:
-      return state
+      return state;
   }
 }
+
+export default selected;
