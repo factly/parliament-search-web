@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 
+import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     cursor: 'pointer'
   },
+  eachFilter: {
+    borderRadius: theme.spacing(0)
+  }
 }));
 
 const SliderFilter = (props) => {
@@ -33,7 +37,7 @@ const SliderFilter = (props) => {
 
 
   return (
-    <div>
+    <Card className={classes.eachFilter}>
       <CardHeader 
         onClick={() => setShow(!show)}
         className={classes.cardHeader}
@@ -61,7 +65,7 @@ const SliderFilter = (props) => {
           />
         </CardContent>
       </Collapse>
-    </div>
+    </Card>
   )
 }
 const mapStateToProps = state => ({

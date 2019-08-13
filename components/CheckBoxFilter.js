@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { FixedSizeList } from 'react-window';
 
+import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
@@ -58,6 +59,9 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(0.5),
     borderRadius: theme.spacing(0.5)
   },
+  eachFilter: {
+    borderRadius: theme.spacing(0)
+  }
 }));
 
 const CheckBoxFilter = (props) => {
@@ -93,7 +97,7 @@ const CheckBoxFilter = (props) => {
   );
 
   return (
-    <div>
+    <Card className={classes.eachFilter}>
       <CardHeader 
         onClick={() => setShow(!show)}
         className={classes.cardHeader}
@@ -127,7 +131,7 @@ const CheckBoxFilter = (props) => {
           </div> 
         </CardContent>
       </Collapse>
-    </div>
+    </Card>
   )
 }
 const mapStateToProps = state => ({

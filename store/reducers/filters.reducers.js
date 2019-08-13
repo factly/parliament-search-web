@@ -144,6 +144,7 @@ initialState['states'] = [
   {id: 2, name: "Arunachal Pradesh"},
   {id: 3, name: "Assam"},
   {id: 4, name: "Bihar"},
+  {id: 5, name: "J & K"},
   {id: 6, name: "Chhattisgarh"},
   {id: 7, name: "Goa"},
   {id: 8, name: "Gujarat"},

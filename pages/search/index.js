@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from "react-redux";
+import Router, { useRouter } from 'next/router'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -15,6 +15,7 @@ import QuestionBox from '../../components/QuestionBox';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import { selectedActions } from '../../store/actions'
 const useStyles = makeStyles(theme => ({
   eachFilter: {
     borderBottomWidth: 1,
@@ -25,78 +26,91 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const HomePage = (props) => {
+const SearchPage = (props) => {
   const classes = useStyles();
-  
+  const router = useRouter()
+
+  React.useEffect(() => {
+    console.log(router.query)
+    props.dispatch(selectedActions.setAll(router.query))
+  }, []);
+
+  React.useEffect(() => {
+    let query = {}
+    if(props.selected.q && props.selected.q.trim() !== "")
+      query['q'] = props.selected.q.trim()
+    if(props.selected.states.length > 0)
+      query['states'] = props.selected.states.toString()
+    if(props.selected.parties.length > 0)
+      query['parties'] = props.selected.parties.toString()
+    if(props.selected.education.length > 0)
+      query['education'] = props.selected.education.toString()
+    if(props.selected.marital.length > 0)
+      query['marital'] = props.selected.marital.toString()
+    if(props.selected.sort)
+      query['sort'] = props.selected.sort
+    if(props.selected.genders[0] !== 'all')
+      query['genders'] = props.selected.genders[0]
+    if(props.selected.age[0] !== 25 && props.selected.age[1] !== 100){
+      query['minAge'] = props.selected.age[0]
+      query['maxAge'] = props.selected.age[1]
+    }
+    Router.push({
+      pathname: '/search',
+      query: query, 
+      shallow: true
+    });
+  }, [props.selected])
+
   const [sort, setSort]= React.useState("popular")
   return (
       <Grid container xl spacing={2}>
         <Grid item xs={2}>
-          <Paper>
-            <div className={classes.eachFilter}>
-              <SelectedFilters/>
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <CheckBoxFilter 
-                limit={5}
-                search
-                show
-                heading={"State"}
-                list={props.filters.states}
-                setFunc={"addState"}
-                type="states"
-              />
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <CheckBoxFilter 
-                limit={5}
-                search
-                show
-                heading={"Party"}
-                list={props.filters.parties}
-                setFunc={"addParty"}
-                type="parties"
-              />
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <CheckBoxFilter
-                limit={props.filters.education.length}
-                heading={"Education"}
-                list={props.filters.education}
-                setFunc={"addEducation"}
-                type="education"
-              />
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <SliderFilter
-                heading={"Age"} 
-              />
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <CheckBoxFilter
-                limit={props.filters.genders.length}
-                heading={"Gender"}
-                list={props.filters.genders}
-                setFunc={"setGender"}
-                type="genders"
-              />
-            </div>
-            <Divider />
-            <div className={classes.eachFilter}>
-              <CheckBoxFilter
-                limit={props.filters.marital.length} 
-                heading={"Marital"}
-                list={props.filters.marital}
-                setFunc={"addMarital"}
-                type="marital"
-              />
-            </div>
-          </Paper>
+          <div>
+            <SelectedFilters/>
+            <CheckBoxFilter 
+              limit={5}
+              search
+              show
+              heading={"State"}
+              list={props.filters.states}
+              setFunc={"addState"}
+              type="states"
+            />
+            <CheckBoxFilter 
+              limit={5}
+              search
+              show
+              heading={"Party"}
+              list={props.filters.parties}
+              setFunc={"addParty"}
+              type="parties"
+            />
+            <CheckBoxFilter
+              limit={props.filters.education.length}
+              heading={"Education"}
+              list={props.filters.education}
+              setFunc={"addEducation"}
+              type="education"
+            />
+            <SliderFilter
+              heading={"Age"} 
+            />
+            <CheckBoxFilter
+              limit={props.filters.genders.length}
+              heading={"Gender"}
+              list={props.filters.genders}
+              setFunc={"setGender"}
+              type="genders"
+            />
+            <CheckBoxFilter
+              limit={props.filters.marital.length} 
+              heading={"Marital"}
+              list={props.filters.marital}
+              setFunc={"addMarital"}
+              type="marital"
+            />
+          </div>
         </Grid>
         <Grid item xs={10}>
           <Card>
@@ -136,7 +150,8 @@ const HomePage = (props) => {
 }
 
 const mapStateToProps = state => ({
-  filters: state.filters
+  filters: state.filters,
+  selected: state.selected
 });
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(SearchPage);

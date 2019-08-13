@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 
+import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,15 +26,17 @@ const useStyles = makeStyles(theme => ({
   selected: {
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
-    borderRadius: theme.spacing(0.5)
   },
+  eachFilter: {
+    borderRadius: 0
+  }
 }));
 
 const SelectedFilters = (props) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <Card className={classes.eachFilter}>
       <CardHeader 
         className={classes.cardHeader}
         title={
@@ -46,16 +49,16 @@ const SelectedFilters = (props) => {
         <div className={classes.selectedRoot}>
         {
           props.selected.states.map(value => {
-              return (
-                <Chip 
-                  size="small"
-                  key={"state"+value}
-                  className={classes.selected} 
-                  label={props.filters.states.find(each => each.id === value)['name']} 
-                  onDelete={() => props.dispatch(selectedActions.addState(value))}
-                />         
-              )
-            })
+            return (
+              <Chip 
+                size="small"
+                key={"state"+value}
+                className={classes.selected} 
+                label={props.filters.states.find(each => each.id === value)['name']} 
+                onDelete={() => props.dispatch(selectedActions.addState(value))}
+              />         
+            )
+          })
         }
         {
           props.selected.parties.map(value => {
@@ -118,7 +121,7 @@ const SelectedFilters = (props) => {
         }
         </div>
       </CardContent>
-    </div>
+    </Card>
   )
 }
 const mapStateToProps = state => ({

@@ -1,15 +1,38 @@
 import { selectedConstants } from '../constants';
 
 const initialState = {};
+initialState['q'] = ""
 initialState['states'] = []
 initialState['parties'] = []
 initialState['education'] = []
 initialState['age'] = [25, 100]
 initialState['genders'] = ["all"]
 initialState['marital'] = []
+initialState['sort'] = "popular"
 
 export function selected(state = initialState, action) {
   switch (action.type) {
+    case selectedConstants.SET_ALL: 
+      var newState = initialState
+      console.log(action.data)
+      if(action.data.q)
+        newState['q'] = action.data.q.trim()
+      if(action.data.states)
+        newState['states'] = action.data.states.split(',').filter(value => value.trim() && value > 0 && value < 35).map(item => parseInt(item, 10));
+      if(action.data.parties)
+        newState['parties'] = action.data.parties.split(',').filter(value => value.trim() && value > 0 && value < 61).map(item => parseInt(item, 10));
+      if(action.data.education)
+        newState['education'] = action.data.education.split(',').filter(value => value.trim() && value > 0 && value < 7).map(item => parseInt(item, 10));
+      if(action.data.marital)
+        newState['marital'] = action.data.marital.split(',').filter(value => value.trim() && value > 0 && value < 7).map(item => parseInt(item, 10));
+      if(action.data.sort && (action.data.sort === "popular" || action.data.sort === "new" || action.data.sort === "alphabetical"))
+        newState['sort'] = action.data.sort
+      if(action.data.genders === "all" || action.data.genders === "female" || action.data.genders === "male")
+        newState['genders'][0] = action.data.genders
+      if((action.data.maxAge && parseInt(action.data.maxAge) < initialState.age[1] ) && (action.data.minAge && parseInt(action.data.minAge) > initialState.age[0]) && action.data.minAge < action.data.maxAge)
+        newState['age'] = [action.data.minAge, action.data.maxAge]
+      
+      return newState
     case selectedConstants.STATE_SET:
       var newStates = state.states
       const currentStateIndex = newStates.indexOf(action.data);

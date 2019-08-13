@@ -1,5 +1,4 @@
 import { selectedConstants } from '../constants';
-import { func } from 'prop-types';
 
 export const selectedActions = {
   addState,
@@ -7,7 +6,8 @@ export const selectedActions = {
   addEducation,
   setAge,
   setGender,
-  addMarital
+  addMarital,
+  setAll
 };
 
 function addState(state) {
@@ -27,4 +27,7 @@ function setGender(state){
 }
 function addMarital(state){
   return { type: selectedConstants.MARITAL_SET, data: state};
+}
+function setAll(state){
+  return { type: selectedConstants.SET_ALL, data: state};
 }

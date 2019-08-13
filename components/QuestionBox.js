@@ -1,9 +1,6 @@
 import React from 'react';
-import { connect } from "react-redux";
-
 
 import Typography from '@material-ui/core/Typography';
-import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,9 +12,6 @@ const useStyles = makeStyles(theme => ({
   },
   asked: {
     marginRight: theme.spacing(0.5)
-  },
-  paddingOne: {
-    padding: theme.spacing(1),
   },
   marginBottomOne: {
     marginBottom: theme.spacing(1)
@@ -53,8 +47,5 @@ const QuestionBox = (props) => {
     </div>
   )
 }
-const mapStateToProps = state => ({
-  filters: state.filters
-});
 
-export default connect(mapStateToProps)(QuestionBox);
+export default QuestionBox;
