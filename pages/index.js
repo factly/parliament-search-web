@@ -32,7 +32,7 @@ const HomePage = ({ topics }) => {
           <Grid container spacing={3}>
             {
             topics.map((x) => (
-              <Grid item md={2} sm={6} key={x}>
+              <Grid item md={2} sm={6} key={x.id}>
                 <div className={classes.topic}>
                   <CardContent>
                     <Typography align="center" variant="subtitle2" gutterBottom>
@@ -52,8 +52,8 @@ const HomePage = ({ topics }) => {
 
 HomePage.propTypes = {
   topics: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   })).isRequired,
 };
 

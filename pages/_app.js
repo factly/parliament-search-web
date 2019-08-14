@@ -3,6 +3,7 @@ import { Container as NextContainer } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 import Router from 'next/router';
+import PropTypes from 'prop-types';
 
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -102,6 +103,16 @@ const MyApp = (props) => {
       </div>
     </div>
   );
+};
+
+MyApp.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.element,
+  store: PropTypes.object.isRequired,
+};
+
+MyApp.defaultProps = {
+  pageProps: null,
 };
 
 export default withReduxStore(MyApp);

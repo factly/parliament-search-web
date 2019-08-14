@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -11,8 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Slider from '@material-ui/core/Slider';
-
-import { selectedActions } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   cardContent: {
@@ -28,14 +26,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SliderFilter = ({ dispatch, heading, selected }) => {
+const SliderFilter = ({ toogle, heading, selected }) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(false);
-
-  const handleChange = (event, value) => {
-    dispatch(selectedActions.setAge(value));
-  };
-
 
   return (
     <Card className={classes.eachFilter}>
@@ -46,21 +39,21 @@ const SliderFilter = ({ dispatch, heading, selected }) => {
           <Typography variant="body2" gutterBottom>
             {heading}
           </Typography>
-)}
+        )}
         action={(
           <IconButton aria-label="settings">
             { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-)}
+        )}
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
           <Slider
-            value={selected.age}
+            value={selected}
             min={25}
             max={100}
             step={5}
-            onChange={handleChange}
+            onChange={toogle}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
           />
@@ -69,8 +62,11 @@ const SliderFilter = ({ dispatch, heading, selected }) => {
     </Card>
   );
 };
-const mapStateToProps = (state) => ({
-  selected: state.selected,
-});
 
-export default connect(mapStateToProps)(SliderFilter);
+SliderFilter.propTypes = {
+  toogle: PropTypes.func.isRequired,
+  heading: PropTypes.string.isRequired,
+  selected: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+export default SliderFilter;

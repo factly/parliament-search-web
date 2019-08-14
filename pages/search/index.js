@@ -33,8 +33,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
     if (selected.marital.length > 0) query.marital = selected.marital;
     if (selected.sort !== 'popular') query.sort = selected.sort;
     if (selected.age.length === 2
-      && selected.age[0] !== 25
-      && selected.age[1] !== 100
+      && (selected.age[0] !== 25
+      || selected.age[1] !== 100)
     ) query.age = selected.age;
     Router.push({
       pathname: '/search',
@@ -78,6 +78,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
           />
           <SliderFilter
             heading="Age"
+            selected={selected.age}
+            toogle={(event, value) => dispatch(selectedActions.setAge(value))}
           />
           <CheckBoxFilter
             limit={filters.marital.length}
@@ -145,7 +147,6 @@ SearchPage.propTypes = {
     parties: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
     education: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
     marital: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
-    age: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };

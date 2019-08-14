@@ -126,7 +126,6 @@ SelectedFilters.propTypes = {
     parties: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
     education: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
     marital: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
-    age: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
