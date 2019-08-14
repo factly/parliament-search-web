@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-const HomePage = ({ filters }) => {
+const HomePage = ({ topics }) => {
   const classes = useStyles();
 
   return (
@@ -30,7 +31,7 @@ const HomePage = ({ filters }) => {
         <Paper>
           <Grid container spacing={3}>
             {
-            filters.topics.map((x) => (
+            topics.map((x) => (
               <Grid item md={2} sm={6} key={x}>
                 <div className={classes.topic}>
                   <CardContent>
@@ -49,8 +50,15 @@ const HomePage = ({ filters }) => {
   );
 };
 
+HomePage.propTypes = {
+  topics: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};
+
 const mapStateToProps = (state) => ({
-  filters: state.filters,
+  topics: state.filters.topics,
 });
 
 export default connect(mapStateToProps)(HomePage);

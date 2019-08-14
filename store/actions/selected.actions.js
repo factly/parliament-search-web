@@ -12,9 +12,6 @@ function addEducation(state) {
 function setAge(state) {
   return { type: selectedConstants.AGE_SET, data: state };
 }
-function setGender(state) {
-  return { type: selectedConstants.GENDER_SET, data: state };
-}
 function addMarital(state) {
   return { type: selectedConstants.MARITAL_SET, data: state };
 }
@@ -27,7 +24,6 @@ export const selectedActions = {
   addParty,
   addEducation,
   setAge,
-  setGender,
   addMarital,
   setAll,
 };

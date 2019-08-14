@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lintfix": "eslint --fix --ext .js --ignore-path .eslintignore ."
+    "lint": "eslint --fix --ext .js --ignore-path .eslintignore ."
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
+    "@material-ui/styles": "^4.3.0",
     "next": "^9.0.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",

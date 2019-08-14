@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { FixedSizeList } from 'react-window';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -16,8 +16,6 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Input from '@material-ui/core/Input';
-
-import { selectedActions } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   paddingZero: {
@@ -65,13 +63,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CheckBoxFilter = ({
-  defaultShow, list, heading, search, type, setFunc, limit, selected, dispatch,
+  defaultShow, list, heading, search, selected, toogle, limit,
 }) => {
   const classes = useStyles();
   const [show, setShow] = React.useState(defaultShow);
   const [term, setTerm] = React.useState('');
 
-  const filtersList = function () {
+  const filtersList = () => {
     if (term.length === 0) return list;
 
     const newList = [];
@@ -88,12 +86,12 @@ const CheckBoxFilter = ({
       key={dummyList[index].id}
       className={classes.listRow}
       dense
-      onClick={() => dispatch(selectedActions[setFunc](dummyList[index].id))}
+      onClick={() => toogle(dummyList[index].id)}
     >
       <ListItemIcon>
         <Checkbox
           className={classes.paddingZero}
-          checked={selected[type].indexOf(dummyList[index].id) !== -1}
+          checked={selected.indexOf(dummyList[index].id) !== -1}
           tabIndex={-1}
           disableRipple
           inputProps={{ 'aria-labelledby': `checkbox-list-label-${dummyList[index].id}` }}
@@ -112,12 +110,12 @@ const CheckBoxFilter = ({
           <Typography variant="body2" gutterBottom>
             {heading}
           </Typography>
-)}
+        )}
         action={(
           <IconButton aria-label="settings">
             { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-)}
+        )}
       />
       <Collapse in={show} timeout="auto" unmountOnExit>
         <CardContent className={classes.cardContent}>
@@ -141,8 +139,23 @@ const CheckBoxFilter = ({
     </Card>
   );
 };
-const mapStateToProps = (state) => ({
-  selected: state.selected,
-});
 
-export default connect(mapStateToProps)(CheckBoxFilter);
+CheckBoxFilter.propTypes = {
+  defaultShow: PropTypes.bool,
+  search: PropTypes.bool,
+  list: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+  heading: PropTypes.string.isRequired,
+  limit: PropTypes.number.isRequired,
+  selected: PropTypes.arrayOf(PropTypes.number).isRequired,
+  toogle: PropTypes.func.isRequired,
+};
+
+CheckBoxFilter.defaultProps = {
+  defaultShow: false,
+  search: false,
+};
+
+export default CheckBoxFilter;

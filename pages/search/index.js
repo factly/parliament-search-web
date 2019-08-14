@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Router, { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
@@ -30,9 +31,11 @@ const SearchPage = ({ dispatch, selected, filters }) => {
     if (selected.parties.length > 0) query.parties = selected.parties;
     if (selected.education.length > 0) query.education = selected.education;
     if (selected.marital.length > 0) query.marital = selected.marital;
-    if (selected.sort) query.sort = selected.sort;
-    if (selected.genders) query.genders = selected.genders;
-    if (selected.age) query.age = selected.age;
+    if (selected.sort !== 'popular') query.sort = selected.sort;
+    if (selected.age.length === 2
+      && selected.age[0] !== 25
+      && selected.age[1] !== 100
+    ) query.age = selected.age;
     Router.push({
       pathname: '/search',
       query,
@@ -51,7 +54,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             defaultShow
             heading="State"
             list={filters.states}
-            setFunc="addState"
+            toogle={(value) => dispatch(selectedActions.addState(value))}
+            selected={selected.states}
             type="states"
           />
           <CheckBoxFilter
@@ -60,31 +64,27 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             defaultShow
             heading="Party"
             list={filters.parties}
-            setFunc="addParty"
+            toogle={(value) => dispatch(selectedActions.addParty(value))}
+            selected={selected.parties}
             type="parties"
           />
           <CheckBoxFilter
             limit={filters.education.length}
             heading="Education"
             list={filters.education}
-            setFunc="addEducation"
+            toogle={(value) => dispatch(selectedActions.addEducation(value))}
+            selected={selected.education}
             type="education"
           />
           <SliderFilter
             heading="Age"
           />
           <CheckBoxFilter
-            limit={filters.genders.length}
-            heading="Gender"
-            list={filters.genders}
-            setFunc="setGender"
-            type="genders"
-          />
-          <CheckBoxFilter
             limit={filters.marital.length}
             heading="Marital"
             list={filters.marital}
-            setFunc="addMarital"
+            toogle={(value) => dispatch(selectedActions.addMarital(value))}
+            selected={selected.marital}
             type="marital"
           />
         </div>
@@ -124,6 +124,30 @@ const SearchPage = ({ dispatch, selected, filters }) => {
       </Grid>
     </Grid>
   );
+};
+
+const arrayOfFilter = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+};
+SearchPage.propTypes = {
+  selected: PropTypes.shape({
+    q: PropTypes.string.isRequired,
+    states: PropTypes.arrayOf(PropTypes.number).isRequired,
+    parties: PropTypes.arrayOf(PropTypes.number).isRequired,
+    education: PropTypes.arrayOf(PropTypes.number).isRequired,
+    marital: PropTypes.arrayOf(PropTypes.number).isRequired,
+    age: PropTypes.arrayOf(PropTypes.number).isRequired,
+    sort: PropTypes.string.isRequired,
+  }).isRequired,
+  filters: PropTypes.shape({
+    states: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    parties: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    education: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    marital: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    age: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

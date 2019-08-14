@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -45,7 +46,7 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
           <Typography variant="h5" gutterBottom>
             Filters
           </Typography>
-)}
+        )}
       />
       <CardContent className={classes.cardContent}>
         <div className={classes.selectedRoot}>
@@ -93,16 +94,6 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
             ) : null
           }
           {
-            selected.genders[0] !== 'all' ? (
-              <Chip
-                size="small"
-                className={classes.selected}
-                label={selected.genders[0]}
-                onDelete={() => dispatch(selectedActions.setGender('all'))}
-              />
-            ) : null
-          }
-          {
             selected.marital.map((value) => (
               <Chip
                 size="small"
@@ -118,6 +109,28 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
     </Card>
   );
 };
+const arrayOfFilter = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+};
+SelectedFilters.propTypes = {
+  selected: PropTypes.shape({
+    states: PropTypes.arrayOf(PropTypes.number).isRequired,
+    parties: PropTypes.arrayOf(PropTypes.number).isRequired,
+    education: PropTypes.arrayOf(PropTypes.number).isRequired,
+    marital: PropTypes.arrayOf(PropTypes.number).isRequired,
+    age: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }).isRequired,
+  filters: PropTypes.shape({
+    states: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    parties: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    education: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    marital: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+    age: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired,
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   selected: state.selected,
   filters: state.filters,

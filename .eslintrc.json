@@ -13,7 +13,7 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-        "jsx": true
+      "jsx": true
     },
     "ecmaVersion": 2018,
     "sourceType": "module"
@@ -22,9 +22,7 @@
     "react"
   ],
   "rules": {
-    "react/prop-types": 0,
-    "react/jsx-uses-vars": [2],
-    "no-console": 0,
+    "react/jsx-props-no-spreading": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }

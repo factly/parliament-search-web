@@ -178,12 +178,6 @@ initialState.education = [
   { id: 6, name: 'Doctrate' },
 ];
 
-initialState.genders = [
-  { id: 'all', name: 'ALL' },
-  { id: 'male', name: 'MALE' },
-  { id: 'female', name: 'FEMALE' },
-];
-
 initialState.marital = [
   { id: 1, name: 'Single' },
   { id: 2, name: 'Married' },

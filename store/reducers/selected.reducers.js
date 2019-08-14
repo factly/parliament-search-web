@@ -6,7 +6,6 @@ initialState.states = [];
 initialState.parties = [];
 initialState.education = [];
 initialState.age = [25, 100];
-initialState.genders = ['all'];
 initialState.marital = [];
 initialState.sort = 'popular';
 
@@ -26,26 +25,30 @@ function selected(state = initialState, action) {
     case selectedConstants.SET_ALL:
       if (action.data.q) initialState.q = action.data.q.trim();
       if (action.data.states) {
-        if (typeof (action.data.states) === 'string') action.data.states = [action.data.states];
-        initialState.states = action.data.states
+        let tempStates = action.data.states;
+        if (typeof (tempStates) === 'string') tempStates = [tempStates];
+        initialState.states = tempStates
           .filter((value) => value.trim() && value > 0 && value < 35)
           .map((item) => parseInt(item, 10));
       }
       if (action.data.parties) {
-        if (typeof (action.data.parties) === 'string') action.data.parties = [action.data.parties];
-        initialState.parties = action.data.parties
+        let tempParties = action.data.parties;
+        if (typeof (tempParties) === 'string') tempParties = [tempParties];
+        initialState.parties = tempParties
           .filter((value) => value.trim() && value > 0 && value < 61)
           .map((item) => parseInt(item, 10));
       }
       if (action.data.education) {
-        if (typeof (action.data.education) === 'string') action.data.education = [action.data.education];
-        initialState.education = action.data.education
+        let tempEducation = action.data.education;
+        if (typeof (tempEducation) === 'string') tempEducation = [tempEducation];
+        initialState.education = tempEducation
           .filter((value) => value.trim() && value > 0 && value < 7)
           .map((item) => parseInt(item, 10));
       }
       if (action.data.marital) {
-        if (typeof (action.data.marital) === 'string') action.data.marital = [action.data.marital];
-        initialState.marital = action.data.marital
+        let tempMarital = action.data.marital;
+        if (typeof (tempMarital) === 'string') tempMarital = [tempMarital];
+        initialState.marital = tempMarital
           .filter((value) => value.trim() && value > 0 && value < 7)
           .map((item) => parseInt(item, 10));
       }
@@ -54,11 +57,6 @@ function selected(state = initialState, action) {
         || action.data.sort === 'new'
         || action.data.sort === 'alphabetical'
       ) initialState.sort = action.data.sort;
-      if (
-        action.data.genders === 'all'
-        || action.data.genders === 'female'
-        || action.data.genders === 'male'
-      ) initialState.genders[0] = action.data.genders;
       if (
         action.data.age
         && action.data.age.length === 2
@@ -78,7 +76,6 @@ function selected(state = initialState, action) {
         parties: newList(state.parties, action.data),
       };
     case selectedConstants.EDUCATION_SET:
-
       return {
         ...state,
         education: newList(state.education, action.data),
@@ -87,11 +84,6 @@ function selected(state = initialState, action) {
       return {
         ...state,
         age: action.data,
-      };
-    case selectedConstants.GENDER_SET:
-      return {
-        ...state,
-        genders: action.data[0],
       };
     case selectedConstants.MARITAL_SET:
       return {

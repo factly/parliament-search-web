@@ -58,7 +58,7 @@ const MyApp = (props) => {
     }
   });
 
-  const searchFunc = function () {
+  const searchFunc = () => {
     Router.push(`/search?q=${term}`);
   };
 
