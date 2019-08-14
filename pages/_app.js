@@ -15,7 +15,6 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import withReduxStore from '../lib/with-redux-store';
 
-
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(1),

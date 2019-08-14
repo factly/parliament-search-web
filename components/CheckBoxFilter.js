@@ -85,15 +85,15 @@ const CheckBoxFilter = ({
           <div>
             <div>
               {
-              search ? (
-                <Input
-                  fullWidth
-                  placeholder="Search..."
-                  value={term}
-                  onChange={(event) => { setTerm(event.target.value); }}
-                />
-              ) : null
-            }
+                search ? (
+                  <Input
+                    fullWidth
+                    placeholder="Search..."
+                    value={term}
+                    onChange={(event) => { setTerm(event.target.value); }}
+                  />
+                ) : null
+              }
             </div>
             <div>
               <FixedSizeList height={limit * 40} width="100%" itemSize={40} itemCount={options.length}>
