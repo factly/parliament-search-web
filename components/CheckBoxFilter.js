@@ -61,7 +61,7 @@ const CheckBoxFilter = ({
 
   Row.propTypes = {
     index: PropTypes.number.isRequired,
-    style: PropTypes.string.isRequired,
+    style: PropTypes.object.isRequired,
   };
 
   return (

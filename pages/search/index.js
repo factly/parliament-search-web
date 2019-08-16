@@ -97,8 +97,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             title="Questions"
             action={(
               <Select
-                value={sort}
-                onChange={(event) => setSort(event.target.value)}
+                value={selected.sort}
+                onChange={(event) => dispatch(selectedActions.setSort(event.target.value))}
                 displayEmpty
                 disableUnderline
                 name="sorting"
@@ -107,7 +107,7 @@ const SearchPage = ({ dispatch, selected, filters }) => {
                 <MenuItem value="new">New</MenuItem>
                 <MenuItem value="alphabetical">Subject</MenuItem>
               </Select>
-)}
+            )}
           />
           <Divider />
           <CardContent>

@@ -90,6 +90,11 @@ function selected(state = initialState, action) {
         ...state,
         marital: newList(state.marital, action.data),
       };
+    case selectedConstants.SET_SORT:
+      return {
+        ...state,
+        sort: action.data
+      }
     default:
       return state;
   }

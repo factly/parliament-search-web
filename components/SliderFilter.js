@@ -12,6 +12,29 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Slider from '@material-ui/core/Slider';
 
+const marks = [
+  {
+    value: 25,
+    label: 'Min',
+  },
+  {
+    value: 40,
+    label: '40',
+  },
+  {
+    value: 60,
+    label: '60',
+  },
+  {
+    value: 80,
+    label: '80',
+  },
+  {
+    value: 100,
+    label: 'Max',
+  },
+];
+
 const useStyles = makeStyles((theme) => ({
   cardContent: {
     padding: theme.spacing(3),
@@ -56,6 +79,7 @@ const SliderFilter = ({ toogle, heading, selected }) => {
             onChange={toogle}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
+            marks={marks}
           />
         </CardContent>
       </Collapse>

@@ -18,6 +18,9 @@ function addMarital(state) {
 function setAll(state) {
   return { type: selectedConstants.SET_ALL, data: state };
 }
+function setSort(state) {
+  return { type: selectedConstants.SET_SORT, data: state };
+}
 
 export const selectedActions = {
   addState,
@@ -26,4 +29,5 @@ export const selectedActions = {
   setAge,
   addMarital,
   setAll,
+  setSort,
 };

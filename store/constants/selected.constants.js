@@ -5,4 +5,5 @@ export const selectedConstants = {
   AGE_SET: 'AGE_SET_SUCCESS',
   MARITAL_SET: 'MARITAL_SET_SUCCESS',
   SET_ALL: 'SET_ALL_SUCCESS',
+  SET_SORT: 'SET_SORT_SUCCESS',
 };
