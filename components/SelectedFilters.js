@@ -57,7 +57,7 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
                 key={`state${value}`}
                 className={classes.selected}
                 label={filters.states.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.addState(value))}
+                onDelete={() => dispatch(selectedActions.toogle(value, 'states'))}
               />
             ))
           }
@@ -68,7 +68,7 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
                 key={`party${value}`}
                 className={classes.selected}
                 label={filters.parties.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.addParty(value))}
+                onDelete={() => dispatch(selectedActions.toogle(value, 'parties'))}
               />
             ))
           }
@@ -79,7 +79,7 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
                 key={`education${value}`}
                 className={classes.selected}
                 label={filters.education.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.addEducation(value))}
+                onDelete={() => dispatch(selectedActions.toogle(value, 'education'))}
               />
             ))
           }
@@ -100,7 +100,7 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
                 key={`marital${value}`}
                 className={classes.selected}
                 label={filters.marital.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.addMarital(value))}
+                onDelete={() => dispatch(selectedActions.toogle(value, 'marital'))}
               />
             ))
           }

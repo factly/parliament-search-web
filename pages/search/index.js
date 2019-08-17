@@ -25,7 +25,7 @@ const SearchPage = ({ dispatch, selected, filters }) => {
   }, []);
 
   React.useEffect(() => {
-    const query = {};
+    /* const query = {};
     if (selected.q && selected.q.trim() !== '') query.q = selected.q.trim();
     if (selected.states.length > 0) query.states = selected.states;
     if (selected.parties.length > 0) query.parties = selected.parties;
@@ -35,14 +35,18 @@ const SearchPage = ({ dispatch, selected, filters }) => {
     if (selected.age.length === 2
       && (selected.age[0] !== 25
       || selected.age[1] !== 100)
-    ) query.age = selected.age;
+    ) query.age = selected.age; */
+
     Router.push({
       pathname: '/search',
-      query,
+      query: {
+        ...selected,
+        age: selected.age.length === 2 && selected.age[0] === 25 && selected.age[1] === 100 ? null : selected.age,
+        sort: selected.sort === 'popular' ? null : selected.sort,
+      },
     });
   }, [selected]);
 
-  const [sort, setSort] = React.useState('popular');
   return (
     <Grid container xl spacing={2}>
       <Grid item xs={2}>
@@ -54,9 +58,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             defaultShow
             heading="State"
             list={filters.states}
-            toogle={(value) => dispatch(selectedActions.addState(value))}
+            toogle={(value) => dispatch(selectedActions.toogle(value, 'states'))}
             selected={selected.states}
-            type="states"
           />
           <CheckBoxFilter
             limit={5}
@@ -64,17 +67,15 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             defaultShow
             heading="Party"
             list={filters.parties}
-            toogle={(value) => dispatch(selectedActions.addParty(value))}
+            toogle={(value) => dispatch(selectedActions.toogle(value, 'parties'))}
             selected={selected.parties}
-            type="parties"
           />
           <CheckBoxFilter
             limit={filters.education.length}
             heading="Education"
             list={filters.education}
-            toogle={(value) => dispatch(selectedActions.addEducation(value))}
+            toogle={(value) => dispatch(selectedActions.toogle(value, 'education'))}
             selected={selected.education}
-            type="education"
           />
           <SliderFilter
             heading="Age"
@@ -85,9 +86,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             limit={filters.marital.length}
             heading="Marital"
             list={filters.marital}
-            toogle={(value) => dispatch(selectedActions.addMarital(value))}
+            toogle={(value) => dispatch(selectedActions.toogle(value, 'marital'))}
             selected={selected.marital}
-            type="marital"
           />
         </div>
       </Grid>
