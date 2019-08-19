@@ -25,25 +25,9 @@ const SearchPage = ({ dispatch, selected, filters }) => {
   }, []);
 
   React.useEffect(() => {
-    /* const query = {};
-    if (selected.q && selected.q.trim() !== '') query.q = selected.q.trim();
-    if (selected.states.length > 0) query.states = selected.states;
-    if (selected.parties.length > 0) query.parties = selected.parties;
-    if (selected.education.length > 0) query.education = selected.education;
-    if (selected.marital.length > 0) query.marital = selected.marital;
-    if (selected.sort !== 'popular') query.sort = selected.sort;
-    if (selected.age.length === 2
-      && (selected.age[0] !== 25
-      || selected.age[1] !== 100)
-    ) query.age = selected.age; */
-
     Router.push({
       pathname: '/search',
-      query: {
-        ...selected,
-        age: selected.age.length === 2 && selected.age[0] === 25 && selected.age[1] === 100 ? null : selected.age,
-        sort: selected.sort === 'popular' ? null : selected.sort,
-      },
+      query: selected,
     });
   }, [selected]);
 

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container as NextContainer } from 'next/app';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 
+import { ThemeProvider } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,7 +14,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+
 import withReduxStore from '../lib/with-redux-store';
+import theme from '../lib/theme';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,13 +67,13 @@ const MyApp = (props) => {
 
   const { Component, pageProps, store } = props;
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>Factly</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       </Head>
-      <div>
-        <Provider store={store}>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <AppBar position="fixed">
             <Toolbar className={classes.appBarContent}>
@@ -98,9 +101,9 @@ const MyApp = (props) => {
               <Component {...pageProps} />
             </Container>
           </NextContainer>
-        </Provider>
-      </div>
-    </div>
+        </ThemeProvider>
+      </Provider>
+    </Fragment>
   );
 };
 

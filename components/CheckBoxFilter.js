@@ -16,6 +16,9 @@ import Input from '@material-ui/core/Input';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    borderRadius: theme.spacing(0),
+  },
   cardContent: {
     paddingTop: theme.spacing(0),
   },
@@ -26,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     paddingLeft: theme.spacing(2),
     cursor: 'pointer',
-  },
-  eachFilter: {
-    borderRadius: theme.spacing(0),
   },
 }));
 
@@ -65,7 +65,7 @@ const CheckBoxFilter = ({
   };
 
   return (
-    <Card className={classes.eachFilter}>
+    <Card className={classes.card}>
       <CardHeader
         onClick={() => setShow(!show)}
         className={classes.cardHeader}
