@@ -2,33 +2,20 @@ import React from 'react';
 import { FixedSizeList } from 'react-window';
 import PropTypes from 'prop-types';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Collapse from '@material-ui/core/Collapse';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Input from '@material-ui/core/Input';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    borderRadius: theme.spacing(0),
-  },
-  cardContent: {
-    paddingTop: theme.spacing(0),
-  },
-  listRow: {
-    paddingLeft: theme.spacing(1),
-  },
-  cardHeader: {
-    padding: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    cursor: 'pointer',
+const useStyles = makeStyles(({
+  content: {
+    width: '100%',
   },
 }));
 
@@ -36,7 +23,6 @@ const CheckBoxFilter = ({
   defaultShow, list, heading, search, selected, toogle, limit,
 }) => {
   const classes = useStyles();
-  const [show, setShow] = React.useState(defaultShow);
   const [term, setTerm] = React.useState('');
   const [options, setOptions] = React.useState(list);
 
@@ -65,45 +51,34 @@ const CheckBoxFilter = ({
   };
 
   return (
-    <Card className={classes.card}>
-      <CardHeader
-        onClick={() => setShow(!show)}
-        className={classes.cardHeader}
-        title={(
-          <Typography variant="body2" gutterBottom>
-            {heading}
-          </Typography>
-        )}
-        action={(
-          <IconButton aria-label="settings">
-            { show ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        )}
-      />
-      <Collapse in={show} timeout="auto" unmountOnExit>
-        <CardContent className={classes.cardContent}>
+    <ExpansionPanel square defaultExpanded={defaultShow}>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="body2">
+          {heading}
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <div className={classes.content}>
           <div>
-            <div>
-              {
-                search ? (
-                  <Input
-                    fullWidth
-                    placeholder="Search..."
-                    value={term}
-                    onChange={(event) => { setTerm(event.target.value); }}
-                  />
-                ) : null
-              }
-            </div>
-            <div>
-              <FixedSizeList height={limit * 40} width="100%" itemSize={40} itemCount={options.length}>
-                {Row}
-              </FixedSizeList>
-            </div>
+            {
+            search ? (
+              <Input
+                fullWidth
+                placeholder="Search..."
+                value={term}
+                onChange={(event) => { setTerm(event.target.value); }}
+              />
+            ) : null
+          }
           </div>
-        </CardContent>
-      </Collapse>
-    </Card>
+          <div>
+            <FixedSizeList height={limit * 40} width="100%" itemSize={40} itemCount={options.length}>
+              {Row}
+            </FixedSizeList>
+          </div>
+        </div>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 };
 

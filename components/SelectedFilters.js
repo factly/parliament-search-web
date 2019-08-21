@@ -2,36 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { selectedActions } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
-  cardContent: {
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(0),
-  },
-  cardHeader: {
-    padding: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
+  title: {
+    flexGrow: 'inherit',
   },
   selectedRoot: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: theme.spacing(1),
   },
   selected: {
     borderRadius: theme.spacing(0.5),
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
-  },
-  eachFilter: {
-    borderRadius: 0,
   },
 }));
 
@@ -39,16 +30,13 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.eachFilter}>
-      <CardHeader
-        className={classes.cardHeader}
-        title={(
-          <Typography variant="h5" gutterBottom>
-            Filters
-          </Typography>
-        )}
-      />
-      <CardContent className={classes.cardContent}>
+    <ExpansionPanel square expanded>
+      <ExpansionPanelSummary>
+        <Typography variant="h5">
+          Filters
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
         <div className={classes.selectedRoot}>
           {
             selected.states.map((value) => (
@@ -105,8 +93,8 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
             ))
           }
         </div>
-      </CardContent>
-    </Card>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 };
 const arrayOfFilter = {

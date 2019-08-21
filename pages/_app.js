@@ -17,7 +17,7 @@ const MyApp = (props) => {
 
   const { Component, pageProps, store } = props;
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>Factly</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -25,7 +25,7 @@ const MyApp = (props) => {
       <Provider store={store}>
         <Wrapper Component={Component} pageProps={pageProps} />
       </Provider>
-    </React.Fragment>
+    </>
   );
 };
 

@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Container as NextContainer } from 'next/app';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
+
+import { appActions } from '../store/actions';
 
 import light from '../lib/theme/light';
 import dark from '../lib/theme/dark';
@@ -20,7 +23,15 @@ const useStyles = makeStyles((theme) => ({
 const Wrapper = (props) => {
   const classes = useStyles();
 
-  const { Component, pageProps, theme } = props;
+  const {
+    Component, pageProps, theme, dispatch,
+  } = props;
+
+  React.useEffect(() => {
+    let localTheme = 'light';
+    localTheme = Cookies.get('theme');
+    dispatch(appActions.changeTheme(localTheme));
+  }, []);
 
   return (
     <ThemeProvider theme={theme === 'dark' ? dark : light}>
@@ -37,7 +48,8 @@ const Wrapper = (props) => {
 Wrapper.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.element,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 Wrapper.defaultProps = {

@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   asked: {
     marginRight: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
   },
   marginBottomOne: {
     marginBottom: theme.spacing(1),
@@ -33,7 +34,7 @@ const QuestionBox = () => {
           </div>
           <div>
             <div className={classes.askedRoot}>
-              <Chip className={classes.asked} label="MP Name Full MP Name Full MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} />
+              <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} />
               <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} />
               <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} />
               <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} />

@@ -35,7 +35,7 @@ const HomePage = ({ topics }) => {
               <Grid item md={2} sm={6} key={x.id}>
                 <div className={classes.topic}>
                   <CardContent>
-                    <Typography align="center" variant="subtitle2" gutterBottom>
+                    <Typography align="center" variant="subtitle2">
                       {x.name}
                     </Typography>
                   </CardContent>

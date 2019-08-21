@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -32,9 +33,9 @@ const SearchPage = ({ dispatch, selected, filters }) => {
   }, [selected]);
 
   return (
-    <Grid container xl spacing={2}>
-      <Grid item xs={2}>
-        <div>
+    <Grid container spacing={3}>
+      <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+        <Paper>
           <SelectedFilters />
           <CheckBoxFilter
             limit={5}
@@ -73,9 +74,9 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             toogle={(value) => dispatch(selectedActions.toogle(value, 'marital'))}
             selected={selected.marital}
           />
-        </div>
+        </Paper>
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12} sm={8} md={9} lg={10} xl={10}>
         <Card>
           <CardHeader
             title="Questions"

@@ -15,9 +15,6 @@ import HighlightIcon from '@material-ui/icons/Highlight';
 import { appActions } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
-    backgroundColor: theme.palette.background.header,
-  },
   appBarContent: {
     margin: 'auto',
   },
@@ -27,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   search: {
     backgroundColor: theme.palette.common.white,
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
     },
@@ -50,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ dispatch }) => {
+const Header = ({ dispatch, theme }) => {
   const classes = useStyles();
   const [term, setTerm] = React.useState('');
 
@@ -59,9 +56,9 @@ const Header = ({ dispatch }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed">
         <Toolbar className={classes.appBarContent}>
           <img className={classes.logo} alt="Home" src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png" />
           <div className={classes.search}>
@@ -85,14 +82,14 @@ const Header = ({ dispatch }) => {
           </div>
           <IconButton
             className={classes.themeButton}
-            onClick={() => dispatch(appActions.changeTheme())}
+            onClick={() => dispatch(appActions.changeTheme(theme === 'light' ? 'dark' : 'light'))}
           >
             <HighlightIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
       <Toolbar />
-    </React.Fragment>
+    </>
   );
 };
 
