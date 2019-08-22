@@ -18,8 +18,8 @@ function setAll(state) {
   localState.education = state.education ? filter(state.education, 1, 6) : [];
   localState.marital = state.marital ? filter(state.marital, 1, 6) : [];
   localState.sort = state.sort === 'new' || state.sort === 'alphabetical' ? state.sort : 'popular';
-  localState.age = state.age && state.age.length === 2 && state.age.sort()[0] >= 25 && state.age.sort[1] <= 100 ? state.age : [25, 100];
-
+  let tempAge = state.age.sort((a, b) => a - b).map((value) => parseInt(value, 10))
+  localState.age = state.age && tempAge.length === 2 && tempAge[0] >= 25 && tempAge[1] <= 100 ? tempAge : [25, 100];
   return { type: selectedConstants.SET_ALL, data: localState };
 }
 function setSort(state) {

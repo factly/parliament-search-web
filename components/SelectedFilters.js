@@ -28,9 +28,20 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectedFilters = ({ selected, filters, dispatch }) => {
   const classes = useStyles();
-
+  let list = []
+  let typeList = ['states', 'parties', 'education', 'marital'] 
+  typeList.forEach(type => {
+    selected[type].forEach(element => {
+      list.push({
+        type: type,
+        id: element,
+        label: filters[type].find((each) => each.id === element).name
+      })
+    });
+  })
+  
   return (
-    <ExpansionPanel square expanded>
+    <ExpansionPanel square>
       <ExpansionPanelSummary>
         <Typography variant="h5">
           Filters
@@ -39,35 +50,13 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
       <ExpansionPanelDetails>
         <div className={classes.selectedRoot}>
           {
-            selected.states.map((value) => (
+            list.map((value) => (
               <Chip
                 size="small"
-                key={`state${value}`}
+                key={value.type + value.id}
                 className={classes.selected}
-                label={filters.states.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.toogle(value, 'states'))}
-              />
-            ))
-          }
-          {
-            selected.parties.map((value) => (
-              <Chip
-                size="small"
-                key={`party${value}`}
-                className={classes.selected}
-                label={filters.parties.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.toogle(value, 'parties'))}
-              />
-            ))
-          }
-          {
-            selected.education.map((value) => (
-              <Chip
-                size="small"
-                key={`education${value}`}
-                className={classes.selected}
-                label={filters.education.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.toogle(value, 'education'))}
+                label={value.label}
+                onDelete={() => dispatch(selectedActions.toogle(value.id, value.type))}
               />
             ))
           }
@@ -80,17 +69,6 @@ const SelectedFilters = ({ selected, filters, dispatch }) => {
                 onDelete={() => dispatch(selectedActions.setAge([25, 100]))}
               />
             ) : null
-          }
-          {
-            selected.marital.map((value) => (
-              <Chip
-                size="small"
-                key={`marital${value}`}
-                className={classes.selected}
-                label={filters.marital.find((each) => each.id === value).name}
-                onDelete={() => dispatch(selectedActions.toogle(value, 'marital'))}
-              />
-            ))
           }
         </div>
       </ExpansionPanelDetails>

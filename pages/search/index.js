@@ -35,7 +35,7 @@ const SearchPage = ({ dispatch, selected, filters }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
-        <Paper>
+        <div>
           <SelectedFilters />
           <CheckBoxFilter
             limit={5}
@@ -74,7 +74,7 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             toogle={(value) => dispatch(selectedActions.toogle(value, 'marital'))}
             selected={selected.marital}
           />
-        </Paper>
+        </div>
       </Grid>
       <Grid item xs={12} sm={8} md={9} lg={10} xl={10}>
         <Card>
@@ -94,7 +94,6 @@ const SearchPage = ({ dispatch, selected, filters }) => {
               </Select>
             )}
           />
-          <Divider />
           <CardContent>
             <QuestionBox />
           </CardContent>
