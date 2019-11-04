@@ -9,30 +9,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
-const marks = [
-  {
-    value: 25,
-    label: 'Min',
-  },
-  {
-    value: 40,
-    label: '40',
-  },
-  {
-    value: 60,
-    label: '60',
-  },
-  {
-    value: 80,
-    label: '80',
-  },
-  {
-    value: 100,
-    label: 'Max',
-  },
-];
 
-const SliderFilter = ({ toogle, heading, selected }) => (
+const SliderFilter = ({ toogle, heading, selected, marks }) => {
+  console.log(marks);
+  return(
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">
@@ -40,24 +20,43 @@ const SliderFilter = ({ toogle, heading, selected }) => (
       </Typography>
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
-      <Slider
-        value={selected}
-        min={25}
-        max={100}
-        step={5}
-        onChange={toogle}
-        valueLabelDisplay="auto"
-        aria-labelledby="range-slider"
-        marks={marks}
-      />
+      { heading== 'Age' ? 
+        (
+          <Slider
+            value={selected}
+            min={25}
+            max={100}
+            step={5}
+            onChange={toogle}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            marks={marks}
+        />) : (
+          <Slider
+            value={selected}
+            min={1}
+            max={9}
+            step={1}
+            onChange={toogle}
+            valueLabelDisplay="auto"
+            aria-labelledby="range-slider"
+            marks={marks}
+          />
+        )
+      }
     </ExpansionPanelDetails>
   </ExpansionPanel>
 );
+}
 
 SliderFilter.propTypes = {
   toogle: PropTypes.func.isRequired,
   heading: PropTypes.string.isRequired,
   selected: PropTypes.arrayOf(PropTypes.number).isRequired,
+  marks: PropTypes.arrayOf(PropTypes.shape({
+    value : PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired
+  }))
 };
 
 export default SliderFilter;

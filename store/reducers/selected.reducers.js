@@ -8,6 +8,9 @@ initialState.education = [];
 initialState.age = [25, 100];
 initialState.marital = [];
 initialState.sort = 'popular';
+initialState.terms = 1;
+initialState.type = [];
+initialState.gender = [];
 
 function toogleList(list, element) {
   const currentIndex = list.indexOf(element);
@@ -34,6 +37,11 @@ function selected(state = initialState, action) {
         ...state,
         sort: action.data,
       };
+    case selectedConstants.SET_TERMS:
+      return {
+        ...state,
+        terms: action.data,
+      };  
     case selectedConstants.TOOGLE_ONE:
       return {
         ...state,

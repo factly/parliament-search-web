@@ -16,7 +16,7 @@ import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(1.5),
   },
 }));
 

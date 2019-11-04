@@ -10,6 +10,11 @@ function filter(list, min, max) {
 function setAge(state) {
   return { type: selectedConstants.AGE_SET, data: state };
 }
+
+function setTerms(state){
+  return { type : selectedConstants.SET_TERMS, data : state}
+}
+
 function setAll(state) {
   const localState = {};
   localState.q = state.q ? state.q.trim() : '';
@@ -18,8 +23,12 @@ function setAll(state) {
   localState.education = state.education ? filter(state.education, 1, 6) : [];
   localState.marital = state.marital ? filter(state.marital, 1, 6) : [];
   localState.sort = state.sort === 'new' || state.sort === 'alphabetical' ? state.sort : 'popular';
-  let tempAge = state.age.sort((a, b) => a - b).map((value) => parseInt(value, 10))
+  if(state.age)
+   var tempAge = state.age.sort((a, b) => a - b).map((value) => parseInt(value, 10))
   localState.age = state.age && tempAge.length === 2 && tempAge[0] >= 25 && tempAge[1] <= 100 ? tempAge : [25, 100];
+  localState.terms = state.terms >=1 && state.terms <=10 ? state.terms : 1;
+  localState.type = state.type ? filter(state.type, 1, 2) : [];
+  localState.gender = state.gender ? filter(state.gender, 1, 3) : [];
   return { type: selectedConstants.SET_ALL, data: localState };
 }
 function setSort(state) {
@@ -32,5 +41,6 @@ export const selectedActions = {
   setAge,
   setAll,
   setSort,
+  setTerms,
   toogle,
 };

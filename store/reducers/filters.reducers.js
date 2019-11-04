@@ -120,6 +120,17 @@ initialState.marital = [
   { id: 4, name: 'Divorced' },
 ];
 
+initialState.type = [
+  { id: 1, name: 'Stared' },
+  { id: 2, name: 'Unstarred'}
+];
+
+initialState.gender = [
+  { id: 1, name: 'Male' },
+  { id: 2, name: 'Female' },
+  { id: 3, name: 'Others' },
+]
+
 function filters(state = initialState, action) {
   switch (action.type) {
     default:

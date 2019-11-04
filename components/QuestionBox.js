@@ -1,48 +1,45 @@
 import React from 'react';
-
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles } from '@material-ui/core/styles';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   askedRoot: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   asked: {
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5),
-  },
-  marginBottomOne: {
-    marginBottom: theme.spacing(1),
+    cursor: 'pointer'
   },
 }));
 
-const QuestionBox = () => {
+
+const QuestionBox = ({question}) => {
   const classes = useStyles();
 
   return (
     <div>
       <div>
-        <div className={classes.marginBottomOne}>
-          <Typography variant="h6">Government Medical College</Typography>
-        </div>
-        <div className={classes.marginBottomOne}>
+        <div>
+          <Typography variant="h6" gutterBottom><Link href={`/question/${1}`} underline="none" color="inherit" >Government Medical College </Link></Typography>
           <div>
-            <Typography variant="subtitle2">Asked By</Typography>
+            <Typography variant="subtitle2" gutterBottom>Asked By</Typography>
           </div>
           <div>
             <div className={classes.askedRoot}>
-              <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} />
-              <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} />
-              <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} />
-              <Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} />
+              <Link href={`/members/${1}`} underline="none" ><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></Link>
+              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} /></Link>
+              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} /></Link>
+              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} /></Link>
             </div>
           </div>
         </div>
         <div>
-          <Typography variant="subtitle2">In Lok Sabha to Ministry of Space on 26 Jan, 2019</Typography>
+          <Typography variant="subtitle2">In <Link href={`/houses/${1}`} underline="none" color="inherit"  >Lok Sabha</Link> to ministry of <Link href={`/ministries/${1}`} underline="none" color="inherit" >Human Resource Department </Link> on 26 Jan, 2019</Typography>
         </div>
       </div>
     </div>
