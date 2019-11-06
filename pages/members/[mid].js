@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -8,32 +6,8 @@ import CardHeader from '@material-ui/core/CardHeader'
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import QuestionBox from '../../components/QuestionBox';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box'
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      <Box p={3}>{children}</Box>
-    </Typography>
-  );
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -41,9 +15,6 @@ const useStyles = makeStyles((theme) =>
       margin : theme.spacing(2),
       width: '80%',
       height: '80%',
-    },
-    root: {
-      flexGrow: 1,
     },
     marginTopOne : {
       marginTop : theme.spacing(0.7)
@@ -57,11 +28,7 @@ const useStyles = makeStyles((theme) =>
 
 const membersPage = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   return (
     <div>
       <Grid >
@@ -93,16 +60,10 @@ const membersPage = () => {
         </Card>
       </Grid>
       <Card className={classes.marginTopOne}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-        >
-          <Tab label="Overview" />
-          <Tab label="Popular Questions" />
-        </Tabs>
-        <TabPanel value={value} index={0}>
+        <CardHeader
+          title = "Overview"
+        />
+        <CardContent>
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
           Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
           when an unknown printer took a galley of type and scrambled it to make a type 
@@ -111,33 +72,45 @@ const membersPage = () => {
           the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
           and more recently with desktop publishing software like Aldus PageMaker including 
           versions of Lorem Ipsum            
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-        <div className={classes.marginBottomOne}>
-          <QuestionBox />
-        </div>
-      </TabPanel>
+        </CardContent>
+      </Card>
+      <Card className={classes.marginTopOne}>
+        <CardHeader
+          title = "Popular Questions"
+          action = {
+            <Link href = {`/search?states=1`} underline="none">
+              <Button>
+                All Questions
+              </Button>
+            </Link>
+          }
+        />
+        <CardContent>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+          <div className={classes.marginBottomOne}>
+            <QuestionBox />
+          </div>
+        </CardContent>  
       </Card>
     </div>
   )

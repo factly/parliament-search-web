@@ -36,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: 400,
+    },[theme.breakpoints.down('xs')]: {
+      width: 90,
     },
   },
   searchButton: {

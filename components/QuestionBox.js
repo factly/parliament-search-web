@@ -18,30 +18,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const QuestionBox = ({question}) => {
+const QuestionBox = () => {
   const classes = useStyles();
 
   return (
     <div>
-      <div>
-        <div>
-          <Typography variant="h6" gutterBottom><Link href={`/question/${1}`} underline="none" color="inherit" >Government Medical College </Link></Typography>
-          <div>
-            <Typography variant="subtitle2" gutterBottom>Asked By</Typography>
-          </div>
-          <div>
-            <div className={classes.askedRoot}>
-              <Link href={`/members/${1}`} underline="none" ><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></Link>
-              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} /></Link>
-              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} /></Link>
-              <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} /></Link>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Typography variant="subtitle2">In <Link href={`/houses/${1}`} underline="none" color="inherit"  >Lok Sabha</Link> to ministry of <Link href={`/ministries/${1}`} underline="none" color="inherit" >Human Resource Department </Link> on 26 Jan, 2019</Typography>
+      <Typography variant="h6" gutterBottom><Link href={`/questions/${1}`} underline="none" color="inherit" >Government Medical College </Link></Typography>
+      <Typography variant="subtitle2" gutterBottom>Asked By</Typography>
+      <div className={classes.asked}>
+        <div className={classes.askedRoot}>
+          <Link href={`/members/${1}`} underline="none" ><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></Link>
+          <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} /></Link>
+          <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} /></Link>
+          <Link href={`/members/${1}`} underline="none"><Chip className={classes.asked} label="MP Name Full" avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} /></Link>
         </div>
       </div>
+      <Typography variant="subtitle2">In <Link href={`/houses/${1}`} underline="none" color="inherit"  >Lok Sabha</Link> to ministry of <Link href={`/ministries/${1}`} underline="none" color="inherit" >Human Resource Department </Link> on 26 Jan, 2019</Typography>
     </div>
   );
 };

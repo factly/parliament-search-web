@@ -10,9 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
 
-const SliderFilter = ({ toogle, heading, selected, marks }) => {
-  console.log(marks);
-  return(
+const SliderFilter = ({ toogle, heading, selected, marks }) => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">
@@ -47,7 +45,6 @@ const SliderFilter = ({ toogle, heading, selected, marks }) => {
     </ExpansionPanelDetails>
   </ExpansionPanel>
 );
-}
 
 SliderFilter.propTypes = {
   toogle: PropTypes.func.isRequired,
