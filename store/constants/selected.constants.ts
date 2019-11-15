@@ -4,5 +4,4 @@ export const selectedConstants = {
   SET_SORT: 'SET_SORT_SUCCESS',
   SET_TERMS : 'SET_TERMS_SUCCESS',
   TOOGLE_ONE: 'SET_ANY_SUCCESS',
-  SET_TYPE: 'SET_TYPE_SUCCESS'
 };

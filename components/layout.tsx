@@ -4,23 +4,24 @@ import { Container as NextContainer } from 'next/app';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 import { appActions } from '../store/actions';
+import {AppState} from '../store/reducers';
 
 import light from '../lib/theme/light';
 import dark from '../lib/theme/dark';
 import Header from './Header';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme : Theme) => ({
   container: {
     padding: theme.spacing(1.5),
   },
 }));
 
-const Wrapper = (props) => {
+const Wrapper = (props : any) => {
   const classes = useStyles();
 
   const {
@@ -28,14 +29,15 @@ const Wrapper = (props) => {
   } = props;
 
   React.useEffect(() => {
-    let localTheme = 'light';
+    let localTheme: string | undefined = 'light';
     localTheme = Cookies.get('theme');
+    if(localTheme)
     dispatch(appActions.changeTheme(localTheme));
   }, []);
 
   return (
     <ThemeProvider theme={theme === 'dark' ? dark : light}>
-      <Header />
+      <Header dispatch={ dispatch}/>
       <NextContainer>
         <Container maxWidth={false} className={classes.container}>
           <Component {...pageProps} />
@@ -56,7 +58,7 @@ Wrapper.defaultProps = {
   pageProps: null,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState) => ({
   theme: state.app.theme,
 });
 

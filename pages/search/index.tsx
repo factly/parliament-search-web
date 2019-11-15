@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import Router, { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -13,10 +13,19 @@ import CheckBoxFilter from '../../components/CheckBoxFilter';
 import SliderFilter from '../../components/SliderFilter';
 import SelectedFilters from '../../components/SelectedFilters';
 import QuestionBox from '../../components/QuestionBox';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles , Theme } from '@material-ui/core/styles';
 import { selectedActions } from '../../store/actions';
+import {AppState} from '../../store/reducers/index';
+import {AppActions, typeSelected, typeFilter, typeState , typeQuery, typeQuerySelected , typeMarks} from '../../types';
+import { Dispatch } from 'redux';
 
-const useStyles = makeStyles((theme) =>
+interface Iprops{
+  dispatch : Dispatch<AppActions>;
+  selected: typeSelected;
+  filters : typeFilter;
+  marks : typeMarks
+}
+const useStyles = makeStyles((theme : Theme) =>
   createStyles({
     marginBottomOne : {
       marginBottom : theme.spacing(1.5)
@@ -24,34 +33,50 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const SearchPage = ({ dispatch, selected, filters, marks }) => {
+const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
+  
   React.useEffect(() => {
-    dispatch(selectedActions.setAll(router.query));
+    
+    const { age , q, states , education , parties , sort , marital, terms, gender, type } = router.query;
+    const querySelected:typeQuery = { age : age , q : q, states:  states, education : education , parties : parties , sort : sort ,marital : marital, terms : terms, gender : gender, type :  type};
+    let state:typeState = {age : [], q : '' , states: [] , education: [] , parties : [], sort: '' , marital : [], terms : 1 , gender : [] , type : []};
+    if(age && age.length === 2) state.age =  querySelected.age.map((value: number): number => value)
+    if(education && education.length === 2) state.education = querySelected.education.map((value:string) => parseInt(value))
+    if(states && states.length === 2) state.states = querySelected.states.map((value:string) => parseInt(value))
+    if(marital && marital.length === 2) state.marital = querySelected.marital.map((value:string) => parseInt(value))
+    if(parties && parties.length === 2) state.parties = querySelected.parties.map((value:string) => parseInt(value))
+    if(gender && gender.length === 2) state.gender = querySelected.gender.map((value:string) => parseInt(value))
+    if(type && type.length === 2) state.type = querySelected.type.map((value:string) => parseInt(value))
+    if(q) state.q = querySelected.q;
+    if(sort) state.sort = querySelected.sort;
+    if(terms) state.terms = querySelected.terms;
+  
+    dispatch(selectedActions.setAll(state));
   }, []);
 
   React.useEffect(() => {
-    const querySelected = {};
+    const querySelected:typeQuerySelected = {age: undefined, education: undefined, states: undefined, marital: undefined, parties: undefined,q: undefined , sort: undefined , terms : undefined, gender : undefined , type : undefined};
     const {age, education, states, marital, parties ,q , sort , terms , type, gender} = selected;
 
     if(age && age.length === 2  ) 
       {
       if( age[0] && age[1] && age[1] - age[0] !== 75 )
-      querySelected.age = age.map((value) => value);
-      }
-    if(education && education.length > 0) querySelected.education = education.map((value) => value );
-    if(states && states.length > 0) querySelected.states = states.map((value) => value);
-    if(marital && marital.length > 0) querySelected.marital = marital.map((value) => value);
-    if(parties && parties.length > 0) querySelected.parties = parties.map((value) => value);
+      querySelected.age = age.map((value:number):number => value);
+    }
+    querySelected.education = education && education.length > 0 ? education.map((value:number) => `${value}`) : undefined;
+    if(states && states.length > 0) querySelected.states = states.map((value:number) => `${value}`);
+    if(marital && marital.length > 0) querySelected.marital = marital.map((value:number) => `${value}`);
+    if(parties && parties.length > 0) querySelected.parties = parties.map((value:number) => `${value}`);
     if(sort !== 'popular') querySelected.sort = sort;
-    if(terms !== 1) querySelected.terms = terms;
-    if(type && type.length >0 ) querySelected.type = type.map((value) => value) ;
-    if(gender && gender.length >0 ) querySelected.gender = gender.map((value) => value) ;
     if(q) querySelected.q = q;
+    if(terms !== 1) querySelected.terms = terms;
+    if(type && type.length >0 ) querySelected.type = type.map((value:number) => value) ;
+    if(gender && gender.length >0 ) querySelected.gender = gender.map((value:number) => `${value}`) ;
     Router.push({
       pathname: '/search',
-      query: querySelected,
+      query: {...querySelected},
     });
   }, [selected]);
 
@@ -59,7 +84,7 @@ const SearchPage = ({ dispatch, selected, filters, marks }) => {
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
         <div>
-          <SelectedFilters />
+          <SelectedFilters selected={selected} filters={filters} dispatch={dispatch} />
           <CheckBoxFilter
             limit={2}
             heading="Type"
@@ -88,7 +113,7 @@ const SearchPage = ({ dispatch, selected, filters, marks }) => {
           <SliderFilter
             heading="Terms"
             marks = {marks.marksTerm}
-            selected={selected.numberOfTerms}
+            selected={selected.terms}
             toogle={(event, value) => dispatch(selectedActions.setTerms(value))}
           />
           <CheckBoxFilter
@@ -157,7 +182,7 @@ const SearchPage = ({ dispatch, selected, filters, marks }) => {
     </Grid>
   );
 };
-
+/*
 const arrayOfFilter = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -166,6 +191,7 @@ const arrayOfMarks = {
   value : PropTypes.number.isRequired,
   label : PropTypes.string.isRequired
 }
+
 SearchPage.propTypes = {
   selected: PropTypes.shape({
     q: PropTypes.string.isRequired,
@@ -191,8 +217,14 @@ SearchPage.propTypes = {
   }),
   dispatch: PropTypes.func.isRequired,
 };
+*/
+interface StateProps{
+  filters: typeFilter;
+  selected: typeSelected;
+  marks: typeMarks
+};
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   filters: state.filters,
   selected: state.selected,
   marks : state.marks

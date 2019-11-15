@@ -8,7 +8,6 @@ import { Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 
 const housesPage = () => {
-  const router = useRouter()
 
   return (
    <div>

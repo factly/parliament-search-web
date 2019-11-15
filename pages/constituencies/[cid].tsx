@@ -1,22 +1,19 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Link from 'next/link'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
 import QuestionBox from '../../components/QuestionBox';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles((theme : Theme) =>
   createStyles({
     marginTopOne: {
       marginTop: theme.spacing(0.7),
@@ -47,6 +44,17 @@ const useStyles = makeStyles((theme) =>
     root: {
       width: '100%',
       overflowX: 'auto',
+    },
+    flexDisplay : {
+      display : 'flex',
+      alignItems : 'center',
+    },
+    paddingOnLeft : {
+      paddingLeft: theme.spacing(1)
+    },
+    link : {
+      textDecoration : 'none',
+      color : "inherit"
     }
   }),
 );
@@ -55,8 +63,8 @@ const useStyles = makeStyles((theme) =>
 const constituencyPages = () => {
   const classes = useStyles();
 
-  function createData(pic, name , party, from , to ){
-    return { pic, name , party, from , to }
+  function createData(photo : string, name :string, party : string, from : number , to : number | string ){
+    return { photo, name , party, from , to }
   }
   const rows = [
     createData('https://material-ui.com/static/images/avatar/1.jpg', "MP Full Name" , "Party name" , 2019 , "present"),
@@ -101,7 +109,6 @@ const constituencyPages = () => {
           <Table className={classes.table} aria-label="list of MP's">
             <TableHead>
               <TableRow>
-                <TableCell >Photo</TableCell>
                 <TableCell >Name</TableCell>
                 <TableCell >Party</TableCell>
                 <TableCell >From</TableCell>
@@ -111,9 +118,21 @@ const constituencyPages = () => {
             <TableBody>
               {rows.map(row => (
                 <TableRow key={row.name}>
-                  <TableCell><Link href={`/members/${1}`} underline="none"><Avatar alt="Mp's image" src={row.pic}/></Link></TableCell>
-                  <TableCell><Link href={`/members/${1}`} color="inherit" underline="none">{row.name}</Link></TableCell>
-                  <TableCell><Link href={`/parties/${1}`} color="inherit" underline="none">{row.party}</Link></TableCell>
+                  <TableCell>
+                    <Link href="/members/[mid]" as="/members/1">
+                      <a className={classes.link}>
+                        <div className={classes.flexDisplay}>
+                          <Avatar alt="Mp's image" src={row.photo}/>
+                          <div className={classes.paddingOnLeft}>{row.name}</div>
+                        </div>
+                      </a>  
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link href="/parties/[pid]" as="/parties/1">
+                      <a className={classes.link}>{row.party}</a>
+                    </Link>
+                  </TableCell>
                   <TableCell>{row.from}</TableCell>
                   <TableCell>{row.to}</TableCell>
                 </TableRow>
@@ -126,7 +145,7 @@ const constituencyPages = () => {
         <CardHeader
           title = "Questions"
           action = {
-            <Link href = {`/search?states=1`} underline="none">
+            <Link href = {`/search?states=1`}>
               <Button>
                 All Questions
               </Button>

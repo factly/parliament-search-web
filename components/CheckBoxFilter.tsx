@@ -19,9 +19,19 @@ const useStyles = makeStyles(({
   },
 }));
 
+interface checkBoxProps{
+  defaultShow : boolean;
+  list : { name : string , id : number}[];
+  heading : string;
+  search : boolean;
+  selected : any[];
+  toogle : (...args: any[]) => any;
+  limit : number
+ }
+
 const CheckBoxFilter = ({
   defaultShow, list, heading, search, selected, toogle, limit,
-}) => {
+} : checkBoxProps) => {
   const classes = useStyles();
   const [term, setTerm] = React.useState('');
   const [options, setOptions] = React.useState(list);
@@ -32,7 +42,7 @@ const CheckBoxFilter = ({
     } else setOptions(list);
   }, [term]);
 
-  const Row = ({ index, style }) => (
+  const Row = ({ index, style } : { index: number, style : any }) => (
     <FormControlLabel
       style={style}
       control={(

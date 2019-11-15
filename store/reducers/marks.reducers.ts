@@ -1,4 +1,9 @@
-const initialState = {};
+import {typeMarks} from '../../types';
+
+const initialState: typeMarks = {
+    marksAge : [],
+    marksTerm : []
+};
 
 initialState.marksAge = [
     {
@@ -46,7 +51,7 @@ initialState.marksTerm = [
     }
 ]
 
-function marks(state = initialState, action) {
+function marks(state = initialState, action : {type : string}) {
     switch (action.type) {
       default:
         return state;

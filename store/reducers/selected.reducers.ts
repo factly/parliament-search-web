@@ -1,18 +1,37 @@
 import { selectedConstants } from '../constants';
+import {typeSelected} from '../../types';
 
-const initialState = {};
-initialState.q = '';
-initialState.states = [];
-initialState.parties = [];
-initialState.education = [];
-initialState.age = [25, 100];
-initialState.marital = [];
-initialState.sort = 'popular';
-initialState.terms = 1;
-initialState.type = [];
-initialState.gender = [];
+type actionType = {
+  type: string;
+  data: any;
+  field: string;
+}
+let q = '';
+let states: number[] = [];
+let parties: number[] = [];
+let education: number[]= [];
+let age: number[] = [25, 100];
+let marital: number[] = [];
+let sort: string = 'popular';
+let gender : number[] = [];
+let terms : number = 1 ;
+let type : number[] = [];
 
-function toogleList(list, element) {
+const initialState : typeSelected = {
+  'q' : q,
+  'states' : states,
+  'parties' : parties,
+  'education' : education,
+  'age' : age,
+  'marital' : marital,
+  'sort' : sort,
+  'terms': terms,
+  'type': gender,
+  'gender': type
+};
+
+
+function toogleList(list : number [], element : number) : number[] {
   const currentIndex = list.indexOf(element);
 
   if (currentIndex === -1) {
@@ -23,7 +42,7 @@ function toogleList(list, element) {
   return list;
 }
 
-function selected(state = initialState, action) {
+function selected(state = initialState, action : actionType) : typeSelected {
   switch (action.type) {
     case selectedConstants.SET_ALL:
       return action.data;

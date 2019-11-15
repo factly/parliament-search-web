@@ -1,10 +1,9 @@
 import Cookies from 'js-cookie';
 import { appConstants } from '../constants';
 
-const initialState = {};
-initialState.theme = 'light';
+const initialState:{theme : string} = {theme : 'light' };
 
-function app(state = initialState, action) {
+function app(state = initialState, action : {type : string , data: string}) {
   switch (action.type) {
     case appConstants.CHANGE_THEME:
       Cookies.remove('theme');

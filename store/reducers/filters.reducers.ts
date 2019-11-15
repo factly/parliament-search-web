@@ -1,5 +1,11 @@
-const initialState = {};
-initialState.topics = [
+import {typeFilter} from '../../types';
+
+interface typeId {
+  id : number ,
+  name : string
+};
+
+let topics: typeId[] = [
   {
     id: 1,
     name: 'Agriculture',
@@ -9,7 +15,7 @@ initialState.topics = [
   },
 ];
 
-initialState.parties = [
+let parties: typeId[] = [
   { id: 1, name: 'BJP' },
   { id: 2, name: 'INC' },
   { id: 3, name: 'TMC' },
@@ -72,7 +78,7 @@ initialState.parties = [
   { id: 60, name: 'ZNP' },
 ];
 
-initialState.states = [
+let states: typeId[] = [
   { id: 1, name: 'Andhra Pradesh' },
   { id: 2, name: 'Arunachal Pradesh' },
   { id: 3, name: 'Assam' },
@@ -104,7 +110,7 @@ initialState.states = [
   { id: 29, name: 'West Bengal' },
 ];
 
-initialState.education = [
+let education: typeId[] = [
   { id: 1, name: 'Under Metric' },
   { id: 2, name: 'Matriculate' },
   { id: 3, name: 'Inter mediate' },
@@ -113,25 +119,35 @@ initialState.education = [
   { id: 6, name: 'Doctrate' },
 ];
 
-initialState.marital = [
+let marital: typeId[] = [
   { id: 1, name: 'Single' },
   { id: 2, name: 'Married' },
   { id: 3, name: 'Widowed' },
   { id: 4, name: 'Divorced' },
 ];
 
-initialState.type = [
+let type: typeId[] = [
   { id: 1, name: 'Stared' },
   { id: 2, name: 'Unstarred'}
 ];
 
-initialState.gender = [
+let gender: typeId[] = [
   { id: 1, name: 'Male' },
   { id: 2, name: 'Female' },
   { id: 3, name: 'Others' },
-]
+];
 
-function filters(state = initialState, action) {
+const initialState : typeFilter  = {
+  'topics' : topics, 
+  'parties' : parties , 
+  'states' :  states, 
+  'gender' :  gender, 
+  'education' : education,
+  'marital' : marital,
+  'type' :  type
+}
+
+function filters(state = initialState, action: {type : string}) {
   switch (action.type) {
     default:
       return state;

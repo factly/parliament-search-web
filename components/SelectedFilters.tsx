@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,6 +9,14 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { selectedActions } from '../store/actions';
+import { AppActions, typeSelected, typeFilter} from '../types';
+import { Dispatch } from 'redux';
+
+interface typeLists{
+  id: number;
+  type: string;
+  label: string | undefined;
+}
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,17 +33,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SelectedFilters = ({ selected, filters, dispatch }) => {
+const SelectedFilters = ({ selected, filters, dispatch } : {selected : typeSelected , filters : typeFilter , dispatch : Dispatch<AppActions>}) => {
   const classes = useStyles();
-  let list = []
-  let typeList = ['states', 'parties', 'education', 'marital'] 
+  let list: typeLists[] = [];
+  let typeList = ['states', 'parties', 'education', 'marital', 'gender' , 'type'] 
+  var name:{id: number , name: string} | undefined;
   typeList.forEach(type => {
-    selected[type].forEach(element => {
-      list.push({
-        type: type,
-        id: element,
-        label: filters[type].find((each) => each.id === element).name
-      })
+    selected[type].forEach((element:number) => {
+      name = filters[type].find((each:{id: number , name: string}) => each.id === element)
+      if(name){
+        list.push({
+          type: type,
+          id: element,
+          label: name.name
+        })
+      }
     });
   })
   
@@ -96,9 +107,4 @@ SelectedFilters.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  selected: state.selected,
-  filters: state.filters,
-});
-
-export default connect(mapStateToProps)(SelectedFilters);
+export default SelectedFilters;

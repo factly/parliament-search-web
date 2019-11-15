@@ -1,14 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { AppState } from '../store/reducers';
 
-const useStyles = makeStyles({
+interface typeTopics{
+ topics : { name : string , id : number } []
+}
+
+const useStyles = makeStyles({ 
   wrapper: {
     padding: 32,
   },
@@ -22,16 +27,16 @@ const useStyles = makeStyles({
   },
 });
 
-const HomePage = ({ topics }) => {
+const HomePage: React.FC<typeTopics> = ({ topics }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.wrapper}>
-      <div className={classes.topics}>
+      <div className={classes.topic}>
         <Paper>
           <Grid container spacing={3}>
             {
-            topics.map((x) => (
+            topics.map((x : {name : string , id : number}) => (
               <Grid item md={2} sm={6} key={x.id}>
                 <div className={classes.topic}>
                   <CardContent>
@@ -49,15 +54,15 @@ const HomePage = ({ topics }) => {
     </div>
   );
 };
-
+/*
 HomePage.propTypes = {
   topics: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   })).isRequired,
 };
-
-const mapStateToProps = (state) => ({
+*/
+const mapStateToProps = (state: AppState) => ({
   topics: state.filters.topics,
 });
 

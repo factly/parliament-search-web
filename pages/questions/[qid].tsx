@@ -1,22 +1,26 @@
 // TODO add answer by ministry
 import React from 'react';
-
+import Link from 'next/link';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import ShareIcon from '@material-ui/icons/Share';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import { makeStyles , createStyles } from '@material-ui/core/styles';
+import { makeStyles , createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles((theme : Theme) =>
   createStyles({
     asked: {
       marginRight: theme.spacing(0.5),
       marginBottom: theme.spacing(0.5),
+    },
+    link : {
+      textDecoration : 'none',
+      color : 'inherit'
     }
   }),
 );
@@ -57,10 +61,10 @@ const questionPage = () => {
             <CardContent>
               <Typography variant="h6">Asked By</Typography>
               <div >
-                <Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} />
-                <Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} />
-                <Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} />
-                <Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} />
+                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></a></Link>
+                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} /></a></Link>
+                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} /></a></Link>
+                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} /></a></Link>
               </div>
             </CardContent>
             <CardContent>

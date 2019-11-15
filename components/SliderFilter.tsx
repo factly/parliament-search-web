@@ -9,8 +9,18 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
+interface marksType  {
+  value : number,
+  label : string
+}
+interface filterProps {
+  toogle : (...args: any[]) => any,
+  heading : string , 
+  selected : number[] | number,
+  marks: marksType[]
+}
 
-const SliderFilter = ({ toogle, heading, selected, marks }) => (
+const SliderFilter = ({ toogle, heading, selected, marks } : filterProps ) => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">
