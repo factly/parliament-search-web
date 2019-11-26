@@ -105,7 +105,7 @@ const membersPage = () => {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href="/constituencies/[cid]" as="/constituencies/1">
+                    <Link href="/constituencies/[cid]" as={`/constituencies/${201}`}>
                       <a className={classes.link}>{row.constituency}</a>
                     </Link>
                   </TableCell>

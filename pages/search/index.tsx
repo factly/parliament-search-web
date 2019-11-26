@@ -1,23 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Router, { useRouter } from 'next/router';
+import Link from 'next/link';
 //import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import CheckBoxFilter from '../../components/CheckBoxFilter';
 import SliderFilter from '../../components/SliderFilter';
 import SelectedFilters from '../../components/SelectedFilters';
 import QuestionBox from '../../components/QuestionBox';
-import { makeStyles, createStyles , Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { selectedActions } from '../../store/actions';
 import {AppState} from '../../store/reducers/index';
 import {AppActions, typeSelected, typeFilter, typeState , typeQuery, typeQuerySelected , typeMarks} from '../../types';
 import { Dispatch } from 'redux';
+import { CardMedia, Typography } from '@material-ui/core';
 
 interface Iprops{
   dispatch : Dispatch<AppActions>;
@@ -25,10 +28,29 @@ interface Iprops{
   filters : typeFilter;
   marks : typeMarks
 }
-const useStyles = makeStyles((theme : Theme) =>
-  createStyles({
+const useStyles = makeStyles((theme : Theme) => ({
     marginBottomOne : {
       marginBottom : theme.spacing(1.5)
+    },
+    cardSuggestion: {
+      marginBottom : theme.spacing(1),
+    },
+    asked: {
+      marginRight: theme.spacing(0.5),
+      marginBottom: theme.spacing(0.5),
+      cursor: 'pointer'
+    },
+    suggestion : {
+      display : 'flex',
+      flexDirection : 'row',
+      justifyContent : 'space-between'
+    },
+    cardImage : {
+      height : 100
+    },
+    avatar : {
+      width: 70,
+      height : 70
     }
   }),
 );
@@ -145,7 +167,69 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
           />
         </div>
       </Grid>
-      <Grid item xs={12} sm={8} md={9} lg={10} xl={10}>
+      <Grid item xs={12} sm={4} md={7} lg={7} xl={8}>
+        <div className={classes.suggestion}>
+        <Card className={classes.cardSuggestion} >
+          <CardMedia 
+            className ={classes.cardImage}
+            image={'/static/images/mp.jpg'}
+            title= {'Mp full name'}
+          />
+          <CardContent className={classes.cardSuggestion} >
+            <Link>
+              <a>Mp Full Name</a>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className={classes.cardSuggestion} >
+          <CardMedia 
+            className ={classes.cardImage}
+            image={'/static/images/mp.jpg'}
+            title= {'Mp full name'}
+          />
+          <CardContent>
+            <Link>
+              <a>Mp Full Name</a>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className={classes.cardSuggestion} >
+          <CardMedia 
+            className ={classes.cardImage}
+            image={'/static/images/mp.jpg'}
+            title= {'Mp full name'}
+          />
+          <CardContent>
+            <Link>
+              <a>Mp Full Name</a>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className={classes.cardSuggestion} >
+          <CardMedia 
+            className ={classes.cardImage}
+            image={'/static/images/mp.jpg'}
+            title= {'Mp full name'}
+          />
+          <CardContent>
+            <Link>
+              <a>Mp Full Name</a>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card className={classes.cardSuggestion} >
+          <CardMedia 
+            className ={classes.cardImage}
+            image={'/static/images/mp.jpg'}
+            title= {'Mp full name'}
+          />
+          <CardContent>
+            <Link>
+              <a>Mp Full Name</a>
+            </Link>
+          </CardContent>
+        </Card>
+        </div>
         <Card>
           <CardHeader
             title="Questions"
@@ -176,6 +260,31 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             <div className={classes.marginBottomOne}>
               <QuestionBox />
             </div>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+        <Card>
+          <CardHeader
+            title = "MP Full Name"
+            subheader="Hyderabad, Telangana"
+            avatar = {
+              <Avatar
+                src={'/static/images/mp.jpg'}
+                  className= {classes.avatar}
+              />
+            }
+          />
+          <CardContent>
+            <Typography>
+              Party : Telangana Rashtra Samithi
+            </Typography>
+            <Typography>
+             Education : 
+            </Typography>
+            <Typography>
+             Profession :
+            </Typography>
           </CardContent>
         </Card>
       </Grid>

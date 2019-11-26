@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -12,8 +11,17 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
+import dynamic from 'next/dynamic';
+import {useRouter} from 'next/router';
+import Paper from '@material-ui/core/Paper';
+import Spinner from '../../components/Spinner';
 
-const useStyles = makeStyles((theme : Theme) =>
+const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
+  ssr: false,
+  loading: () => <Spinner/>
+});
+
+const useStyles = makeStyles((theme) =>
   createStyles({
     marginTopOne: {
       marginTop: theme.spacing(0.7),
@@ -21,22 +29,18 @@ const useStyles = makeStyles((theme : Theme) =>
     marginBottomOne: {
       marginBottom: theme.spacing(1),
     },
-    bg : {
-      [theme.breakpoints.up('md')]: {
-        backgroundImage : `url(${"/static/images/constituency.png"})`,
-        backgroundRepeat : "no-repeat",
-        backgroundSize : "100%",
-        height : "70vh",
-      },
+    paper:{
+      height : '70%'
     },
     cardBox : {
-      [theme.breakpoints.up('md')]: {
-        backgroundColor : "black",
-        color : "#fff",
-        opacity : 0.3,
-        width : "20%",
-        margin : theme.spacing(2,0,0,2)
-      },
+      backgroundColor : 'black',
+      opacity : 0.4,
+      color: 'white',
+      zIndex: 500,
+      position: 'absolute',
+      top: 200,
+      right: 30,
+      maxWidth: 300,
     },
     table: {
       minWidth: 650,
@@ -62,8 +66,9 @@ const useStyles = makeStyles((theme : Theme) =>
 
 const constituencyPages = () => {
   const classes = useStyles();
-
-  function createData(photo : string, name :string, party : string, from : number , to : number | string ){
+  const router = useRouter();
+  let id = +router.query.cid;
+  function createData(photo: string , name: string , party: string, from : number, to : number | string){
     return { photo, name , party, from , to }
   }
   const rows = [
@@ -76,31 +81,9 @@ const constituencyPages = () => {
   ];
   return (
     <div >
-      <Card className={classes.bg}>
-        <CardContent className={classes.cardBox}>
-            <Typography>
-              Name : Guntur
-            </Typography>
-            <Typography>
-              State : Andhra Pradesh
-            </Typography>
-            <Typography>
-              Pincodes : 500072
-            </Typography>
-            <Typography>
-              From : 1951
-            </Typography>
-            <Typography>
-              To : present
-            </Typography>
-            <Typography>
-              No .of terms : 17
-            </Typography>
-            <Typography>
-              No .of terms : 17
-            </Typography>
-        </CardContent>
-      </Card>
+      <Paper className={classes.paper} >
+        <MapWithNoSSR constituencyId={id}/>
+      </Paper>
       <Card className={classes.marginTopOne}>
         <CardHeader
           title = "List of all MP's"
@@ -172,5 +155,4 @@ const constituencyPages = () => {
 }
 
 export default constituencyPages;
-
 

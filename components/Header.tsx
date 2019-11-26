@@ -7,7 +7,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
 import HighlightIcon from '@material-ui/icons/Highlight';
@@ -17,10 +17,8 @@ import { AppState } from '../store/reducers';
 import { AppActions } from '../types';
 import {Dispatch} from 'redux';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Grid from '@material-ui/core/Grid';
+import Autosuggest from 'react-autosuggest';
 
 interface headerProps{
   dispatch : Dispatch<AppActions>, 
@@ -36,36 +34,13 @@ const useStyles = makeStyles((theme : Theme) => ({
   },
   search: {
     backgroundColor: theme.palette.common.white,
+    color : 'black',
+    display : 'flex',
+    flexDirection: 'row',
     borderRadius : theme.spacing(1),
-    width: '100%',
-    [theme.breakpoints.up('xs')]: {
-      width: 'auto',
-    },
-    [theme.breakpoints.up('sm')]: {
-      width: 'auto',
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 'auto',
-    },
+    maxWidth: 600,
   },
-  inputInput: {
-    color: theme.palette.common.black,
-    padding: theme.spacing(1, 2, 1, 2),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 80,
-    },
-    [theme.breakpoints.up('md')]: {
-      width: 420,
-    },
-    [theme.breakpoints.up('lg')]: {
-      width: 400,
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: 120,
-    },
-  },
+
   searchButton: {
     color: theme.palette.common.black,
     padding: theme.spacing(1),
@@ -76,31 +51,93 @@ const useStyles = makeStyles((theme : Theme) => ({
       display : 'none',
      },
   },
-  formControl: {
-    minWidth: 120,
-    padding: theme.spacing(0.5),
-    borderRight : '1px',
+  container: {
+    position: 'relative',
+    width : 550,
   },
+  suggestionsContainerOpen: {
+    position: 'absolute',
+    zIndex: 1,
+    width: "100%",
+    border: "1px solid #aaa",
+    alignContent : 'left'
+  },
+  suggestionsList: {
+    backgroundColor : "#fff",
+    margin: 0,
+    padding : 0,
+    listStyleType: 'none',
+  },
+  inputAuto : {
+    width: "100%",
+    height : "100%",
+    padding: theme.spacing(0,1),
+    fontSize: 16,
+    borderWidth: 1 ,
+    borderRadius: 5,
+  },
+  searchBox : {
+    padding: theme.spacing(0,1),
+    margin : 0,
+    height: theme.spacing(4),
+    textAlign : 'right',
+    textTransform: 'lowercase'
+  },
+  suggestionHighlighted : {
+    backgroundColor : '#DCDCDC'
+  }
 }));
 
 const Header = ({ dispatch, theme } : headerProps) => {
   const classes = useStyles();
-  const [term, setTerm] = React.useState('');
-  const [values, setValues] = React.useState({
-    category: 'questions',
-    name: 'category',
-  });
+  const suggestionsList:any = [{
+      name : "Hi-tech city startup hub",
+    },
+    {
+      name : "Government schools",
+    },
+    {
+      name : "hyderabad",
+    },
+    {
+      name : "gandhinagar",
+    }
+  ];
 
-  const searchFunc = () => {
-    Router.push(`/search?q=${term}`);
+  const [value, setValue] = React.useState('');
+  const [suggestions, setSuggestions] = React.useState([]);
+
+  const getSuggestions = (value: any) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+  
+    return inputLength === 0 ? [] : suggestionsList.filter((each : any) =>
+      each.name.toLowerCase().slice(0, inputLength) === inputValue
+    );
   };
 
-  const handleChange = (event : React.ChangeEvent<{name?: any; value: unknown;}>) => { 
-    setValues(oldValues => (
-      {...oldValues,[event.target.name]: event.target.value,})
-      );
-    }
+  const  onSuggestionsFetchRequested = ({ value } : any) => {
+    setSuggestions(getSuggestions(value));
 
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const getSuggestionValue = (suggestion:any) => suggestion.name;
+
+  const renderSuggestion = (suggestion:any) => (
+    <Button className={classes.searchBox} onClick={() => Router.push('/members/[mid]','/members/1')}>
+      {suggestion.name}
+    </Button>
+  );
+  const searchFunc = () => {
+    Router.push(`/search?q=${value}`);
+  };
+  const onChange = (event:any, { newValue }: any) => {
+    setValue(newValue);
+  };
   return (
     <>
       <CssBaseline />
@@ -112,29 +149,25 @@ const Header = ({ dispatch, theme } : headerProps) => {
             </Grid>
             <Grid item sm={5} md={8} lg={6} xl={2}>
               <div className={classes.search}>
-                <FormControl variant="filled" className={classes.formControl}>
-                  <Select
-                    value={values.category}
-                    onChange={handleChange}
-                    inputProps={{
-                      name: 'category',
-                      id: 'category-search',
-                    }}
-                    disableUnderline
-                  >
-                    <MenuItem value={'questions'}>Questions</MenuItem>
-                    <MenuItem value={'members'}>Members</MenuItem>
-                    <MenuItem value={'pincodes'}>Pincodes</MenuItem>
-                  </Select>
-                </FormControl>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    input: classes.inputInput,
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={onSuggestionsClearRequested}
+                  getSuggestionValue={getSuggestionValue}
+                  renderSuggestion={renderSuggestion}
+                  theme={{
+                    container: classes.container,
+                    suggestionsContainerOpen: classes.suggestionsContainerOpen,
+                    suggestionsList: classes.suggestionsList,
+                    input : classes.inputAuto,
+                    suggestionHighlighted : classes.suggestionHighlighted
                   }}
-                  value={term}
-                  onChange={(event) => { setTerm(event.target.value); }}
-                  inputProps={{ 'aria-label': 'search' }}
+                  inputProps={{
+                    placeholder: 'search ...',
+                    value,
+                    onChange: onChange,
+                    id: 'auto',
+                  }}
                 />
                 <IconButton
                   className={classes.searchButton}
