@@ -18,7 +18,7 @@ import QuestionBox from '../../components/QuestionBox';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { selectedActions } from '../../store/actions';
 import {AppState} from '../../store/reducers/index';
-import {AppActions, typeSelected, typeFilter, typeState , typeQuery, typeQuerySelected , typeMarks} from '../../types';
+import {AppActions, typeSelected, typeFilter, typeMarks, typeQuestionBox} from '../../types';
 import { Dispatch } from 'redux';
 import { CardMedia, Typography } from '@material-ui/core';
 
@@ -58,13 +58,25 @@ const useStyles = makeStyles((theme : Theme) => ({
 const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
-  
+  const question:typeQuestionBox = {
+    QID : 106062,
+    subject : "Government Hospitals in Delhi",
+    questionBy : [
+      {
+        MID : 4758,
+        name : "Shri Parvesh Sahib Singh"
+      }
+    ],
+    ministry : "HEALTH AND FAMILY WELFARE",
+    date : "2019-06-21",
+    type : "starred"
+  }
   React.useEffect(() => {
     
     const { age , q, states , education , parties , sort , marital, terms, gender, type } = router.query;
-    const querySelected:typeQuery = { age : age , q : q, states:  states, education : education , parties : parties , sort : sort ,marital : marital, terms : terms, gender : gender, type :  type};
-    let state:typeState = {age : [], q : '' , states: [] , education: [] , parties : [], sort: '' , marital : [], terms : 1 , gender : [] , type : []};
-    if(age && age.length === 2) state.age =  querySelected.age.map((value: number): number => value)
+    const querySelected:any = { age : age , q : q, states:  states, education : education , parties : parties , sort : sort ,marital : marital, terms : terms, gender : gender, type :  type};
+    let state = {age : [ 0, 0 ], q : '' , states: [0] , education: [0] , parties : [0], sort: '' , marital : [0], terms : 1 , gender : [0] , type : [0]};
+    if(age && age.length === 2) state.age =  querySelected.age.map((value: string) => parseInt(value))
     if(education && education.length === 2) state.education = querySelected.education.map((value:string) => parseInt(value))
     if(states && states.length === 2) state.states = querySelected.states.map((value:string) => parseInt(value))
     if(marital && marital.length === 2) state.marital = querySelected.marital.map((value:string) => parseInt(value))
@@ -73,21 +85,20 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
     if(type && type.length === 2) state.type = querySelected.type.map((value:string) => parseInt(value))
     if(q) state.q = querySelected.q;
     if(sort) state.sort = querySelected.sort;
-    if(terms) state.terms = querySelected.terms;
+    if(terms) state.terms = parseInt(querySelected.terms);
   
     dispatch(selectedActions.setAll(state));
   }, []);
 
   React.useEffect(() => {
-    const querySelected:typeQuerySelected = {age: undefined, education: undefined, states: undefined, marital: undefined, parties: undefined,q: undefined , sort: undefined , terms : undefined, gender : undefined , type : undefined};
     const {age, education, states, marital, parties ,q , sort , terms , type, gender} = selected;
-
+    const querySelected:any = {};
     if(age && age.length === 2  ) 
       {
       if( age[0] && age[1] && age[1] - age[0] !== 75 )
       querySelected.age = age.map((value:number):number => value);
     }
-    querySelected.education = education && education.length > 0 ? education.map((value:number) => `${value}`) : undefined;
+    if(education && education.length > 0) querySelected.education = education && education.length > 0 ? education.map((value:number) => `${value}`) : undefined;
     if(states && states.length > 0) querySelected.states = states.map((value:number) => `${value}`);
     if(marital && marital.length > 0) querySelected.marital = marital.map((value:number) => `${value}`);
     if(parties && parties.length > 0) querySelected.parties = parties.map((value:number) => `${value}`);
@@ -111,7 +122,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             limit={2}
             heading="Type"
             list={filters.type}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'type'))}
+            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'type'))}
             selected={selected.type}
           />
           <CheckBoxFilter
@@ -120,7 +131,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             defaultShow
             heading="State"
             list={filters.states}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'states'))}
+            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'states'))}
             selected={selected.states}
           />
           <CheckBoxFilter
@@ -129,7 +140,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             defaultShow
             heading="Party"
             list={filters.parties}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'parties'))}
+            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'parties'))}
             selected={selected.parties}
           />
           <SliderFilter
@@ -142,7 +153,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             limit={filters.education.length}
             heading="Education"
             list={filters.education}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'education'))}
+            toogle={(value: number) => dispatch(selectedActions.toogle(value, 'education'))}
             selected={selected.education}
           />
           <SliderFilter
@@ -155,7 +166,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             limit={3}
             heading="Gender"
             list={filters.gender}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'gender'))}
+            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'gender'))}
             selected={selected.gender}
           />
           <CheckBoxFilter
@@ -249,16 +260,16 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
           />
           <CardContent>
             <div className={classes.marginBottomOne}>
-              <QuestionBox />
+              <QuestionBox question={question}/>
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox />
+              <QuestionBox question={question}/>
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox />
+              <QuestionBox question={question}/>
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox />
+              <QuestionBox question={question}/>
             </div>
           </CardContent>
         </Card>

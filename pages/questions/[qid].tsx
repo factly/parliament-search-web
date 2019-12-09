@@ -1,5 +1,7 @@
 // TODO add answer by ministry
 import React from 'react';
+import {connect} from 'react-redux';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +13,9 @@ import { makeStyles , createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import { getQuestionById } from '../../store/apollo';
+import { AppState } from '../../store/reducers';
+import { typeQuestionBy } from '../../types';
 
 const useStyles = makeStyles((theme : Theme) =>
   createStyles({
@@ -20,14 +25,24 @@ const useStyles = makeStyles((theme : Theme) =>
     },
     link : {
       textDecoration : 'none',
-      color : 'inherit'
+      color : 'inherit',
+      cursor : 'pointer'
     }
   }),
 );
 
-const questionPage = () => {
+const questionPage = ({dispatch, questions} : any) => {
+  const qid = +useRouter().query.qid;
   const classes = useStyles();
-
+  let question = questions[qid];
+  React.useEffect(() => {
+    if(!question || !question.answer)
+      dispatch(getQuestionById(qid))
+  },[]);
+  if(!question || !question.answer)
+    return (<div>loading...</div>)
+  else{
+    console.log(question)
   return (
     <div>
       <Grid container spacing={3}>
@@ -35,8 +50,8 @@ const questionPage = () => {
           <Card>
             <div>
               <CardHeader
-                title = "Government Medical College"
-                subheader="26 July, 2019 · Lok Sabha"
+                title = {question.subject}
+                subheader={`${question.date} · Lok Sabha`}
                 action={
                   <IconButton aria-label="share">
                     <ShareIcon/>
@@ -47,45 +62,21 @@ const questionPage = () => {
             <CardContent>
               <Typography variant="h6">Question</Typography>
               <div >
-                <Typography variant="body1">
-                  (a) whether the Government proposes/plans to start a Government Medical College in Amravati, Maharashtra;
-                </Typography>
-                <Typography variant="body1">
-                  (b) if so, the details thereof; and
-                </Typography>
-                <Typography variant="body1">
-                  (c) if not, the reasons therefor?
-                </Typography>
+                  {
+                  question.question
+                }
               </div>
             </CardContent>
             <CardContent>
               <Typography variant="h6">Asked By</Typography>
               <div >
-                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></a></Link>
-                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />} /></a></Link>
-                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/3.jpg" />} /></a></Link>
-                <Link href="/members/[mid]" as="/members/1"><a className={classes.link}><Chip className={classes.asked} label="MP Name Full"  avatar={<Avatar src="https://material-ui.com/static/images/avatar/4.jpg" />} /></a></Link>
+                {question.questionBy.map((member:typeQuestionBy) => <Link href="/members/[mid]" as={`/members/${member.MID}`}><a className={classes.link}><Chip className={classes.asked} label={member.name}  avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></a></Link>)}
               </div>
             </CardContent>
             <CardContent>
               <Typography variant="h6">Answer</Typography>
               <Typography variant="body1">
-                (a) to (c): As per information provided by Medical Council of India (MCI), the Council
-                has not received any proposal / application from the State Government of Maharashtra
-                for establishment of new medical college at Amravati, Maharashtra for the academic year
-                2020-2021.
-                Further, the Government is implementing a Centrally Sponsored Scheme namely
-                ‘Establishment of new medical colleges attached with existing district/referral hospitals’
-                to increase the availability of doctors in the country. Under the Phase-I of this Scheme,
-                one medical college has been approved in Gondia, Maharashtra at a cost of Rs.189 crore
-                to be shared between Centre and State in the ratio of 60:40. This medical college has
-                become functional. Further, under the Phase-II of the Scheme, an analysis was done to
-                ensure the availability of at least one medical college for every 3 Parliamentary
-                Constituencies and at least 1 Government Medical College in each State of the country.
-                Accordingly, mapping was done and requirement of 24 new medical colleges under
-                Phase-II of the Scheme has been identified. Amravati, Maharashtra already has a private
-                medical college in the name of Dr. Panjabrao Alias Bhausaheb Deshmukh Memorial
-                Medical College and hence it can not be considered under the Scheme.
+                {question.answer}
               </Typography>
             </CardContent>
           </Card>
@@ -113,7 +104,10 @@ const questionPage = () => {
         </Grid> 
       </Grid>
     </div>            
-  );
+  )};
 };
 
-export default questionPage;
+const mapStateToProps =(state:AppState) => ({
+  questions : state.questions
+})
+export default connect(mapStateToProps)(questionPage);

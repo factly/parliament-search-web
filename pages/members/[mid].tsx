@@ -1,3 +1,7 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
+import { getMemberById } from '../../store/apollo';
 import { makeStyles, createStyles , Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -13,16 +17,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from 'next/link';
-
-function createData(house : string, constituency : string , party : string, from : number , to : string | number ){
-  return {house, constituency , party, from , to}
-};
-
-const rows = [
-  createData('Lok Sabha', 'Hyderabad' , 'TRS' , 2019 , "present"),
-  createData('Lok Sabha', 'Hyderabad' , 'TRS' , 2014 , 2019),
-  createData('Lok Sabha', 'Hyderabad' , 'TRS' , 2009 , 2004),
- ];
+import { typeMemberTerms } from '../../types';
+import { AppState } from '../../store/reducers';
 
 const useStyles = makeStyles((theme : Theme) =>
   createStyles({
@@ -48,120 +44,141 @@ const useStyles = makeStyles((theme : Theme) =>
 );
 
 
-const membersPage = () => {
+const membersPage = ({dispatch, members, questions} : any) => {
+  
+  const mid:number = +(useRouter().query.mid);
+  let member = members[mid];
+  
   const classes = useStyles();
+  React.useEffect(() => {
+    if(!member)
+      dispatch(getMemberById(mid))
+  });
 
-  return (
-    <div>
-      <Grid >
-        <Card>
+  if(!member){
+    return (<div>loading...</div>)
+  }
+  else{
+    return (
+      <div>
+        <Grid >
+          <Card>
+            <CardContent>
+              <Grid container spacing={1}>
+                <Grid item md={2}>
+                  <Avatar alt="Mp's image" src="/static/images/mp.jpg" className={classes.img}/>
+                </Grid>
+                <Grid item md={8}>
+                  <Grid>
+                    <Typography variant="h5">
+                      {member.name}
+                    </Typography>
+                  </Grid>
+                  <Grid container direction="row"   justify="space-between">
+                    <Grid>
+                      <Typography>
+                        Gender : {member.gender}
+                      </Typography>
+                      <Typography>
+                        Birthplace : {member.birth_place ? member.birth_place : 'Not available'} 
+                      </Typography>
+                      <Typography>
+                        Birthdate : {member.dob? member.dob : 'Not available'}
+                      </Typography>
+                      <Typography>
+                        Marital Status : {member.marital_status ? member.marital_status : 'Not available'} 
+                      </Typography>
+                      <Typography>
+                        E-mail : {member.email ? member.email.join(", ") : 'Not available'} 
+                      </Typography>
+                      <Typography>
+                        Phone number : { member.phone && member.phone.length > 0 ? member.phone.join(", ") : 'Not available'} 
+                      </Typography>
+                    </Grid>
+                    <Grid>
+                      <Typography>
+                        Education : {member.education ? member.education : 'Not available'}
+                      </Typography>
+                      <Typography>
+                        Expertise : {member.expertise.length > 0 ? member.expertise.join(", ") : 'Not available'} 
+                      </Typography>
+                      <Typography>
+                        Profession : {member.profession.length > 0? member.profession.join(", ") : 'Not available'}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Card className={classes.marginTopOne}>
           <CardHeader
-            title= "Ajay Kumar"
+            title = "Overview"
           />
           <CardContent>
-            <Grid container spacing={1}>
-              <Grid item md={2}>
-                <Avatar alt="Mp's image" src="/static/images/mp.jpg" className={classes.img}/>
-              </Grid>
-              <Grid item md={8}>
-                <Typography>
-                  Gender : Male
-                </Typography>
-                <Typography>
-                  Birthplace : Hyderabad 
-                </Typography>
-                <Typography>
-                  Birthdate : 26-01-1989 
-                </Typography>
-                <Typography>
-                  Marital Status : Married 
-                </Typography>
-              </Grid>
-            </Grid>
+            <Table className={classes.table} aria-label="MP's terms">
+              <TableHead>
+                <TableRow>
+                  <TableCell >Constituency</TableCell>
+                  <TableCell >Party</TableCell>
+                  <TableCell >House</TableCell>
+                  <TableCell >Session</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {member.terms.map((term: typeMemberTerms) => (
+                  <TableRow key={term.party.name}>
+                    <TableCell>
+                      <Link href="/constituencies/[cid]" as={`/constituencies/${term.constituency.CID}`}>
+                        <a className={classes.link}>{term.constituency.name}</a>
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <Link href="/parties/[pid]" as={`/parties/${term.party.PID}`}>
+                        <a className={classes.link}>{term.party.name}</a>
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <Link href="/houses/[hid]" as="/houses/1">
+                        <a className={classes.link}>{term.house}</a>  
+                      </Link>
+                    </TableCell>
+                    <TableCell>{term.session}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>         
           </CardContent>
         </Card>
-      </Grid>
-      <Card className={classes.marginTopOne}>
-        <CardHeader
-          title = "Overview"
-        />
-        <CardContent>
-          <Table className={classes.table} aria-label="MP's terms">
-            <TableHead>
-              <TableRow>
-                <TableCell >House</TableCell>
-                <TableCell >Constituency</TableCell>
-                <TableCell >Party</TableCell>
-                <TableCell >From</TableCell>
-                <TableCell >To</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.from}>
-                  <TableCell>
-                    <Link href="/houses/[hid]" as="/houses/1">
-                      <a className={classes.link}>{row.house}</a>  
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link href="/constituencies/[cid]" as={`/constituencies/${201}`}>
-                      <a className={classes.link}>{row.constituency}</a>
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link href="/parties/[pid]" as="/parties/1">
-                      <a className={classes.link}>{row.party}</a>
-                    </Link>
-                  </TableCell>
-                  <TableCell>{row.from}</TableCell>
-                  <TableCell>{row.to}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>         
-        </CardContent>
-      </Card>
-      <Card className={classes.marginTopOne}>
-        <CardHeader
-          title = "Popular Questions"
-          action = {
-            <Link href={`/search`}>
-              <Button>
-                All Questions
-              </Button>
-            </Link>
-          }
-        />
-        <CardContent>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-          <div className={classes.marginBottomOne}>
-            <QuestionBox />
-          </div>
-        </CardContent>  
-      </Card>
-    </div>
-  )
+        <Card className={classes.marginTopOne}>
+          <CardHeader
+            title = "Popular Questions"
+            action = {
+              <Link href={`/search`}>
+                <Button>
+                  All Questions
+                </Button>
+              </Link>
+            }
+          />
+          <CardContent>
+            { 
+              member.popularQuestionIds.length > 0 ? member.popularQuestionIds
+                .map((each: number) => 
+                  <div className={classes.marginBottomOne}>
+                    <QuestionBox question={questions[each]} />
+                  </div>)
+              : <p> No questions </p> 
+            }
+          </CardContent>  
+        </Card>
+      </div>
+    )
+  }
 }
-
-export default membersPage;
+const mapStateToProps = (state:AppState) => ({
+  members : state.members,
+  questions: state.questions
+})
+export default connect(mapStateToProps)(membersPage);

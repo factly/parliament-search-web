@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 import withReduxStore from '../lib/with-redux-store';
 import Wrapper from '../components/layout';
-import { type } from 'os';
 
 interface iprops{
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>,

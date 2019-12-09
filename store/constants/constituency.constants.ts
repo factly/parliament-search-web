@@ -1,0 +1,4 @@
+export const constituencyConstants = {
+    GET_CONSTITUENCY : 'GET_CONSTITUENCY',
+    GET_CONSTITUENCIES : 'GET_CONSTITUENCIES'
+}

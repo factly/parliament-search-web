@@ -1,30 +1,27 @@
+export interface typeId {
+    id : number ,
+    name : string
+  };
+  
 export interface marks{
     value : number,
     label : string
-  }
+}
+
 export interface typeMarks {
     marksAge : marks[],
     marksTerm : marks[]
 }
+
 export type typeSelected = {
     [key: string]: any ;
 }
+
 export type typeFilter= {
-    [key: string]: any ;
+    [key: string]: typeId[] ;
 }
-export interface typeQuery {
-    q: any;
-    states: any;
-    education: any;
-    parties: any;
-    marital: any;
-    age: any;
-    sort: any;
-    terms: any;
-    type : any;
-    gender : any;
-    } 
-export interface typeState {
+
+export interface typeSetAllState {
     q: string;
     states: number[] ;
     education: number[];
@@ -36,15 +33,3 @@ export interface typeState {
     type : number[];
     gender : number[];
 } 
-export interface typeQuerySelected {
-    q: string | undefined;
-    states: string[] | undefined ;
-    education: string[] | undefined;
-    parties: string[] | undefined;
-    marital: string[]| undefined;
-    age: number[] | undefined;
-    sort: string | undefined;
-    terms: number | undefined;
-    type : string[] | undefined;
-    gender : string[] | undefined;
-}

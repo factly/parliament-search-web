@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
+import {connect} from 'react-redux';
 import Link from 'next/link'
 import { makeStyles , createStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,6 +14,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
+import { getPartyById } from '../../store/apollo';
+import { typePartyMember, typeTermConstituency } from '../../types';
+import { AppState } from '../../store/reducers';
 
 const useStyles = makeStyles( (theme : Theme ) => 
   createStyles({
@@ -38,34 +43,24 @@ const useStyles = makeStyles( (theme : Theme ) =>
     }
 }));
 
-function createData(photo: string, name: string, terms: number , constituency: string) {
-  return { photo, name, terms , constituency };
-}
-
-const rows = [
-  createData('https://material-ui.com/static/images/avatar/1.jpg', "MP Full Name" , 1, "Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/2.jpg', "MP Full Name" , 3,"Constituency name1, Constituency name2" ), 
-  createData('https://material-ui.com/static/images/avatar/3.jpg', "MP Full Name" , 2,"Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/4.jpg', "MP Full Name" , 1,"Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/5.jpg', "MP Full Name" , 1,"Constituency name, Constituency name2" ),
-  createData('https://material-ui.com/static/images/avatar/1.jpg', "MP Full Name" , 1,"Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/2.jpg', "MP Full Name" , 1,"Constituency name1, Constituency name2" ), 
-  createData('https://material-ui.com/static/images/avatar/3.jpg', "MP Full Name" , 2,"Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/4.jpg', "MP Full Name" , 4,"Constituency name" ),
-  createData('https://material-ui.com/static/images/avatar/5.jpg', "MP Full Name" , 1,"Constituency name, Constituency name2" ),
-];
-
-const partiesPage = () => {
+const partiesPage = ({dispatch, parties }:any ) => {
+  const pid:number = +(useRouter().query.pid);
+  let party = parties[pid];
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const emptyRows:number = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  
+  React.useEffect(() => {
+    if(!party){
+      dispatch(getPartyById(pid));
+    }
+  })
+  if(!party){
+    return <div>Loading ....</div>  }
+  else {
   return (
    <Card>
      <CardHeader
-       title = "Party Name"
+       title = {party.name}
      />
      <CardContent>
       <Table className={classes.table} aria-label="custom pagination table">
@@ -77,34 +72,28 @@ const partiesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-            <TableRow key={row.name}>
+          {party.members.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((member: typePartyMember) => (
+            <TableRow key={member.name}>
               <TableCell>
-                <Link href="/members/[mid]" as="/members/1" >
+                <Link href="/members/[mid]" as={`/members/${member.MID}`} >
                   <a className={classes.link}>
                     <div className={classes.flexDisplay}>
-                      <Avatar alt="Mp's image" src={row.photo}/>
-                      <div className={classes.paddingOnLeft}>{row.name}</div>
+                      <Avatar alt="Mp's image" src={'https://material-ui.com/static/images/avatar/1.jpg'}/>
+                      <div className={classes.paddingOnLeft}>{member.name}</div>
                     </div>
                   </a>  
                 </Link>
               </TableCell>
-              <TableCell >{row.terms}</TableCell>
-              <TableCell >{row.constituency}</TableCell>
+              <TableCell >{member.terms.map((each:typeTermConstituency) => each.constituency).length}</TableCell>
+              <TableCell ><Link href="/constituencies/[cid]" as={`/constituencies/${member.terms[0].constituency.CID}`}><a className={classes.link}>{member.terms[0].constituency.name}</a></Link></TableCell>
             </TableRow>
           ))}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              count={rows.length}
+              count={party.members.length}
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
@@ -122,6 +111,9 @@ const partiesPage = () => {
      </CardContent>
    </Card>
   )
-}
+}}
 
-export default partiesPage;
+const mapStateToProps = (state:AppState) => ({
+  parties : state.parties
+})
+export default connect(mapStateToProps)(partiesPage);

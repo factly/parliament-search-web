@@ -24,7 +24,7 @@ interface checkBoxProps{
   list : { name : string , id : number}[];
   heading : string;
   search : boolean;
-  selected : any[];
+  selected : number[];
   toogle : (...args: any[]) => any;
   limit : number
  }

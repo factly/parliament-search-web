@@ -1,11 +1,7 @@
 import {typeFilter} from '../../types';
 
-interface typeId {
-  id : number ,
-  name : string
-};
 
-let topics: typeId[] = [
+let topics = [
   {
     id: 1,
     name: 'Agriculture',
@@ -15,7 +11,7 @@ let topics: typeId[] = [
   },
 ];
 
-let parties: typeId[] = [
+let parties = [
   { id: 1, name: 'BJP' },
   { id: 2, name: 'INC' },
   { id: 3, name: 'TMC' },
@@ -78,7 +74,7 @@ let parties: typeId[] = [
   { id: 60, name: 'ZNP' },
 ];
 
-let states: typeId[] = [
+let states = [
   { id: 1, name: 'Andhra Pradesh' },
   { id: 2, name: 'Arunachal Pradesh' },
   { id: 3, name: 'Assam' },
@@ -110,7 +106,7 @@ let states: typeId[] = [
   { id: 29, name: 'West Bengal' },
 ];
 
-let education: typeId[] = [
+let education = [
   { id: 1, name: 'Under Metric' },
   { id: 2, name: 'Matriculate' },
   { id: 3, name: 'Inter mediate' },
@@ -119,19 +115,19 @@ let education: typeId[] = [
   { id: 6, name: 'Doctrate' },
 ];
 
-let marital: typeId[] = [
+let marital = [
   { id: 1, name: 'Single' },
   { id: 2, name: 'Married' },
   { id: 3, name: 'Widowed' },
   { id: 4, name: 'Divorced' },
 ];
 
-let type: typeId[] = [
+let type = [
   { id: 1, name: 'Stared' },
   { id: 2, name: 'Unstarred'}
 ];
 
-let gender: typeId[] = [
+let gender = [
   { id: 1, name: 'Male' },
   { id: 2, name: 'Female' },
   { id: 3, name: 'Others' },

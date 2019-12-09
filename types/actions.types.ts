@@ -1,4 +1,5 @@
-import {typeState} from './reducers.types';
+import { typeSetAllState } from './reducers.types';
+import { typeQuestionObject, typePartyData } from './data.types';
 
 export const appConstants = {
     CHANGE_THEME: 'CHANGE_THEME_SUCCESS',
@@ -31,7 +32,7 @@ export interface SetTerms {
 
 export interface SetAll{
     type : typeof selectedConstants.SET_ALL;
-    data: typeState
+    data: typeSetAllState
 }
 
 export interface SetSort{
@@ -43,6 +44,10 @@ export interface Toogle{
     type : typeof selectedConstants.TOOGLE_ONE;
     data : number;
     field : string
+}
+
+export interface SetParty {
+    setParty: (state: typePartyData) => void
 }
 
 export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms;

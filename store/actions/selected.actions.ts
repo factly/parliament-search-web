@@ -1,18 +1,6 @@
 import { selectedConstants } from '../constants';
-import {SetAge, SetSort , Toogle , SetAll , SetTerms} from '../../types';
+import {SetAge, SetSort , Toogle , SetAll , SetTerms, typeSetAllState} from '../../types';
 
-interface typeState{
-  q: string;
-  states: number[];
-  education: number[];
-  parties: number[];
-  marital: number[];
-  age: number[];
-  sort: string;
-  terms: number;
-  gender : number[];
-  type : number[];
-}
 function filter(list : number[], min : number, max : number){
   return list
     .filter((value) => value && value >= min && value <= max)
@@ -27,8 +15,8 @@ function setTerms(state : number): SetTerms{
   return { type : selectedConstants.SET_TERMS, data : state}
 }
 
-function setAll(state : typeState): SetAll {
-  const localState: typeState = {q : '' , states : [] , parties : [] , education : [] , marital : [] , sort : 'popular', age : [25, 100] , terms : 1 , gender : [] , type : [] };
+function setAll(state : typeSetAllState): SetAll {
+  const localState = {q : '' , states : [0] , parties : [0] , education : [0] , marital : [0] , sort : 'popular', age : [25, 100] , terms : 1 , gender : [0] , type : [0] };
   localState.q = state.q ? state.q.trim() : '';
   localState.states = state.states ? filter(state.states, 1, 34) : [];
   localState.parties = state.parties ? filter(state.parties, 1, 60) : [];
