@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
+import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,16 +25,17 @@ const SearchPage = ({ dispatch, selected, filters }) => {
   }, []);
 
   React.useEffect(() => {
+    console.log("Fetching...")
     Router.push({
       pathname: '/search',
-      query: selected,
+      query: selected
     });
   }, [selected]);
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
-        <div>
+      <Hidden only={['xs']}>
+        <Grid item sm={4} md={3} lg={2} xl={2}>
           <SelectedFilters />
           <CheckBoxFilter
             limit={5}
@@ -74,8 +74,8 @@ const SearchPage = ({ dispatch, selected, filters }) => {
             toogle={(value) => dispatch(selectedActions.toogle(value, 'marital'))}
             selected={selected.marital}
           />
-        </div>
-      </Grid>
+        </Grid>
+      </Hidden>
       <Grid item xs={12} sm={8} md={9} lg={10} xl={10}>
         <Card>
           <CardHeader

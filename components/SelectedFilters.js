@@ -28,18 +28,21 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectedFilters = ({ selected, filters, dispatch }) => {
   const classes = useStyles();
-  let list = []
-  let typeList = ['states', 'parties', 'education', 'marital'] 
-  typeList.forEach(type => {
-    selected[type].forEach(element => {
-      list.push({
-        type: type,
-        id: element,
-        label: filters[type].find((each) => each.id === element).name
-      })
+  const list = [];
+  const typeList = ['states', 'parties', 'education', 'marital'];
+  typeList.forEach((type) => {
+    selected[type].forEach((element) => {
+      const ele = filters[type].find((each) => each.id === element);
+      if (ele) {
+        list.push({
+          type,
+          id: element,
+          label: ele.name,
+        });
+      }
     });
-  })
-  
+  });
+
   return (
     <ExpansionPanel square>
       <ExpansionPanelSummary>

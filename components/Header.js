@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
 import HighlightIcon from '@material-ui/icons/Highlight';
 
-import { appActions } from '../store/actions';
+import { appActions, selectedActions } from '../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   appBarContent: {
@@ -49,10 +49,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ dispatch, theme }) => {
   const classes = useStyles();
-  const [term, setTerm] = React.useState('');
+  const [term, setTermLocal] = React.useState();
 
   const searchFunc = () => {
-    Router.push(`/search?q=${term}`);
+    Router.push({
+      pathname: '/search',
+      query: {
+        q: term
+      }
+    })
+    
   };
 
   return (
@@ -69,7 +75,7 @@ const Header = ({ dispatch, theme }) => {
                 input: classes.inputInput,
               }}
               value={term}
-              onChange={(event) => { setTerm(event.target.value); }}
+              onChange={(event) => { setTermLocal(event.target.value); }}
               inputProps={{ 'aria-label': 'search' }}
             />
             <IconButton
