@@ -3,7 +3,8 @@ import { client } from './client.apollo';
 import { constituencyActions, questionActions } from '../actions';
 import { memberWithVariablesQuery } from './members.apollo';
 import { questionsByVariablesQuery } from './question.apollo';
-import { typeConstituencyData, typeQuestionData, typeQuestionObject } from '../../types';
+import { typeConstituencyData, typeQuestionData, typeQuestionObject, AppActions } from '../../types';
+import { Dispatch } from 'redux';
 
 export const constituencyQuery  = gql`
 query($id : Int){
@@ -17,9 +18,9 @@ query($id : Int){
 }`    
 
 export function getConstituencyById(id : number) {
-    return async (dispatch:any) => {
+    return async (dispatch: Dispatch<AppActions>) => {
         try {
-            let singleConstituency:typeConstituencyData = {CID : 0, name : '', state : '' , members : { MID : 0 , name : '' , terms : [{ party : { PID : 0 , name : ''}, session : 0}]} };
+            let singleConstituency:typeConstituencyData = {CID : 0, name : '', state : '' , members : [{ MID : 0 , name : '' , terms : [{ party : { PID : 0 , name : ''}, session : 0}]}] };
             const variables = {
                 id 
             };

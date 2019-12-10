@@ -18,9 +18,15 @@ import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
 import Spinner from '../../components/Spinner';
 import { getConstituencyById } from '../../store/apollo';
-import { typeConstituencyMember } from '../../types';
+import { typeConstituencyMember, typeConstituencyObject, typeQuestionObject, AppActions } from '../../types';
 import { AppState } from '../../store/reducers';
+import { Dispatch } from 'redux';
 
+interface Props{
+  dispatch : any,
+  constituencies : typeConstituencyObject,
+  questions : typeQuestionObject 
+}
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false,
   loading: () => <Spinner/>
@@ -67,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) =>({
 }),
 );
 
-const constituencyPages = ({dispatch , constituencies , questions}: any) => {
+const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
   const cid:number = +(useRouter().query.cid);
   const constituency = constituencies[cid];
   const classes = useStyles();
@@ -136,7 +142,7 @@ const constituencyPages = ({dispatch , constituencies , questions}: any) => {
           />
           <CardContent>
             { 
-              constituency.popularQuestionIds.length > 0 ? constituency.popularQuestionIds
+              constituency.popularQuestionIds && constituency.popularQuestionIds.length > 0 ? constituency.popularQuestionIds
                 .map((each: number) => 
                   <div className={classes.marginBottomOne}>
                     <QuestionBox question={questions[each]} />
@@ -155,5 +161,5 @@ const mapStateToProps = (state: AppState) => ({
   questions : state.questions
 });
 
-export default connect(mapStateToProps)(constituencyPages);
+export default connect(mapStateToProps)(ConstituencyPages);
 

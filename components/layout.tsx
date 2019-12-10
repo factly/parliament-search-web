@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
 import { Container as NextContainer } from 'next/app';
 import PropTypes from 'prop-types';

@@ -24,7 +24,9 @@ interface headerProps{
   dispatch : Dispatch<AppActions>, 
   theme : String
 }
-
+interface suggestionProp{
+  name : string
+}
 const useStyles = makeStyles((theme : Theme) => ({
   logo: {
     height: '20px',
@@ -90,7 +92,7 @@ const useStyles = makeStyles((theme : Theme) => ({
 
 const Header = ({ dispatch, theme } : headerProps) => {
   const classes = useStyles();
-  const suggestionsList:any = [{
+  const suggestionsList: suggestionProp[] = [{
       name : "Hi-tech city startup hub",
     },
     {
@@ -105,18 +107,18 @@ const Header = ({ dispatch, theme } : headerProps) => {
   ];
 
   const [value, setValue] = React.useState('');
-  const [suggestions, setSuggestions] = React.useState([]);
+  const [suggestions, setSuggestions] = React.useState([{name : ''}]);
 
-  const getSuggestions = (value: any) => {
+  const getSuggestions = (value: string) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
   
-    return inputLength === 0 ? [] : suggestionsList.filter((each : any) =>
+    return inputLength === 0 ? [] : suggestionsList.filter((each : suggestionProp) =>
       each.name.toLowerCase().slice(0, inputLength) === inputValue
     );
   };
 
-  const  onSuggestionsFetchRequested = ({ value } : any) => {
+  const  onSuggestionsFetchRequested = ({ value } : {value : string}) => {
     setSuggestions(getSuggestions(value));
 
   };
@@ -125,9 +127,9 @@ const Header = ({ dispatch, theme } : headerProps) => {
     setSuggestions([]);
   };
 
-  const getSuggestionValue = (suggestion:any) => suggestion.name;
+  const getSuggestionValue = (suggestion: suggestionProp) => suggestion.name;
 
-  const renderSuggestion = (suggestion:any) => (
+  const renderSuggestion = (suggestion: suggestionProp) => (
     <Button className={classes.searchBox} onClick={() => Router.push('/members/[mid]','/members/1')}>
       {suggestion.name}
     </Button>
@@ -135,7 +137,7 @@ const Header = ({ dispatch, theme } : headerProps) => {
   const searchFunc = () => {
     Router.push(`/search?q=${value}`);
   };
-  const onChange = (event:any, { newValue }: any) => {
+  const onChange = (event: React.FormEvent<HTMLInputElement>, { newValue }: { newValue : string }) => {
     setValue(newValue);
   };
   return (

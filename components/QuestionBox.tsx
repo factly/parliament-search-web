@@ -4,7 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles , Theme} from '@material-ui/core/styles';
-import { typeQuestionBy } from '../types';
+import { typeQuestionBy , typeQuestionBox} from '../types';
+
+interface Props {
+  question : typeQuestionBox
+}
 
 const useStyles = makeStyles((theme : Theme) => ({
   askedRoot: {
@@ -22,7 +26,7 @@ const useStyles = makeStyles((theme : Theme) => ({
   }
 }));
 
-const QuestionBox = ({question}: any) => {
+const QuestionBox = ({question}: Props) => {
   const classes = useStyles();
   const { QID, questionBy , subject , ministry , date} = question;
   return (

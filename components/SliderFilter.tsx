@@ -14,7 +14,7 @@ interface marksType  {
   label : string
 }
 interface filterProps {
-  toogle : (...args: any[]) => any,
+  toogle : (...args: any[]) => void,
   heading : string , 
   selected : number[] | number,
   marks: marksType[]

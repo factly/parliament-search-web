@@ -1,4 +1,4 @@
 export const memberConstants = {
-    GET_MEMBER_BY_ID : 'GET_MEMBER_BY_ID',
+    SET_MEMBER : 'SET_MEMBER',
     GET_MEMBERS : 'GET_MEMBERS'
 }

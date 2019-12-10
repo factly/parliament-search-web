@@ -5,7 +5,7 @@ const initialState:typeConstituencyObject = {};
 
 function constituencies(state = initialState, action : {type : string , data : typeConstituencyData})  {
     switch (action.type) {
-      case constituencyConstants.GET_CONSTITUENCY:
+      case constituencyConstants.SET_CONSTITUENCY:
         return {...state, [ action.data.CID ] : action.data}  
       default:
         return state;

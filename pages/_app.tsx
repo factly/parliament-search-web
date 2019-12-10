@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 
 import withReduxStore from '../lib/with-redux-store';
 import Wrapper from '../components/layout';
+import { Store } from 'redux';
 
 interface iprops{
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>,
   pageProps: PropTypes.Requireable<PropTypes.ReactElementLike>,
-  store: any
+  store: Store
 }
 
 const MyApp = (props : iprops) => {

@@ -32,7 +32,7 @@ function setAll(state : typeSetAllState): SetAll {
   localState.gender = state.gender ? filter(state.gender, 1, 3) : [];
   return { type: selectedConstants.SET_ALL, data: localState };
 }
-function setSort(state : any) : SetSort {
+function setSort(state : string) : SetSort {
   return { type: selectedConstants.SET_SORT, data: state };
 }
 function toogle(state : number, field : string) : Toogle{

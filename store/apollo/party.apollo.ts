@@ -1,7 +1,8 @@
 import { gql } from 'apollo-boost';
 import {client} from './client.apollo';
 import {partyActions} from '../actions';
-import { typePartyData, typePartyMember } from '../../types';
+import { typePartyData, typePartyMember, AppActions } from '../../types';
+import { Dispatch } from 'react';
 
 const partyQuery = gql`
 query ($id: Int) {
@@ -23,7 +24,7 @@ query ($id: Int) {
   }
 `
 export function getPartyById(id : number){
-    return async (dispatch:any) => {
+    return async (dispatch: Dispatch<AppActions>) => {
         try {
             const party:typePartyData ={ PID : 0, members : [] , name : '', abbr : ''};
             const variables = {id};

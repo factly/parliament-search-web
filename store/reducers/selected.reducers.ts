@@ -17,7 +17,7 @@ let gender : number[] = [];
 let terms : number = 1 ;
 let type : number[] = [];
 
-const initialState : typeSelected = {
+const initialState: typeSelected = {
   'q' : q,
   'states' : states,
   'parties' : parties,
@@ -42,7 +42,7 @@ function toogleList(list : number [], element : number) : number[] {
   return list;
 }
 
-function selected(state = initialState, action : actionType) : typeSelected {
+function selected(state = initialState, action : actionType) {
   switch (action.type) {
     case selectedConstants.SET_ALL:
       return action.data;

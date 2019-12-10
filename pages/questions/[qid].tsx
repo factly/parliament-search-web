@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme : Theme) =>
   }),
 );
 
-const questionPage = ({dispatch, questions} : any) => {
+const QuestionPage = ({dispatch, questions} : any) => {
   const qid = +useRouter().query.qid;
   const classes = useStyles();
   let question = questions[qid];
@@ -110,4 +110,4 @@ const questionPage = ({dispatch, questions} : any) => {
 const mapStateToProps =(state:AppState) => ({
   questions : state.questions
 })
-export default connect(mapStateToProps)(questionPage);
+export default connect(mapStateToProps)(QuestionPage);

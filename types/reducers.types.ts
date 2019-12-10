@@ -14,7 +14,7 @@ export interface typeMarks {
 }
 
 export type typeSelected = {
-    [key: string]: any ;
+    [key: string]: any;
 }
 
 export type typeFilter= {

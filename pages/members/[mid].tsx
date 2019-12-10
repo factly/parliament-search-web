@@ -17,9 +17,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from 'next/link';
-import { typeMemberTerms } from '../../types';
+import { typeMemberTerms, typeMemberObject, typeQuestionObject } from '../../types';
 import { AppState } from '../../store/reducers';
 
+interface Props{
+  dispatch : any, 
+  members : typeMemberObject, 
+  questions : typeQuestionObject
+}
 const useStyles = makeStyles((theme : Theme) =>
   createStyles({
     img : {
@@ -44,7 +49,7 @@ const useStyles = makeStyles((theme : Theme) =>
 );
 
 
-const membersPage = ({dispatch, members, questions} : any) => {
+const MembersPage = ({dispatch, members, questions} : Props) => {
   
   const mid:number = +(useRouter().query.mid);
   let member = members[mid];
@@ -100,10 +105,10 @@ const membersPage = ({dispatch, members, questions} : any) => {
                         Education : {member.education ? member.education : 'Not available'}
                       </Typography>
                       <Typography>
-                        Expertise : {member.expertise.length > 0 ? member.expertise.join(", ") : 'Not available'} 
+                        Expertise : {member.expertise && member.expertise.length > 0 ? member.expertise.join(", ") : 'Not available'} 
                       </Typography>
                       <Typography>
-                        Profession : {member.profession.length > 0? member.profession.join(", ") : 'Not available'}
+                        Profession : {member.profession && member.profession.length > 0? member.profession.join(", ") : 'Not available'}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -127,7 +132,7 @@ const membersPage = ({dispatch, members, questions} : any) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {member.terms.map((term: typeMemberTerms) => (
+                { member.terms && member.terms.map((term: typeMemberTerms) => (
                   <TableRow key={term.party.name}>
                     <TableCell>
                       <Link href="/constituencies/[cid]" as={`/constituencies/${term.constituency.CID}`}>
@@ -164,7 +169,7 @@ const membersPage = ({dispatch, members, questions} : any) => {
           />
           <CardContent>
             { 
-              member.popularQuestionIds.length > 0 ? member.popularQuestionIds
+              member.popularQuestionIds && member.popularQuestionIds.length > 0 ? member.popularQuestionIds
                 .map((each: number) => 
                   <div className={classes.marginBottomOne}>
                     <QuestionBox question={questions[each]} />
@@ -181,4 +186,4 @@ const mapStateToProps = (state:AppState) => ({
   members : state.members,
   questions: state.questions
 })
-export default connect(mapStateToProps)(membersPage);
+export default connect(mapStateToProps)(MembersPage);

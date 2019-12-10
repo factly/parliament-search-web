@@ -72,7 +72,6 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
     type : "starred"
   }
   React.useEffect(() => {
-    
     const { age , q, states , education , parties , sort , marital, terms, gender, type } = router.query;
     const querySelected:any = { age : age , q : q, states:  states, education : education , parties : parties , sort : sort ,marital : marital, terms : terms, gender : gender, type :  type};
     let state = {age : [ 0, 0 ], q : '' , states: [0] , education: [0] , parties : [0], sort: '' , marital : [0], terms : 1 , gender : [0] , type : [0]};
@@ -86,7 +85,6 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
     if(q) state.q = querySelected.q;
     if(sort) state.sort = querySelected.sort;
     if(terms) state.terms = parseInt(querySelected.terms);
-  
     dispatch(selectedActions.setAll(state));
   }, []);
 
@@ -106,7 +104,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
     if(q) querySelected.q = q;
     if(terms !== 1) querySelected.terms = terms;
     if(type && type.length >0 ) querySelected.type = type.map((value:number) => value) ;
-    if(gender && gender.length >0 ) querySelected.gender = gender.map((value:number) => `${value}`) ;
+    if(gender && gender.length >0 ) querySelected.gender = gender.map((value:number) => `${value}`);
     Router.push({
       pathname: '/search',
       query: {...querySelected},
@@ -247,7 +245,7 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             action={(
               <Select
                 value={selected.sort}
-                onChange={(event) => dispatch(selectedActions.setSort(event.target.value))}
+                onChange={(event :React.ChangeEvent<{ value: unknown }>) => dispatch(selectedActions.setSort(event.target.value as string))}
                 displayEmpty
                 disableUnderline
                 name="sorting"

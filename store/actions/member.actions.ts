@@ -2,7 +2,7 @@ import {memberConstants} from '../constants';
 import { typeMemberData } from '../../types';
 
 function setMember(state:typeMemberData){
-    return {type : memberConstants.GET_MEMBER_BY_ID, data : state}
+    return {type : memberConstants.SET_MEMBER, data : state}
 }
 
 

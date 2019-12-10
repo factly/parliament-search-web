@@ -55,6 +55,7 @@ export interface typeMemberData {
     gender: string,
     dob? : string,
     marital_status?: string,
+    birth_place? : string,
     sons?: number,
     daughters?: number,
     email?: string[],
@@ -91,7 +92,7 @@ export interface typeConstituencyData {
     from? : string,
     to? : string,
     popularQuestionIds? : number[],
-    members : typeConstituencyMember
+    members : typeConstituencyMember[]
 }
 
 export interface typeMemberObject {

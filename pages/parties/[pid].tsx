@@ -43,7 +43,7 @@ const useStyles = makeStyles( (theme : Theme ) =>
     }
 }));
 
-const partiesPage = ({dispatch, parties }:any ) => {
+const PartiesPage = ({dispatch, parties }:any ) => {
   const pid:number = +(useRouter().query.pid);
   let party = parties[pid];
   const classes = useStyles();
@@ -116,4 +116,4 @@ const partiesPage = ({dispatch, parties }:any ) => {
 const mapStateToProps = (state:AppState) => ({
   parties : state.parties
 })
-export default connect(mapStateToProps)(partiesPage);
+export default connect(mapStateToProps)(PartiesPage);

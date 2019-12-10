@@ -1,8 +1,6 @@
 import React from 'react';
 import { FixedSizeList } from 'react-window';
 import PropTypes from 'prop-types';
-
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -25,7 +23,7 @@ interface checkBoxProps{
   heading : string;
   search : boolean;
   selected : number[];
-  toogle : (...args: any[]) => any;
+  toogle : (...args: number[]) => void;
   limit : number
  }
 

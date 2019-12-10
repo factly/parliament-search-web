@@ -1,6 +1,7 @@
 import { typeSetAllState } from './reducers.types';
-import { typeQuestionObject, typePartyData } from './data.types';
-
+import { typeQuestionObject, typePartyData, typeConstituencyData , typeMemberData} from './data.types';
+import { constituencyConstants, memberConstants, partyConstants, questionConstants} from '../store/constants';
+ 
 export const appConstants = {
     CHANGE_THEME: 'CHANGE_THEME_SUCCESS',
   };
@@ -37,7 +38,7 @@ export interface SetAll{
 
 export interface SetSort{
     type : typeof selectedConstants.SET_SORT;
-    data : any
+    data : string
 }
 
 export interface Toogle{
@@ -46,10 +47,30 @@ export interface Toogle{
     field : string
 }
 
-export interface SetParty {
-    setParty: (state: typePartyData) => void
+export interface SetConstituency {
+    type : typeof constituencyConstants.SET_CONSTITUENCY,
+    data: typeConstituencyData
 }
 
-export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms;
+export interface SetMember {
+    type : typeof memberConstants.SET_MEMBER, 
+    data : typeMemberData
+}
+
+export interface SetParty {
+    type : typeof partyConstants.SET_PARTY,
+    data : typePartyData
+}
+
+export interface setQuestion{
+    type : typeof questionConstants.SET_QUESTION,
+    data : typeQuestionObject
+}
+export interface SetPopularQuestions{
+    type : typeof questionConstants.SET_QUESTIONS,
+    data : typeQuestionObject
+}
+
+export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms | SetConstituency | SetMember | SetParty | SetPopularQuestions | setQuestion;
 
 export type AppActions = Actions;

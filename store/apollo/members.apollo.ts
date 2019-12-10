@@ -2,7 +2,8 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { memberActions, questionActions } from '../actions';
 import { questionsByVariablesQuery } from './question.apollo';
-import { typeMemberData , typeQuestionData , typeQuestionObject, typeQuestionBox } from '../../types';
+import { typeMemberData , typeQuestionData , typeQuestionObject, typeQuestionBox, AppActions } from '../../types';
+import { Dispatch } from 'react';
 
 const memberQuery = gql`
 query ($id : Int){
@@ -55,22 +56,18 @@ query ($limit: Int, $page: Int, $q: String, $gender: String, $marital_status: [S
 
 export function getMemberById(id:number){
     
-    return async ( dispatch:any ) => {
+    return async ( dispatch: Dispatch<AppActions> ) => {
         try {
             let member:typeMemberData = { MID: 0, name : '', gender : '' };
             const variables = { id };
             const { data } = await client.query({ query : memberQuery, variables });
             member = data.member
             if(member.MID){
-                //{ 0 : { QID : 0, subject : '', question : '', questionBy : [], type : '', ministry : '', date : '', answer : '' }}
                 let questions:typeQuestionObject = {};
                 const variables = {questionBy : [member.MID]}
                 const {data} = await client.query({query : questionsByVariablesQuery, variables});
                 member.popularQuestionIds = data.questions.map((each : typeQuestionBox) => each.QID);
-
-                if(member.popularQuestionIds)
-                  member.popularQuestionIds.map((id:number) => questions[id] = data.questions.find((each:typeQuestionData) => id === each.QID));
-
+                data.questions.forEach((question : typeQuestionData) => questions[question.QID] = question )
                 dispatch(questionActions.setPopularQuestions(questions));
             }
             dispatch(memberActions.setMember(data.member));

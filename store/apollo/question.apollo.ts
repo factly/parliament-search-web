@@ -1,6 +1,8 @@
 import { gql } from 'apollo-boost';
 import {client} from './client.apollo';
 import {questionActions} from '../actions';
+import { typeQuestionObject, AppActions } from '../../types';
+import { Dispatch } from 'react';
 
 export const questionQuery = gql`
 query ($id : Int!){
@@ -35,18 +37,15 @@ query ($limit: Int, $page: Int, $q: String, $house: String, $type: String, $mini
 }`
 
 export function getQuestionById(id : number){
-    return async (dispatch:any) => {
+    return async (dispatch: Dispatch<AppActions>) => {
         try {
             const variables = {id}
             const {data} = await client.query({query : questionQuery, variables});
-            console.log("data : " , data)
-            dispatch(questionActions.setQuestion(data.question))
+            const question:typeQuestionObject = {};
+            question[data.question.QID] = data.question
+            dispatch(questionActions.setQuestion(question))
         } catch (error) {
             console.error(error)
         }
     }
 };
-
-
-
-      

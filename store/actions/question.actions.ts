@@ -1,8 +1,8 @@
 import {questionConstants} from '../constants';
-import { typeQuestionObject, typeQuestionData } from '../../types';
+import { typeQuestionObject } from '../../types';
 
-function setQuestion(state:typeQuestionData){
-    return {type : questionConstants.GET_QUESTION_BY_ID, data : state}
+function setQuestion(state:typeQuestionObject){
+    return {type : questionConstants.SET_QUESTION, data : state}
 }
 
 function setPopularQuestions(state:typeQuestionObject){
