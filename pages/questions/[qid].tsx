@@ -35,14 +35,15 @@ const QuestionPage = ({dispatch, questions} : any) => {
   const qid = +useRouter().query.qid;
   const classes = useStyles();
   let question = questions[qid];
+  /*
   React.useEffect(() => {
     if(!question || !question.answer)
       dispatch(getQuestionById(qid))
   },[]);
+  */
   if(!question || !question.answer)
     return (<div>loading...</div>)
   else{
-    console.log(question)
   return (
     <div>
       <Grid container spacing={3}>
@@ -106,6 +107,14 @@ const QuestionPage = ({dispatch, questions} : any) => {
     </div>            
   )};
 };
+
+QuestionPage.getInitialProps = async ( ctx: any) => {
+  const questions = ctx.store.getState().questions;
+  const qid = +ctx.query.qid;
+  if(!questions[qid] || !questions[qid].answer)
+    await ctx.store.dispatch(getQuestionById(qid))
+  return {}
+}
 
 const mapStateToProps =(state:AppState) => ({
   questions : state.questions

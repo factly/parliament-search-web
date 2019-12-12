@@ -24,15 +24,17 @@ query ($id : Int!){
 export const questionsByVariablesQuery = gql`
 query ($limit: Int, $page: Int, $q: String, $house: String, $type: String, $ministry: [String], $questionBy: [Int], $gender: String, $marital_status: [String], $education: [String], $profession: [String], $expertise: [String], $term: Int, $party: [Int], $constituency: [Int]) {
     questions(limit: $limit, page: $page, q: $q, house: $house, type: $type, ministry: $ministry, questionBy: $questionBy, gender: $gender, marital_status: $marital_status, education: $education, profession: $profession, expertise: $expertise, term: $term, party: $party, constituency: $constituency) {
-        QID 
-        subject
-        type
-        questionBy{
-            MID
-            name
+        nodes{
+            QID 
+            subject
+            type
+            questionBy{
+                MID
+                name
+            }
+            ministry
+            date
         }
-        ministry
-        date
     }
 }`
 

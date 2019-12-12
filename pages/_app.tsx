@@ -9,7 +9,8 @@ import { Store } from 'redux';
 
 interface iprops{
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>,
-  pageProps: PropTypes.Requireable<PropTypes.ReactElementLike>,
+  //pageProps: PropTypes.Requireable<PropTypes.ReactElementLike>,
+  pageProps : any,
   store: Store
 }
 
@@ -36,11 +37,19 @@ const MyApp = (props : iprops) => {
   );
 };
 
-MyApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.element,
-  store: PropTypes.object.isRequired,
-};
+MyApp.getInitialProps = async (context : any) => {
+  const { Component, ctx } = context;
+  let pageProps = {}
+
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx)
+  }
+
+  return {
+    pageProps
+  }
+}
+
 
 MyApp.defaultProps = {
   pageProps: null,

@@ -6,7 +6,7 @@ import { typeMemberData , typeQuestionData , typeQuestionObject, typeQuestionBox
 import { Dispatch } from 'react';
 
 const memberQuery = gql`
-query ($id : Int){
+query ($id : Int!){
     member(id : $id){
         MID
         name
@@ -40,16 +40,23 @@ query ($id : Int){
 export const memberWithVariablesQuery = gql`
 query ($limit: Int, $page: Int, $q: String, $gender: String, $marital_status: [String], $education: [String], $profession: [String], $expertise: [String], $term: Int, $party: [Int], $constituency: [Int], $house: [String], $session: [Int]) {
     members(limit: $limit, page: $page, q: $q, gender: $gender, marital_status: $marital_status, education: $education, profession: $profession, expertise: $expertise, term: $term, party: $party, constituency: $constituency, house: $house, session: $session) {
-      MID
-      name
-      terms{
-        party{
-            PID
+        nodes {
+            MID
             name
+            terms {
+              party {
+                PID
+                name
+              }
+              constituency {
+                CID
+                name
+              }
+              house
+              session
+            }
         }
-        house
-        session
-    }
+        total  
     }
   }
 `
@@ -66,15 +73,14 @@ export function getMemberById(id:number){
                 let questions:typeQuestionObject = {};
                 const variables = {questionBy : [member.MID]}
                 const {data} = await client.query({query : questionsByVariablesQuery, variables});
-                member.popularQuestionIds = data.questions.map((each : typeQuestionBox) => each.QID);
-                data.questions.forEach((question : typeQuestionData) => questions[question.QID] = question )
+                member.popularQuestionIds = data.questions.nodes.map((each : typeQuestionBox) => each.QID);
+                data.questions.nodes.forEach((question : typeQuestionData) => questions[question.QID] = question )
                 dispatch(questionActions.setPopularQuestions(questions));
             }
-            dispatch(memberActions.setMember(data.member));
+            dispatch(memberActions.setMember(member));
 
         } catch (error) {
             console.error(error)
         }
     }
 };
-

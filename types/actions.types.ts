@@ -71,6 +71,11 @@ export interface SetPopularQuestions{
     data : typeQuestionObject
 }
 
-export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms | SetConstituency | SetMember | SetParty | SetPopularQuestions | setQuestion;
+export interface setPartyMembers{
+    type : typeof partyConstants.SET_PARTY_MEMBERS , 
+    data : typeMemberData
+}
+
+export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms | SetConstituency | SetMember | SetParty | SetPopularQuestions | setQuestion | setPartyMembers;
 
 export type AppActions = Actions;

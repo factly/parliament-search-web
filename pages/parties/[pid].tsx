@@ -14,10 +14,14 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import { getPartyById } from '../../store/apollo';
-import { typePartyMember, typeTermConstituency } from '../../types';
+import { getPartyById, getPartyMembers } from '../../store/apollo';
+import { typePartyMember, typePartyObject, typeMemberObject, typePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
+interface Props{
+  dispatch : any,
+  parties : typePartyObject
+}
 const useStyles = makeStyles( (theme : Theme ) => 
   createStyles({
     root: {
@@ -43,17 +47,19 @@ const useStyles = makeStyles( (theme : Theme ) =>
     }
 }));
 
-const PartiesPage = ({dispatch, parties }:any ) => {
-  const pid:number = +(useRouter().query.pid);
-  let party = parties[pid];
+const PartiesPage = ({ dispatch, parties }: Props ) => {
+  const pid: number = +(useRouter().query.pid);
+  let party: typePartyData = parties[pid];
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  React.useEffect(() => {
-    if(!party){
-      dispatch(getPartyById(pid));
+  
+  React.useEffect(()=>{
+    if( party && party.members.length !== party.total &&  party.members.length < (page+1) * rowsPerPage){
+      const required:number = (page+1) * rowsPerPage < party.total ? (page+1) * rowsPerPage - party.members.length : party.total - (page) * rowsPerPage;
+      dispatch(getPartyMembers(pid, rowsPerPage, page+1, required))
     }
-  })
+  }, [page, rowsPerPage])
   if(!party){
     return <div>Loading ....</div>  }
   else {
@@ -63,7 +69,7 @@ const PartiesPage = ({dispatch, parties }:any ) => {
        title = {party.name}
      />
      <CardContent>
-      <Table className={classes.table} aria-label="custom pagination table">
+        <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             <TableCell >Name</TableCell>
@@ -73,7 +79,7 @@ const PartiesPage = ({dispatch, parties }:any ) => {
         </TableHead>
         <TableBody>
           {party.members.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((member: typePartyMember) => (
-            <TableRow key={member.name}>
+            <TableRow key={member.MID}>
               <TableCell>
                 <Link href="/members/[mid]" as={`/members/${member.MID}`} >
                   <a className={classes.link}>
@@ -83,8 +89,8 @@ const PartiesPage = ({dispatch, parties }:any ) => {
                     </div>
                   </a>  
                 </Link>
-              </TableCell>
-              <TableCell >{member.terms.map((each:typeTermConstituency) => each.constituency).length}</TableCell>
+              </TableCell> 
+              <TableCell >{member.terms.length}</TableCell>
               <TableCell ><Link href="/constituencies/[cid]" as={`/constituencies/${member.terms[0].constituency.CID}`}><a className={classes.link}>{member.terms[0].constituency.name}</a></Link></TableCell>
             </TableRow>
           ))}
@@ -92,8 +98,8 @@ const PartiesPage = ({dispatch, parties }:any ) => {
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              count={party.members.length}
+              rowsPerPageOptions={[5, 10, 20]}
+              count={party.total}
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
@@ -111,9 +117,16 @@ const PartiesPage = ({dispatch, parties }:any ) => {
      </CardContent>
    </Card>
   )
-}}
+}};
+
+
+PartiesPage.getInitialProps = async (ctx: any) => {
+  await ctx.store.dispatch(getPartyById(+ctx.query.pid));
+
+  return { }
+};
 
 const mapStateToProps = (state:AppState) => ({
-  parties : state.parties
+  parties : state.parties,
 })
 export default connect(mapStateToProps)(PartiesPage);

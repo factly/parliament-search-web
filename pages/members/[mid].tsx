@@ -55,11 +55,7 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
   let member = members[mid];
   
   const classes = useStyles();
-  React.useEffect(() => {
-    if(!member)
-      dispatch(getMemberById(mid))
-  });
-
+ 
   if(!member){
     return (<div>loading...</div>)
   }
@@ -181,6 +177,10 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
       </div>
     )
   }
+};
+
+MembersPage.getInitialProps = async (ctx: any) => {
+  await ctx.store.dispatch(getMemberById(+ctx.query.mid));
 }
 const mapStateToProps = (state:AppState) => ({
   members : state.members,

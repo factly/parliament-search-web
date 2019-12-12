@@ -7,7 +7,7 @@ import { typeConstituencyData, typeQuestionData, typeQuestionObject, AppActions 
 import { Dispatch } from 'redux';
 
 export const constituencyQuery  = gql`
-query($id : Int){
+query($id : Int!){
     constituency(id: $id) {
     CID
     name
@@ -30,18 +30,18 @@ export function getConstituencyById(id : number) {
             if(singleConstituency.CID){
                 const variables = {constituency : [id]}
                 const  {data}  = await client.query({query : memberWithVariablesQuery,variables});
-                singleConstituency.members = data.members;
+                singleConstituency.members = data.members.nodes;
             };
 
             if(singleConstituency.CID){
                 let questions:typeQuestionObject = {};
                 const variables = {constituency : [singleConstituency.CID]}
                 const {data} = await client.query({query : questionsByVariablesQuery, variables});
-                singleConstituency.popularQuestionIds = data.questions.map((each : typeQuestionData) => each.QID);
+                singleConstituency.popularQuestionIds = data.questions.nodes.map((each : typeQuestionData) => each.QID);
                 if(singleConstituency.popularQuestionIds)
                     singleConstituency.popularQuestionIds
                         .map(( id:number ) => 
-                            questions[id] = data.questions
+                            questions[id] = data.questions.nodes
                                 .find(( each : typeQuestionData ) => 
                                     id === each.QID
                                 )

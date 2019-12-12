@@ -1,4 +1,4 @@
 export const partyConstants = {
     SET_PARTY :'SET_PARTY',
-    GET_PARTIES : 'GET_PARTIES'
+    SET_PARTY_MEMBERS : 'SET_PARTY_MEMBERS'
 }

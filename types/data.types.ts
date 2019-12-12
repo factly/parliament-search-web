@@ -82,6 +82,7 @@ export interface typePartyData {
     PID : number,
     name : string,
     abbr : string,
+    total : number,
     members : typePartyMember[]
 };
 

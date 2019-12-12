@@ -77,11 +77,7 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
   const cid:number = +(useRouter().query.cid);
   const constituency = constituencies[cid];
   const classes = useStyles();
-  React.useEffect(()=>{
-    if(!constituency)
-      dispatch(getConstituencyById(cid));
-  });
-
+  
   if(!constituency){
     return <Spinner/>
   }
@@ -155,6 +151,12 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
     )
   }  
 };
+
+ConstituencyPages.getInitialProps = async (ctx : any ) => {
+  await ctx.store.dispatch(getConstituencyById(+ctx.query.cid));
+
+  return { }
+}
 
 const mapStateToProps = (state: AppState) => ({
   constituencies : state.constituencies,
