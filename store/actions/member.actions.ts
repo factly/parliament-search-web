@@ -1,11 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants } from '../constants';
-import { questionsByVariablesQuery } from './question.actions';
 import {
-  typeMemberData,
-  typeQuestionData,
-  typeQuestionObject,
   typeQuestionBox,
   AppActions
 } from '../../types';
@@ -13,8 +9,8 @@ import { Dispatch } from 'react';
 import { memberConstants } from '../constants';
 
 const memberQuery = gql`
-  query($id: Int!) {
-    member(id: $id) {
+  query($mid: Int!) {
+    member(id: $mid) {
       MID
       name
       gender
@@ -42,58 +38,20 @@ const memberQuery = gql`
         session
       }
     }
-  }
-`;
-export const memberWithVariablesQuery = gql`
-  query(
-    $limit: Int
-    $page: Int
-    $q: String
-    $gender: String
-    $marital_status: [String]
-    $education: [String]
-    $profession: [String]
-    $expertise: [String]
-    $term: Int
-    $party: [Int]
-    $constituency: [Int]
-    $house: [String]
-    $session: [Int]
-  ) {
-    members(
-      limit: $limit
-      page: $page
-      q: $q
-      gender: $gender
-      marital_status: $marital_status
-      education: $education
-      profession: $profession
-      expertise: $expertise
-      term: $term
-      party: $party
-      constituency: $constituency
-      house: $house
-      session: $session
+    questions(
+      questionBy: [$mid]
     ) {
       nodes {
-        MID
-        name
-        terms {
-          party {
-            PID
-            name
-            abbr
-          }
-          constituency {
-            CID
-            name
-            state
-          }
-          house
-          session
+        QID
+        subject
+        type
+        questionBy {
+          MID
+          name
         }
+        ministry
+        date
       }
-      total
     }
   }
 `;
@@ -101,25 +59,23 @@ export const memberWithVariablesQuery = gql`
 export function getMemberById(id: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      let member: typeMemberData = { MID: 0, name: '', gender: '' };
-      const variables = { id };
+      const variables = { mid : id };
       const { data } = await client.query({ query: memberQuery, variables });
-      member = data.member;
-      if (member.MID) {
-        const variables = { questionBy: [member.MID] };
-        const { data } = await client.query({
-          query: questionsByVariablesQuery,
-          variables
-        });
-        member.popularQuestionIds = data.questions.nodes.map(
-          (each: typeQuestionBox) => each.QID
-        );
-        dispatch({
-          type: questionConstants.SET_QUESTIONS,
-          data: data.questions.nodes
-        });
-      }
-      dispatch({ type: memberConstants.SET_MEMBER, data: member });
+      
+      const popularQuestionIds: number[] = data.questions.nodes.map(
+        (each: typeQuestionBox) => each.QID
+      );
+      
+      dispatch({
+        type: questionConstants.SET_QUESTIONS,
+        data: data.questions.nodes
+      });
+      
+      dispatch({ 
+        type: memberConstants.SET_MEMBER, 
+        data: {...data.member , popularQuestionIds}
+      });
+
     } catch (error) {
       console.error(error);
     }

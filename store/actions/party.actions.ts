@@ -2,7 +2,6 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { typePartyData, AppActions } from '../../types';
 import { Dispatch } from 'react';
-import { memberWithVariablesQuery } from './member.actions';
 import { partyConstants } from '../constants';
 
 const partyQuery = gql`
@@ -28,6 +27,41 @@ const partyQuery = gql`
     }
   }
 `;
+
+const memberWithVariablesQuery = gql`
+  query(
+    $limit: Int
+    $page: Int
+    $party: [Int]
+  ) {
+    members(
+      limit: $limit
+      page: $page
+      party: $party
+    ) {
+      nodes {
+        MID
+        name
+        terms {
+          party {
+            PID
+            name
+            abbr
+          }
+          constituency {
+            CID
+            name
+            state
+          }
+          house
+          session
+        }
+      }
+      total
+    }
+  }
+`;
+
 export function getPartyById(pid: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {

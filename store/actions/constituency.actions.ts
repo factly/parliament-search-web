@@ -1,12 +1,8 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants } from '../constants';
-import { memberWithVariablesQuery } from './member.actions';
-import { questionsByVariablesQuery } from './question.actions';
 import {
-  typeConstituencyData,
   typeQuestionData,
-  typeQuestionObject,
   AppActions
 } from '../../types';
 import { Dispatch } from 'redux';
