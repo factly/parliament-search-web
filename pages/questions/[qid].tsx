@@ -13,7 +13,7 @@ import { makeStyles , createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import { getQuestionById } from '../../store/apollo';
+import { getQuestionById } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { typeQuestionBy } from '../../types';
 
@@ -31,16 +31,11 @@ const useStyles = makeStyles((theme : Theme) =>
   }),
 );
 
-const QuestionPage = ({dispatch, questions} : any) => {
+const QuestionPage = ({ questions } : any) => {
   const qid = +useRouter().query.qid;
   const classes = useStyles();
   let question = questions[qid];
-  /*
-  React.useEffect(() => {
-    if(!question || !question.answer)
-      dispatch(getQuestionById(qid))
-  },[]);
-  */
+
   if(!question || !question.answer)
     return (<div>loading...</div>)
   else{
@@ -62,10 +57,8 @@ const QuestionPage = ({dispatch, questions} : any) => {
             </div>
             <CardContent>
               <Typography variant="h6">Question</Typography>
-              <div >
-                  {
-                  question.question
-                }
+              <div>
+                {question.question}
               </div>
             </CardContent>
             <CardContent>
@@ -108,11 +101,11 @@ const QuestionPage = ({dispatch, questions} : any) => {
   )};
 };
 
-QuestionPage.getInitialProps = async ( ctx: any) => {
-  const questions = ctx.store.getState().questions;
-  const qid = +ctx.query.qid;
+QuestionPage.getInitialProps = async ( { store, query}: any) => {
+  const questions = store.getState().questions;
+  const qid = +query.qid;
   if(!questions[qid] || !questions[qid].answer)
-    await ctx.store.dispatch(getQuestionById(qid))
+    await store.dispatch(getQuestionById(qid))
   return {}
 }
 

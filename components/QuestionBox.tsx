@@ -31,7 +31,8 @@ const QuestionBox = ({question}: Props) => {
   const { QID, questionBy , subject , ministry , date} = question;
   return (
     <div> 
-      <Typography variant="h6" gutterBottom><Link href="/questions/[qid]" as={`/questions/${QID}`}><a className={classes.link}>{subject}</a></Link></Typography>
+      <Typography variant="h6"><Link href="/questions/[qid]" as={`/questions/${QID}`}><a className={classes.link}>{subject}</a></Link></Typography>
+      <Typography variant="caption" color="textSecondary" gutterBottom>Lok Sabha · {ministry} · {date}</Typography>
       <Typography variant="subtitle2" gutterBottom>Asked By</Typography>
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
@@ -40,7 +41,6 @@ const QuestionBox = ({question}: Props) => {
           }
         </div>
       </div>
-      <Typography variant="subtitle2">In <Link href="/houses/[mid]" as="/houses/1"><a className={classes.link}>Lok Sabha</a></Link> to ministry of {ministry} on {date}</Typography>
     </div>
   );
 };

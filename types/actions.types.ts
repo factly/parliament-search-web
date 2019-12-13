@@ -72,8 +72,11 @@ export interface SetPopularQuestions{
 }
 
 export interface setPartyMembers{
-    type : typeof partyConstants.SET_PARTY_MEMBERS , 
-    data : typeMemberData
+    type : typeof partyConstants.ADD_PARTY_MEMBERS , 
+    data : {
+        pid : number,
+        members : typeMemberData
+    }
 }
 
 export type Actions = ChangeTheme | SetAge | SetSort | Toogle | SetAll | SetTerms | SetConstituency | SetMember | SetParty | SetPopularQuestions | setQuestion | setPartyMembers;

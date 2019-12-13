@@ -9,19 +9,20 @@ export interface typeQuestionBox{
 export interface typeTermConstituency{
     constituency : {
         CID : number,
-        name : string
+        name : string,
+        state : string
     }
 }
 export interface typeMemberTerms{
     constituency : {
         CID : number,
         name : string,
-        from? : string,
-        to? : string
+        state : string
     },
     party : {
         PID : number,
-        name : string
+        name : string,
+        abbr : string
     }, 
     house: string
     session: number
@@ -39,8 +40,10 @@ export interface typeConstituencyMember{
         party : {
             PID : number,
             name : string
+            abbr : string
         }
-        session : number
+        session : number,
+        house : string
     }[]
 }
 

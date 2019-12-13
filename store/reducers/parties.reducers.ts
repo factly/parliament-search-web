@@ -1,5 +1,5 @@
 import {partyConstants} from '../constants';
-import { typePartyObject, typePartyData } from '../../types';
+import { typePartyObject } from '../../types';
 
 const initialState:typePartyObject = {};
 
@@ -8,7 +8,7 @@ function parties(state = initialState, action : {type : string , data : any})  {
       case partyConstants.SET_PARTY:
           return {...state,[action.data.PID] : action.data};
         
-      case partyConstants.SET_PARTY_MEMBERS:
+      case partyConstants.ADD_PARTY_MEMBERS:
         return {
           ...state,
           [action.data.pid]: {
@@ -22,17 +22,3 @@ function parties(state = initialState, action : {type : string , data : any})  {
   }
   
   export default parties;
-
-  /*if(state[action.data.PID]){
-          return {
-            ...state,
-            [action.data.PID]: {
-              ...state[action.data.PID],
-              members: state[action.data.PID].members.concat(action.data.members)
-            }
-          }
-        }
-        else{
-          return {...state,[action.data.PID] : action.data}; 
-        }
-   */

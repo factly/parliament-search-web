@@ -17,13 +17,11 @@ import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
 import Spinner from '../../components/Spinner';
-import { getConstituencyById } from '../../store/apollo';
+import { getConstituencyById } from '../../store/actions';
 import { typeConstituencyMember, typeConstituencyObject, typeQuestionObject, AppActions } from '../../types';
 import { AppState } from '../../store/reducers';
-import { Dispatch } from 'redux';
 
 interface Props{
-  dispatch : any,
   constituencies : typeConstituencyObject,
   questions : typeQuestionObject 
 }
@@ -73,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>({
 }),
 );
 
-const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
+const ConstituencyPages = ({ constituencies , questions}: Props) => {
   const cid:number = +(useRouter().query.cid);
   const constituency = constituencies[cid];
   const classes = useStyles();
@@ -89,7 +87,7 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
         </Paper>
         <Card className={classes.marginTopOne}>
           <CardHeader
-            title = "List of all MP's"
+            title = {`List of all MP's from ${constituency.name} (${constituency.state})`}
           />
           <CardContent className={classes.root}>
             <Table className={classes.table} aria-label="list of MP's">
@@ -97,7 +95,7 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
                 <TableRow>
                   <TableCell >Name</TableCell>
                   <TableCell >Party</TableCell>
-                  <TableCell >Session</TableCell>
+                  <TableCell >House</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -115,10 +113,10 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
                     </TableCell>
                     <TableCell>
                       <Link href="/parties/[pid]" as={`/parties/${member.terms[0].party.PID}`}>
-                        <a className={classes.link}>{member.terms[0].party.name}</a>
+                        <a className={classes.link}>{member.terms[0].party.name} ({member.terms[0].party.abbr})</a>
                       </Link>
                     </TableCell>
-                    <TableCell>{member.terms[0].session}</TableCell>
+                <TableCell>{member.terms[0].session}, {member.terms[0].house}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -144,7 +142,7 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
                     <QuestionBox question={questions[each]} />
                   </div>)
               : <p> No questions </p> 
-            }
+            }AppState
           </CardContent>
         </Card>
       </div>
@@ -152,8 +150,8 @@ const ConstituencyPages = ({dispatch , constituencies , questions}: Props) => {
   }  
 };
 
-ConstituencyPages.getInitialProps = async (ctx : any ) => {
-  await ctx.store.dispatch(getConstituencyById(+ctx.query.cid));
+ConstituencyPages.getInitialProps = async ({store, query} : any ) => {
+  await store.dispatch(getConstituencyById(+query.cid));
 
   return { }
 }

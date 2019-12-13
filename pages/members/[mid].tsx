@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
-import { getMemberById } from '../../store/apollo';
+import { getMemberById } from '../../store/actions';
 import { makeStyles, createStyles , Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -21,7 +21,6 @@ import { typeMemberTerms, typeMemberObject, typeQuestionObject } from '../../typ
 import { AppState } from '../../store/reducers';
 
 interface Props{
-  dispatch : any, 
   members : typeMemberObject, 
   questions : typeQuestionObject
 }
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme : Theme) =>
 );
 
 
-const MembersPage = ({dispatch, members, questions} : Props) => {
+const MembersPage = ({ members, questions } : Props) => {
   
   const mid:number = +(useRouter().query.mid);
   let member = members[mid];
@@ -80,32 +79,15 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
                       <Typography>
                         Gender : {member.gender}
                       </Typography>
-                      <Typography>
-                        Birthplace : {member.birth_place ? member.birth_place : 'Not available'} 
-                      </Typography>
-                      <Typography>
-                        Birthdate : {member.dob? member.dob : 'Not available'}
-                      </Typography>
-                      <Typography>
-                        Marital Status : {member.marital_status ? member.marital_status : 'Not available'} 
-                      </Typography>
-                      <Typography>
-                        E-mail : {member.email ? member.email.join(", ") : 'Not available'} 
-                      </Typography>
-                      <Typography>
-                        Phone number : { member.phone && member.phone.length > 0 ? member.phone.join(", ") : 'Not available'} 
-                      </Typography>
+                      { member.birth_place ? <Typography> Birthplace : { member.birth_place}</Typography> : null}
+                      { member.dob ? <Typography> Birthdate : { member.dob}</Typography> : null}
+                      { member.marital_status ? <Typography>Marital Status : { member.marital_status } </Typography> : null }
+                      { member.email && member.email.length >0 ? <Typography>E-mail : {member.email.join(", ")}</Typography> : null}
+                      { member.phone && member.phone.length > 0 ? <Typography> Phone number : {  member.phone.join(", ")} </Typography> : null}
                     </Grid>
                     <Grid>
-                      <Typography>
-                        Education : {member.education ? member.education : 'Not available'}
-                      </Typography>
-                      <Typography>
-                        Expertise : {member.expertise && member.expertise.length > 0 ? member.expertise.join(", ") : 'Not available'} 
-                      </Typography>
-                      <Typography>
-                        Profession : {member.profession && member.profession.length > 0? member.profession.join(", ") : 'Not available'}
-                      </Typography>
+                      { member.education ? <Typography>Education : { member.education}</Typography> : null}
+                      { member.profession && member.profession.length > 0?<Typography> Profession : { member.profession.join(", ")}</Typography> : null}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -124,7 +106,6 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
                   <TableCell >Constituency</TableCell>
                   <TableCell >Party</TableCell>
                   <TableCell >House</TableCell>
-                  <TableCell >Session</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -132,20 +113,17 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
                   <TableRow key={term.party.name}>
                     <TableCell>
                       <Link href="/constituencies/[cid]" as={`/constituencies/${term.constituency.CID}`}>
-                        <a className={classes.link}>{term.constituency.name}</a>
+                <a className={classes.link}>{term.constituency.name}, {term.constituency.state}</a>
                       </Link>
                     </TableCell>
                     <TableCell>
                       <Link href="/parties/[pid]" as={`/parties/${term.party.PID}`}>
-                        <a className={classes.link}>{term.party.name}</a>
+                        <a className={classes.link}>{term.party.name} ({term.party.abbr})</a>
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <Link href="/houses/[hid]" as="/houses/1">
-                        <a className={classes.link}>{term.house}</a>  
-                      </Link>
+                       {term.session}, {term.house}
                     </TableCell>
-                    <TableCell>{term.session}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -179,8 +157,8 @@ const MembersPage = ({dispatch, members, questions} : Props) => {
   }
 };
 
-MembersPage.getInitialProps = async (ctx: any) => {
-  await ctx.store.dispatch(getMemberById(+ctx.query.mid));
+MembersPage.getInitialProps = async ({ store, query }: any) => {
+  await store.dispatch(getMemberById(+query.mid));
 }
 const mapStateToProps = (state:AppState) => ({
   members : state.members,

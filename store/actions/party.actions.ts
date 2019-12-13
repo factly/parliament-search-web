@@ -1,13 +1,61 @@
-import {partyConstants} from '../constants';
-import { typePartyData } from '../../types';
+import { gql } from 'apollo-boost';
+import {client} from './client.apollo';
+import { typePartyData, AppActions } from '../../types';
+import { Dispatch } from 'react';
+import { memberWithVariablesQuery } from './member.actions';
+import { partyConstants } from '../constants';
 
-function setParty(state: typePartyData){
-    return {type : partyConstants.SET_PARTY, data : state}
+const partyQuery = gql`
+query ($pid: Int!, $limit: Int, $page: Int) {
+  party(id: $pid) {
+    PID
+    name
+    abbr
+  }
+  members(party: [$pid], limit: $limit, page: $page) {
+    nodes {
+      MID
+      name
+      terms {
+        constituency {
+          CID
+          name
+          state
+        }
+      }
+    }
+    total
+  }
 }
-function setPartyMembers(state: any) {
-    return { type : partyConstants.SET_PARTY_MEMBERS , data : state}
-}
-export const partyActions = {
-    setParty,
-    setPartyMembers
+`
+export function getPartyById(pid : number){
+    return async (dispatch: Dispatch<AppActions>) => {
+        try {
+            let party:typePartyData ={ PID : 0, members : [] , name : '', abbr : '', total : 0};
+            const variables = { pid };
+            const { data } = await client.query({query : partyQuery, variables});
+            party = data.party
+            party.total = data.members.total;
+            party.members = data.members.nodes
+            dispatch({type : partyConstants.SET_PARTY, data : party})
+        } catch (error) {
+            console.error(error.networkError.result);
+        }
+    }
+};
+
+export function getPartyMembers( pid : number, limit : number = 10, page : number = 1 , required : number){
+  return async (dispatch: Dispatch<AppActions>) => {
+    try {
+      const variables = { party : [pid], limit, page };
+      const { data } = await client.query({ query : memberWithVariablesQuery, variables });
+      let members = [];
+      if(required <= data.members.nodes.length) 
+        members = data.members.nodes.slice(data.members.nodes.length - required, data.members.nodes.length + 1);
+      
+      dispatch({ type : partyConstants.ADD_PARTY_MEMBERS , data : { pid, members }});
+    } catch (error) {
+      console.log(error);
+    }
+  } 
 }

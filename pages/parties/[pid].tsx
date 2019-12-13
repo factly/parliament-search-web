@@ -14,8 +14,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import { getPartyById, getPartyMembers } from '../../store/apollo';
-import { typePartyMember, typePartyObject, typeMemberObject, typePartyData } from '../../types';
+import { getPartyById, getPartyMembers } from '../../store/actions';
+import { typePartyMember, typePartyObject, typePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
 interface Props{
@@ -66,7 +66,7 @@ const PartiesPage = ({ dispatch, parties }: Props ) => {
   return (
    <Card>
      <CardHeader
-       title = {party.name}
+       title = {`${party.name} (${party.abbr})`}
      />
      <CardContent>
         <Table className={classes.table} aria-label="custom pagination table">
@@ -91,7 +91,7 @@ const PartiesPage = ({ dispatch, parties }: Props ) => {
                 </Link>
               </TableCell> 
               <TableCell >{member.terms.length}</TableCell>
-              <TableCell ><Link href="/constituencies/[cid]" as={`/constituencies/${member.terms[0].constituency.CID}`}><a className={classes.link}>{member.terms[0].constituency.name}</a></Link></TableCell>
+          <TableCell ><Link href="/constituencies/[cid]" as={`/constituencies/${member.terms[0].constituency.CID}`}><a className={classes.link}>{member.terms[0].constituency.name}, {member.terms[0].constituency.state}</a></Link></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -120,8 +120,8 @@ const PartiesPage = ({ dispatch, parties }: Props ) => {
 }};
 
 
-PartiesPage.getInitialProps = async (ctx: any) => {
-  await ctx.store.dispatch(getPartyById(+ctx.query.pid));
+PartiesPage.getInitialProps = async ({ store, query }: any) => {
+  await store.dispatch(getPartyById(+query.pid));
 
   return { }
 };
