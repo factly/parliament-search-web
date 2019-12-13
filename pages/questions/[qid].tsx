@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     asked: {
       marginRight: theme.spacing(0.5),
-      marginBottom: theme.spacing(0.5)
+      marginBottom: theme.spacing(0.5),
+      cursor: 'pointer'
     },
     link: {
       textDecoration: 'none',
       color: 'inherit',
-      cursor: 'pointer'
     }
   })
 );
@@ -62,7 +62,7 @@ const QuestionPage = ({ questions }: any) => {
                 <Typography variant="h6">Asked By</Typography>
                 <div>
                   {question.questionBy.map((member: typeQuestionBy) => (
-                    <Link href="/members/[mid]" as={`/members/${member.MID}`}>
+                    <Link key={question.QID + member.MID} href="/members/[mid]" as={`/members/${member.MID}`}>
                       <a className={classes.link}>
                         <Chip
                           className={classes.asked}

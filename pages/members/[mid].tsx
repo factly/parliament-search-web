@@ -180,7 +180,7 @@ const MembersPage = ({ members, questions }: Props) => {
             {member.popularQuestionIds &&
             member.popularQuestionIds.length > 0 ? (
               member.popularQuestionIds.map((each: number) => (
-                <div className={classes.marginBottomOne}>
+                <div key={questions[each].QID} className={classes.marginBottomOne}>
                   <QuestionBox question={questions[each]} />
                 </div>
               ))

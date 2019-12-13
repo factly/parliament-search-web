@@ -278,7 +278,7 @@ const SearchPage = ({
               title={'Mp full name'}
             />
             <CardContent className={classes.cardSuggestion}>
-              <Link>
+              <Link href="/members/[mid]" as={`/members/${4758}`}>
                 <a>Mp Full Name</a>
               </Link>
             </CardContent>
@@ -290,7 +290,7 @@ const SearchPage = ({
               title={'Mp full name'}
             />
             <CardContent>
-              <Link>
+              <Link href="/members/[mid]" as={`/members/${4758}`}>
                 <a>Mp Full Name</a>
               </Link>
             </CardContent>
@@ -302,7 +302,7 @@ const SearchPage = ({
               title={'Mp full name'}
             />
             <CardContent>
-              <Link>
+              <Link href="/members/[mid]" as={`/members/${4758}`}>
                 <a>Mp Full Name</a>
               </Link>
             </CardContent>
@@ -314,7 +314,7 @@ const SearchPage = ({
               title={'Mp full name'}
             />
             <CardContent>
-              <Link>
+              <Link href="/members/[mid]" as={`/members/${4758}`}>
                 <a>Mp Full Name</a>
               </Link>
             </CardContent>
@@ -326,7 +326,7 @@ const SearchPage = ({
               title={'Mp full name'}
             />
             <CardContent>
-              <Link>
+              <Link href="/members/[mid]" as={`/members/${4758}`}>
                 <a>Mp Full Name</a>
               </Link>
             </CardContent>

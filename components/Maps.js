@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
-import dataMap from '../static/map_data/pc.json';
+import dataMap from '../public/static/map_data/pc.json';
 
 const ConstituencyMap = ({ constituencyId }) => {
   let center = [];

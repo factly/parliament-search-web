@@ -16,7 +16,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
-import Spinner from '../../components/Spinner';
 import { getConstituencyById } from '../../store/actions';
 import {
   typeConstituencyMember,
@@ -31,8 +30,7 @@ interface Props {
   questions: typeQuestionObject;
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
-  ssr: false,
-  loading: () => <Spinner />
+  ssr: false 
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -81,7 +79,7 @@ const ConstituencyPages = ({ constituencies, questions }: Props) => {
   const classes = useStyles();
 
   if (!constituency) {
-    return <Spinner />;
+    return <p> loading ...</p>;
   } else {
     return (
       <div>
@@ -102,8 +100,8 @@ const ConstituencyPages = ({ constituencies, questions }: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {constituency.members.map((member: typeConstituencyMember) => (
-                  <TableRow key={member.MID}>
+                {constituency.members.map((member: typeConstituencyMember, index: number) => (
+                  <TableRow key={member.MID + index}>
                     <TableCell>
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
                         <a className={classes.link}>
@@ -152,7 +150,7 @@ const ConstituencyPages = ({ constituencies, questions }: Props) => {
             {constituency.popularQuestionIds &&
             constituency.popularQuestionIds.length > 0 ? (
               constituency.popularQuestionIds.map((each: number) => (
-                <div className={classes.marginBottomOne}>
+                <div key={questions[each].QID} className={classes.marginBottomOne}>
                   <QuestionBox question={questions[each]} />
                 </div>
               ))

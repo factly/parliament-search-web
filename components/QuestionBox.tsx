@@ -45,7 +45,7 @@ const QuestionBox = ({ question }: Props) => {
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
           {questionBy.map((each: typeQuestionBy) => (
-            <Link href="/members/[mid]" as={`/members/${each.MID}`}>
+            <Link key={QID+each.MID} href="/members/[mid]" as={`/members/${each.MID}`}>
               <Chip
                 className={classes.asked}
                 label={each.name}
