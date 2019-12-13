@@ -1,116 +1,116 @@
-export interface typeQuestionBox{
-    QID : number, 
-    questionBy : typeQuestionBy[], 
-    subject : string ,
-    ministry : string, 
-    date :  string,
-    type : string
+export interface typeQuestionBox {
+  QID: number;
+  questionBy: typeQuestionBy[];
+  subject: string;
+  ministry: string;
+  date: string;
+  type: string;
 }
-export interface typeTermConstituency{
-    constituency : {
-        CID : number,
-        name : string,
-        state : string
-    }
+export interface typeTermConstituency {
+  constituency: {
+    CID: number;
+    name: string;
+    state: string;
+  };
 }
-export interface typeMemberTerms{
-    constituency : {
-        CID : number,
-        name : string,
-        state : string
-    },
-    party : {
-        PID : number,
-        name : string,
-        abbr : string
-    }, 
-    house: string
-    session: number
-};
-
-export interface typePartyMember{
-    MID : number,
-    name : string,
-    terms : typeTermConstituency[]
-}
-export interface typeConstituencyMember{
-    MID : number,
-    name : string,
-    terms : {
-        party : {
-            PID : number,
-            name : string
-            abbr : string
-        }
-        session : number,
-        house : string
-    }[]
+export interface typeMemberTerms {
+  constituency: {
+    CID: number;
+    name: string;
+    state: string;
+  };
+  party: {
+    PID: number;
+    name: string;
+    abbr: string;
+  };
+  house: string;
+  session: number;
 }
 
-export interface typeQuestionBy{
-    MID : number,
-    name : string
+export interface typePartyMember {
+  MID: number;
+  name: string;
+  terms: typeTermConstituency[];
+}
+export interface typeConstituencyMember {
+  MID: number;
+  name: string;
+  terms: {
+    party: {
+      PID: number;
+      name: string;
+      abbr: string;
+    };
+    session: number;
+    house: string;
+  }[];
+}
+
+export interface typeQuestionBy {
+  MID: number;
+  name: string;
 }
 
 export interface typeMemberData {
-    MID: number,
-    name: string, 
-    gender: string,
-    dob? : string,
-    marital_status?: string,
-    birth_place? : string,
-    sons?: number,
-    daughters?: number,
-    email?: string[],
-    phone?: string[],
-    education?: string,
-    expertise?: string[],
-    profession?: string[],
-    terms?: typeMemberTerms[],
-    popularQuestionIds? : number[]
-};
+  MID: number;
+  name: string;
+  gender: string;
+  dob?: string;
+  marital_status?: string;
+  birth_place?: string;
+  sons?: number;
+  daughters?: number;
+  email?: string[];
+  phone?: string[];
+  education?: string;
+  expertise?: string[];
+  profession?: string[];
+  terms?: typeMemberTerms[];
+  popularQuestionIds?: number[];
+}
 
-export interface typeQuestionData{
-    QID: number,
-    subject: string,
-    type: string,
-    question: string,
-    questionBy: typeQuestionBy[],
-    answer: string,
-    ministry: string,
-    date: string
-};
+export interface typeQuestionData {
+  QID: number;
+  subject: string;
+  type: string;
+  question: string;
+  questionBy: typeQuestionBy[];
+  answer: string;
+  ministry: string;
+  date: string;
+}
 
 export interface typePartyData {
-    PID : number,
-    name : string,
-    abbr : string,
-    total : number,
-    members : typePartyMember[]
-};
+  PID: number;
+  name: string;
+  abbr: string;
+  total: number;
+  members: typePartyMember[];
+}
 
 export interface typeConstituencyData {
-    CID : number,
-    name : string,
-    state : string,
-    from? : string,
-    to? : string,
-    popularQuestionIds? : number[],
-    members : typeConstituencyMember[]
+  CID: number;
+  name: string;
+  state: string;
+  from?: string;
+  to?: string;
+  popularQuestionIds?: number[];
+  members: typeConstituencyMember[];
 }
 
 export interface typeMemberObject {
-    [index : number] : typeMemberData
+  [index: number]: typeMemberData;
 }
 
 export interface typeConstituencyObject {
-    [index : number] : typeConstituencyData
+  [index: number]: typeConstituencyData;
 }
 
 export interface typeQuestionObject {
-    [index : number] : typeQuestionData
-};
+  [index: number]: typeQuestionData;
+}
 
 export interface typePartyObject {
-    [index : number] : typePartyData
+  [index: number]: typePartyData;
 }

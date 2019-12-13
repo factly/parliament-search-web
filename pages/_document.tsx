@@ -8,9 +8,18 @@ class MyDocument extends Document {
       <html lang="en" dir="ltr">
         <Head>
           <meta charSet="utf-8" />
-          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" />
-          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"/>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+          />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+          />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"
+          />
         </Head>
         <body>
           <Main />
@@ -21,13 +30,14 @@ class MyDocument extends Document {
   }
 }
 
-MyDocument.getInitialProps = async (ctx) => {
+MyDocument.getInitialProps = async ctx => {
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
-  ctx.renderPage = () => originalRenderPage({
-    enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-  });
+  ctx.renderPage = () =>
+    originalRenderPage({
+      enhanceApp: App => props => sheets.collect(<App {...props} />)
+    });
 
   const initialProps = await Document.getInitialProps(ctx);
 
@@ -37,8 +47,8 @@ MyDocument.getInitialProps = async (ctx) => {
       <React.Fragment key={0}>
         {initialProps.styles}
         {sheets.getStyleElement()}
-      </React.Fragment>,
-    ],
+      </React.Fragment>
+    ]
   };
 };
 

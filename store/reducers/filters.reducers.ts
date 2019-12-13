@@ -1,17 +1,17 @@
-import {typeFilter} from '../../types';
+import { typeFilter } from '../../types';
 
-
-let topics = [
+const topics = [
   {
     id: 1,
-    name: 'Agriculture',
-  }, {
-    id: 2,
-    name: 'Art & Culture',
+    name: 'Agriculture'
   },
+  {
+    id: 2,
+    name: 'Art & Culture'
+  }
 ];
 
-let parties = [
+const parties = [
   { id: 1, name: 'BJP' },
   { id: 2, name: 'INC' },
   { id: 3, name: 'TMC' },
@@ -71,10 +71,10 @@ let parties = [
   { id: 57, name: 'TDP' },
   { id: 58, name: 'UDP' },
   { id: 59, name: 'YSRCP' },
-  { id: 60, name: 'ZNP' },
+  { id: 60, name: 'ZNP' }
 ];
 
-let states = [
+const states = [
   { id: 1, name: 'Andhra Pradesh' },
   { id: 2, name: 'Arunachal Pradesh' },
   { id: 3, name: 'Assam' },
@@ -103,47 +103,47 @@ let states = [
   { id: 26, name: 'Tripura' },
   { id: 27, name: 'Uttar Pradesh' },
   { id: 28, name: 'Uttarakhand' },
-  { id: 29, name: 'West Bengal' },
+  { id: 29, name: 'West Bengal' }
 ];
 
-let education = [
+const education = [
   { id: 1, name: 'Under Metric' },
   { id: 2, name: 'Matriculate' },
   { id: 3, name: 'Inter mediate' },
   { id: 4, name: 'Graduation' },
   { id: 5, name: 'Post Graduation' },
-  { id: 6, name: 'Doctrate' },
+  { id: 6, name: 'Doctrate' }
 ];
 
-let marital = [
+const marital = [
   { id: 1, name: 'Single' },
   { id: 2, name: 'Married' },
   { id: 3, name: 'Widowed' },
-  { id: 4, name: 'Divorced' },
+  { id: 4, name: 'Divorced' }
 ];
 
-let type = [
+const type = [
   { id: 1, name: 'Stared' },
-  { id: 2, name: 'Unstarred'}
+  { id: 2, name: 'Unstarred' }
 ];
 
-let gender = [
+const gender = [
   { id: 1, name: 'Male' },
   { id: 2, name: 'Female' },
-  { id: 3, name: 'Others' },
+  { id: 3, name: 'Others' }
 ];
 
-const initialState : typeFilter  = {
-  'topics' : topics, 
-  'parties' : parties , 
-  'states' :  states, 
-  'gender' :  gender, 
-  'education' : education,
-  'marital' : marital,
-  'type' :  type
-}
+const initialState: typeFilter = {
+  topics: topics,
+  parties: parties,
+  states: states,
+  gender: gender,
+  education: education,
+  marital: marital,
+  type: type
+};
 
-function filters(state = initialState, action: {type : string}) {
+function filters(state = initialState, action: { type: string }) {
   switch (action.type) {
     default:
       return state;

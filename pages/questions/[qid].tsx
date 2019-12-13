@@ -1,6 +1,6 @@
 // TODO add answer by ministry
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Card from '@material-ui/core/Card';
@@ -9,7 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import ShareIcon from '@material-ui/icons/Share';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import { makeStyles , createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,99 +17,105 @@ import { getQuestionById } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { typeQuestionBy } from '../../types';
 
-const useStyles = makeStyles((theme : Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     asked: {
       marginRight: theme.spacing(0.5),
-      marginBottom: theme.spacing(0.5),
+      marginBottom: theme.spacing(0.5)
     },
-    link : {
-      textDecoration : 'none',
-      color : 'inherit',
-      cursor : 'pointer'
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
+      cursor: 'pointer'
     }
-  }),
+  })
 );
 
-const QuestionPage = ({ questions } : any) => {
+const QuestionPage = ({ questions }: any) => {
   const qid = +useRouter().query.qid;
   const classes = useStyles();
-  let question = questions[qid];
+  const question = questions[qid];
 
-  if(!question || !question.answer)
-    return (<div>loading...</div>)
-  else{
-  return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={8} md={9} lg={9} xl={10}>
-          <Card>
-            <div>
-              <CardHeader
-                title = {question.subject}
-                subheader={`${question.date} · Lok Sabha`}
-                action={
-                  <IconButton aria-label="share">
-                    <ShareIcon/>
-                  </IconButton>
-                }
-              />
-            </div>
-            <CardContent>
-              <Typography variant="h6">Question</Typography>
+  if (!question || !question.answer) return <div>loading...</div>;
+  else {
+    return (
+      <div>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={8} md={9} lg={9} xl={10}>
+            <Card>
               <div>
-                {question.question}
+                <CardHeader
+                  title={question.subject}
+                  subheader={`${question.date} · Lok Sabha`}
+                  action={
+                    <IconButton aria-label="share">
+                      <ShareIcon />
+                    </IconButton>
+                  }
+                />
               </div>
-            </CardContent>
-            <CardContent>
-              <Typography variant="h6">Asked By</Typography>
-              <div >
-                {question.questionBy.map((member:typeQuestionBy) => <Link href="/members/[mid]" as={`/members/${member.MID}`}><a className={classes.link}><Chip className={classes.asked} label={member.name}  avatar={<Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />} /></a></Link>)}
-              </div>
-            </CardContent>
-            <CardContent>
-              <Typography variant="h6">Answer</Typography>
-              <Typography variant="body1">
-                {question.answer}
-              </Typography>
-            </CardContent>
-          </Card>
+              <CardContent>
+                <Typography variant="h6">Question</Typography>
+                <div dangerouslySetInnerHTML={{ __html: question.question }} />
+              </CardContent>
+              <CardContent>
+                <Typography variant="h6">Asked By</Typography>
+                <div>
+                  {question.questionBy.map((member: typeQuestionBy) => (
+                    <Link href="/members/[mid]" as={`/members/${member.MID}`}>
+                      <a className={classes.link}>
+                        <Chip
+                          className={classes.asked}
+                          label={member.name}
+                          avatar={
+                            <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+                          }
+                        />
+                      </a>
+                    </Link>
+                  ))}
+                </div>
+              </CardContent>
+              <CardContent>
+                <Typography variant="h6">Answer</Typography>
+                <div dangerouslySetInnerHTML={{ __html: question.answer }} />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+            <Card>
+              <CardHeader title="Recent Questions to Ministry" />
+              <CardContent>
+                <Typography variant="body1">
+                  Government Medical College
+                </Typography>
+                <Typography variant="body1">
+                  Government Medical College
+                </Typography>
+                <Typography variant="body1">
+                  Government Medical College
+                </Typography>
+                <Typography variant="body1">
+                  Government Medical College
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
-          <Card>
-            <CardHeader
-              title = "Recent Questions to Ministry"
-            />
-            <CardContent>
-              <Typography variant="body1">
-                Government Medical College
-              </Typography>
-              <Typography variant="body1">
-                Government Medical College
-              </Typography>
-              <Typography variant="body1">
-                Government Medical College
-              </Typography>
-              <Typography variant="body1">
-                Government Medical College
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid> 
-      </Grid>
-    </div>            
-  )};
+      </div>
+    );
+  }
 };
 
-QuestionPage.getInitialProps = async ( { store, query}: any) => {
+QuestionPage.getInitialProps = async ({ store, query }: any) => {
   const questions = store.getState().questions;
   const qid = +query.qid;
-  if(!questions[qid] || !questions[qid].answer)
-    await store.dispatch(getQuestionById(qid))
-  return {}
-}
+  if (!questions[qid] || !questions[qid].answer)
+    await store.dispatch(getQuestionById(qid));
+  return {};
+};
 
-const mapStateToProps =(state:AppState) => ({
-  questions : state.questions
-})
+const mapStateToProps = (state: AppState) => ({
+  questions: state.questions
+});
 export default connect(mapStateToProps)(QuestionPage);

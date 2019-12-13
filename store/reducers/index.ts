@@ -19,6 +19,6 @@ const rootReducer = combineReducers({
   questions
 });
 
-export type AppState = ReturnType<typeof rootReducer > ;
+export type AppState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

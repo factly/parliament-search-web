@@ -10,20 +10,20 @@ interface Props {
 const isServer = typeof window === 'undefined';
 const NEXT_REDUX_STORE = '__NEXT_REDUX_STORE__';
 */
-let reduxStore:Store;
-const getOrCreateStore = (initialState? : Object) => {
+let reduxStore: Store;
+const getOrCreateStore = (initialState?: Record<string, any>) => {
   // Always make a new store if server, otherwise state is shared between requests
   if (typeof window === 'undefined') {
-    return initializeStore(initialState)
+    return initializeStore(initialState);
   }
 
   // Create store if unavailable on the client and set it on the window object
   if (!reduxStore) {
-    reduxStore = initializeStore(initialState)
+    reduxStore = initializeStore(initialState);
   }
 
-  return reduxStore
-}
+  return reduxStore;
+};
 /*function getOrCreateStore(initialState? : any) {
   // Always make a new store if server, otherwise state is shared between requests
   if (isServer) {
@@ -38,32 +38,33 @@ const getOrCreateStore = (initialState? : Object) => {
 }
 */
 
-export default (App: any) => class AppWithRedux extends React.Component<Props> {
-  static async getInitialProps(appContext : any) {
-    // Get or Create the store with `undefined` as initialState
-    // This allows you to set a custom default initialState
-    const store = getOrCreateStore();
-    const appContextLocal = appContext;
-    // Provide the store to getInitialProps of pages
-    appContextLocal.ctx.store = store;
+export default (App: any) =>
+  class AppWithRedux extends React.Component<Props> {
+    static async getInitialProps(appContext: any) {
+      // Get or Create the store with `undefined` as initialState
+      // This allows you to set a custom default initialState
+      const store = getOrCreateStore();
+      const appContextLocal = appContext;
+      // Provide the store to getInitialProps of pages
+      appContextLocal.ctx.store = store;
 
-    let appProps = {};
-    if (typeof App.getInitialProps === 'function') {
-      appProps = await App.getInitialProps(appContextLocal);
+      let appProps = {};
+      if (typeof App.getInitialProps === 'function') {
+        appProps = await App.getInitialProps(appContextLocal);
+      }
+
+      return {
+        ...appProps,
+        initialReduxState: store.getState()
+      };
+    }
+    store: Store;
+    constructor(props: Props) {
+      super(props);
+      this.store = getOrCreateStore(props.initialReduxState);
     }
 
-    return {
-      ...appProps,
-      initialReduxState: store.getState(),
-    };
-  }
-  store: Store;  
-  constructor(props: Props) {
-    super(props);
-    this.store = getOrCreateStore(props.initialReduxState);
-  }
-
-  render() {
-    return <App {...this.props} store={this.store} />;
-  }
-};
+    render() {
+      return <App {...this.props} store={this.store} />;
+    }
+  };

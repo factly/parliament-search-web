@@ -15,112 +15,115 @@ import HighlightIcon from '@material-ui/icons/Highlight';
 import { appActions } from '../store/actions';
 import { AppState } from '../store/reducers';
 import { AppActions } from '../types';
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
 
 import Grid from '@material-ui/core/Grid';
 import Autosuggest from 'react-autosuggest';
 
-interface headerProps{
-  dispatch : Dispatch<AppActions>, 
-  theme : String
+interface headerProps {
+  dispatch: Dispatch<AppActions>;
+  theme: string;
 }
-interface suggestionProp{
-  name : string
+interface suggestionProp {
+  name: string;
 }
-const useStyles = makeStyles((theme : Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   logo: {
     height: '20px',
     [theme.breakpoints.down('xs')]: {
-     display : 'none',
-    },
+      display: 'none'
+    }
   },
   search: {
     backgroundColor: theme.palette.common.white,
-    color : 'black',
-    display : 'flex',
+    color: 'black',
+    display: 'flex',
     flexDirection: 'row',
-    borderRadius : theme.spacing(1),
-    maxWidth: 600,
+    borderRadius: theme.spacing(1),
+    maxWidth: 600
   },
 
   searchButton: {
     color: theme.palette.common.black,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1)
   },
   themeButton: {
     color: theme.palette.common.white,
     [theme.breakpoints.down('xs')]: {
-      display : 'none',
-     },
+      display: 'none'
+    }
   },
   container: {
     position: 'relative',
-    width : 550,
+    width: 550
   },
   suggestionsContainerOpen: {
     position: 'absolute',
     zIndex: 1,
-    width: "100%",
-    border: "1px solid #aaa",
-    alignContent : 'left'
+    width: '100%',
+    border: '1px solid #aaa',
+    alignContent: 'left'
   },
   suggestionsList: {
-    backgroundColor : "#fff",
+    backgroundColor: '#fff',
     margin: 0,
-    padding : 0,
-    listStyleType: 'none',
+    padding: 0,
+    listStyleType: 'none'
   },
-  inputAuto : {
-    width: "100%",
-    height : "100%",
-    padding: theme.spacing(0,1),
+  inputAuto: {
+    width: '100%',
+    height: '100%',
+    padding: theme.spacing(0, 1),
     fontSize: 16,
-    borderWidth: 1 ,
-    borderRadius: 5,
+    borderWidth: 1,
+    borderRadius: 5
   },
-  searchBox : {
-    padding: theme.spacing(0,1),
-    margin : 0,
+  searchBox: {
+    padding: theme.spacing(0, 1),
+    margin: 0,
     height: theme.spacing(4),
-    textAlign : 'right',
+    textAlign: 'right',
     textTransform: 'lowercase'
   },
-  suggestionHighlighted : {
-    backgroundColor : '#DCDCDC'
+  suggestionHighlighted: {
+    backgroundColor: '#DCDCDC'
   }
 }));
 
-const Header = ({ dispatch, theme } : headerProps) => {
+const Header = ({ dispatch, theme }: headerProps) => {
   const classes = useStyles();
-  const suggestionsList: suggestionProp[] = [{
-      name : "Hi-tech city startup hub",
+  const suggestionsList: suggestionProp[] = [
+    {
+      name: 'Hi-tech city startup hub'
     },
     {
-      name : "Government schools",
+      name: 'Government schools'
     },
     {
-      name : "hyderabad",
+      name: 'hyderabad'
     },
     {
-      name : "gandhinagar",
+      name: 'gandhinagar'
     }
   ];
 
   const [value, setValue] = React.useState('');
-  const [suggestions, setSuggestions] = React.useState([{name : ''}]);
+  const [suggestions, setSuggestions] = React.useState([{ name: '' }]);
 
   const getSuggestions = (value: string) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
-  
-    return inputLength === 0 ? [] : suggestionsList.filter((each : suggestionProp) =>
-      each.name.toLowerCase().slice(0, inputLength) === inputValue
-    );
+
+    return inputLength === 0
+      ? []
+      : suggestionsList.filter(
+          (each: suggestionProp) =>
+            each.name.toLowerCase().slice(0, inputLength) === inputValue
+        );
   };
 
-  const  onSuggestionsFetchRequested = ({ value } : {value : string}) => {
+  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
     setSuggestions(getSuggestions(value));
-
   };
 
   const onSuggestionsClearRequested = () => {
@@ -130,14 +133,20 @@ const Header = ({ dispatch, theme } : headerProps) => {
   const getSuggestionValue = (suggestion: suggestionProp) => suggestion.name;
 
   const renderSuggestion = (suggestion: suggestionProp) => (
-    <Button className={classes.searchBox} onClick={() => Router.push('/members/[mid]','/members/1')}>
+    <Button
+      className={classes.searchBox}
+      onClick={() => Router.push('/members/[mid]', '/members/1')}
+    >
       {suggestion.name}
     </Button>
   );
   const searchFunc = () => {
     Router.push(`/search?q=${value}`);
   };
-  const onChange = (event: React.FormEvent<HTMLInputElement>, { newValue }: { newValue : string }) => {
+  const onChange = (
+    event: React.FormEvent<HTMLInputElement>,
+    { newValue }: { newValue: string }
+  ) => {
     setValue(newValue);
   };
   return (
@@ -147,7 +156,11 @@ const Header = ({ dispatch, theme } : headerProps) => {
         <Toolbar>
           <Grid container spacing={3} alignItems="center">
             <Grid item sm={4} md={3} lg={2} xl={2}>
-              <img className={classes.logo} alt="Home" src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png" />
+              <img
+                className={classes.logo}
+                alt="Home"
+                src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png"
+              />
             </Grid>
             <Grid item sm={5} md={8} lg={6} xl={2}>
               <div className={classes.search}>
@@ -161,14 +174,14 @@ const Header = ({ dispatch, theme } : headerProps) => {
                     container: classes.container,
                     suggestionsContainerOpen: classes.suggestionsContainerOpen,
                     suggestionsList: classes.suggestionsList,
-                    input : classes.inputAuto,
-                    suggestionHighlighted : classes.suggestionHighlighted
+                    input: classes.inputAuto,
+                    suggestionHighlighted: classes.suggestionHighlighted
                   }}
                   inputProps={{
                     placeholder: 'search ...',
                     value,
                     onChange: onChange,
-                    id: 'auto',
+                    id: 'auto'
                   }}
                 />
                 <IconButton
@@ -180,15 +193,19 @@ const Header = ({ dispatch, theme } : headerProps) => {
                 </IconButton>
               </div>
             </Grid>
-            <Grid item  md={1} lg={4} >
+            <Grid item md={1} lg={4}>
               <IconButton
                 className={classes.themeButton}
-                onClick={() => dispatch(appActions.changeTheme(theme === 'light' ? 'dark' : 'light'))}
+                onClick={() =>
+                  dispatch(
+                    appActions.changeTheme(theme === 'light' ? 'dark' : 'light')
+                  )
+                }
               >
                 <HighlightIcon />
               </IconButton>
             </Grid>
-          </Grid>  
+          </Grid>
         </Toolbar>
       </AppBar>
       <Toolbar />
@@ -197,11 +214,11 @@ const Header = ({ dispatch, theme } : headerProps) => {
 };
 
 Header.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state:AppState): {theme : string} => ({
-  theme: state.app.theme,
+const mapStateToProps = (state: AppState): { theme: string } => ({
+  theme: state.app.theme
 });
 
 export default connect(mapStateToProps)(Header);

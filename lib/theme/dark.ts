@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const dark = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'dark'
   },
   overrides: {
     MuiExpansionPanel: {
@@ -10,16 +10,16 @@ const dark = createMuiTheme({
         border: '1px solid rgba(0, 0, 0, .125)',
         boxShadow: 'none',
         '&:not(:last-child)': {
-          borderBottom: 0,
+          borderBottom: 0
         },
         '&:before': {
-          display: 'none',
+          display: 'none'
         },
         '&$expanded': {
-          margin: 'auto',
-        },
+          margin: 'auto'
+        }
       },
-      expanded: {},
+      expanded: {}
     },
     MuiExpansionPanelSummary: {
       root: {
@@ -28,25 +28,25 @@ const dark = createMuiTheme({
         marginBottom: -1,
         minHeight: 56,
         '&$expanded': {
-          minHeight: 56,
+          minHeight: 56
         },
         paddingLeft: '16px',
-        paddingRight: '12px',
+        paddingRight: '12px'
       },
       content: {
         '&$expanded': {
-          margin: '12px 0',
-        },
+          margin: '12px 0'
+        }
       },
-      expanded: {},
+      expanded: {}
     },
     MuiExpansionPanelDetails: {
       root: {
         padding: '12px 16px',
-        width: '100%;',
-      },
-    },
-  },
+        width: '100%;'
+      }
+    }
+  }
 });
 
 export default dark;

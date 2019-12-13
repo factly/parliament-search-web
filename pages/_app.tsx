@@ -7,14 +7,14 @@ import withReduxStore from '../lib/with-redux-store';
 import Wrapper from '../components/layout';
 import { Store } from 'redux';
 
-interface iprops{
-  Component: PropTypes.Validator<PropTypes.ReactComponentLike>,
+interface iprops {
+  Component: PropTypes.Validator<PropTypes.ReactComponentLike>;
   //pageProps: PropTypes.Requireable<PropTypes.ReactElementLike>,
-  pageProps : any,
-  store: Store
+  pageProps: any;
+  store: Store;
 }
 
-const MyApp = (props : iprops) => {
+const MyApp = (props: iprops) => {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = window.document.querySelector('#jss-server-side');
@@ -28,7 +28,10 @@ const MyApp = (props : iprops) => {
     <>
       <Head>
         <title>Factly</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
       </Head>
       <Provider store={store}>
         <Wrapper Component={Component} pageProps={pageProps} />
@@ -37,22 +40,21 @@ const MyApp = (props : iprops) => {
   );
 };
 
-MyApp.getInitialProps = async (context : any) => {
+MyApp.getInitialProps = async (context: any) => {
   const { Component, ctx } = context;
-  let pageProps = {}
+  let pageProps = {};
 
   if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx)
+    pageProps = await Component.getInitialProps(ctx);
   }
 
   return {
     pageProps
-  }
-}
-
+  };
+};
 
 MyApp.defaultProps = {
-  pageProps: null,
+  pageProps: null
 };
 
 export default withReduxStore(MyApp);

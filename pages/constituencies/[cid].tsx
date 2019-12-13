@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import Link from 'next/link'
+import Link from 'next/link';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -18,84 +18,87 @@ import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
 import Spinner from '../../components/Spinner';
 import { getConstituencyById } from '../../store/actions';
-import { typeConstituencyMember, typeConstituencyObject, typeQuestionObject, AppActions } from '../../types';
+import {
+  typeConstituencyMember,
+  typeConstituencyObject,
+  typeQuestionObject,
+  AppActions
+} from '../../types';
 import { AppState } from '../../store/reducers';
 
-interface Props{
-  constituencies : typeConstituencyObject,
-  questions : typeQuestionObject 
+interface Props {
+  constituencies: typeConstituencyObject;
+  questions: typeQuestionObject;
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false,
-  loading: () => <Spinner/>
+  loading: () => <Spinner />
 });
 
-const useStyles = makeStyles((theme: Theme) =>({
+const useStyles = makeStyles((theme: Theme) => ({
   marginTopOne: {
-    marginTop: theme.spacing(0.7),
+    marginTop: theme.spacing(0.7)
   },
   marginBottomOne: {
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
-  paper:{
-    height : '70%'
+  paper: {
+    height: '70%'
   },
-  cardBox : {
-    backgroundColor : 'black',
-    opacity : 0.4,
+  cardBox: {
+    backgroundColor: 'black',
+    opacity: 0.4,
     color: 'white',
     zIndex: 500,
     position: 'absolute',
     top: 200,
     right: 30,
-    maxWidth: 300,
+    maxWidth: 300
   },
   table: {
-    minWidth: 650,
+    minWidth: 650
   },
   root: {
     width: '100%',
-    overflowX: 'auto',
+    overflowX: 'auto'
   },
-  flexDisplay : {
-    display : 'flex',
-    alignItems : 'center',
+  flexDisplay: {
+    display: 'flex',
+    alignItems: 'center'
   },
-  paddingOnLeft : {
+  paddingOnLeft: {
     paddingLeft: theme.spacing(1)
   },
-  link : {
-    textDecoration : 'none',
-    color : "inherit"
+  link: {
+    textDecoration: 'none',
+    color: 'inherit'
   }
-}),
-);
+}));
 
-const ConstituencyPages = ({ constituencies , questions}: Props) => {
-  const cid:number = +(useRouter().query.cid);
+const ConstituencyPages = ({ constituencies, questions }: Props) => {
+  const cid: number = +useRouter().query.cid;
   const constituency = constituencies[cid];
   const classes = useStyles();
-  
-  if(!constituency){
-    return <Spinner/>
-  }
-  else{
+
+  if (!constituency) {
+    return <Spinner />;
+  } else {
     return (
-      <div >
-        <Paper className={classes.paper} >
-          <MapWithNoSSR constituencyId={201}/>
+      <div>
+        <Paper className={classes.paper}>
+          <MapWithNoSSR constituencyId={201} />
         </Paper>
         <Card className={classes.marginTopOne}>
           <CardHeader
-            title = {`List of all MP's from ${constituency.name} (${constituency.state})`}
+            title={`List of all MP's from ${constituency.name} (${constituency.state})`}
           />
           <CardContent className={classes.root}>
             <Table className={classes.table} aria-label="list of MP's">
               <TableHead>
                 <TableRow>
-                  <TableCell >Name</TableCell>
-                  <TableCell >Party</TableCell>
-                  <TableCell >House</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Party</TableCell>
+                  <TableCell>House</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -105,18 +108,31 @@ const ConstituencyPages = ({ constituencies , questions}: Props) => {
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
                         <a className={classes.link}>
                           <div className={classes.flexDisplay}>
-                            <Avatar alt="Mp's image" src='/static/images/mp.jpg' />
-                            <div className={classes.paddingOnLeft}>{member.name}</div>
+                            <Avatar
+                              alt="Mp's image"
+                              src="/static/images/mp.jpg"
+                            />
+                            <div className={classes.paddingOnLeft}>
+                              {member.name}
+                            </div>
                           </div>
-                        </a>  
+                        </a>
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <Link href="/parties/[pid]" as={`/parties/${member.terms[0].party.PID}`}>
-                        <a className={classes.link}>{member.terms[0].party.name} ({member.terms[0].party.abbr})</a>
+                      <Link
+                        href="/parties/[pid]"
+                        as={`/parties/${member.terms[0].party.PID}`}
+                      >
+                        <a className={classes.link}>
+                          {member.terms[0].party.name} (
+                          {member.terms[0].party.abbr})
+                        </a>
                       </Link>
                     </TableCell>
-                <TableCell>{member.terms[0].session}, {member.terms[0].house}</TableCell>
+                    <TableCell>
+                      {member.terms[0].session}, {member.terms[0].house}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -125,41 +141,40 @@ const ConstituencyPages = ({ constituencies , questions}: Props) => {
         </Card>
         <Card className={classes.marginTopOne}>
           <CardHeader
-            title = "Questions"
-            action = {
-              <Link href = {`/search?states=1`}>
-                <Button>
-                  All Questions
-                </Button>
+            title="Questions"
+            action={
+              <Link href={`/search?states=1`}>
+                <Button>All Questions</Button>
               </Link>
             }
           />
           <CardContent>
-            { 
-              constituency.popularQuestionIds && constituency.popularQuestionIds.length > 0 ? constituency.popularQuestionIds
-                .map((each: number) => 
-                  <div className={classes.marginBottomOne}>
-                    <QuestionBox question={questions[each]} />
-                  </div>)
-              : <p> No questions </p> 
-            }
+            {constituency.popularQuestionIds &&
+            constituency.popularQuestionIds.length > 0 ? (
+              constituency.popularQuestionIds.map((each: number) => (
+                <div className={classes.marginBottomOne}>
+                  <QuestionBox question={questions[each]} />
+                </div>
+              ))
+            ) : (
+              <p> No questions </p>
+            )}
           </CardContent>
         </Card>
       </div>
-    )
-  }  
+    );
+  }
 };
 
-ConstituencyPages.getInitialProps = async ({store, query} : any ) => {
+ConstituencyPages.getInitialProps = async ({ store, query }: any) => {
   await store.dispatch(getConstituencyById(+query.cid));
 
-  return { }
-}
+  return {};
+};
 
 const mapStateToProps = (state: AppState) => ({
-  constituencies : state.constituencies,
-  questions : state.questions
+  constituencies: state.constituencies,
+  questions: state.questions
 });
 
 export default connect(mapStateToProps)(ConstituencyPages);
-

@@ -17,97 +17,176 @@ import SelectedFilters from '../../components/SelectedFilters';
 import QuestionBox from '../../components/QuestionBox';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { selectedActions } from '../../store/actions';
-import {AppState} from '../../store/reducers/index';
-import {AppActions, typeSelected, typeFilter, typeMarks, typeQuestionBox} from '../../types';
+import { AppState } from '../../store/reducers/index';
+import {
+  AppActions,
+  typeSelected,
+  typeFilter,
+  typeMarks,
+  typeQuestionBox
+} from '../../types';
 import { Dispatch } from 'redux';
 import { CardMedia, Typography } from '@material-ui/core';
 
-interface Iprops{
-  dispatch : Dispatch<AppActions>;
+interface Iprops {
+  dispatch: Dispatch<AppActions>;
   selected: typeSelected;
-  filters : typeFilter;
-  marks : typeMarks
+  filters: typeFilter;
+  marks: typeMarks;
 }
-const useStyles = makeStyles((theme : Theme) => ({
-    marginBottomOne : {
-      marginBottom : theme.spacing(1.5)
-    },
-    cardSuggestion: {
-      marginBottom : theme.spacing(1),
-    },
-    asked: {
-      marginRight: theme.spacing(0.5),
-      marginBottom: theme.spacing(0.5),
-      cursor: 'pointer'
-    },
-    suggestion : {
-      display : 'flex',
-      flexDirection : 'row',
-      justifyContent : 'space-between'
-    },
-    cardImage : {
-      height : 100
-    },
-    avatar : {
-      width: 70,
-      height : 70
-    }
-  }),
-);
+const useStyles = makeStyles((theme: Theme) => ({
+  marginBottomOne: {
+    marginBottom: theme.spacing(1.5)
+  },
+  cardSuggestion: {
+    marginBottom: theme.spacing(1)
+  },
+  asked: {
+    marginRight: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
+    cursor: 'pointer'
+  },
+  suggestion: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  cardImage: {
+    height: 100
+  },
+  avatar: {
+    width: 70,
+    height: 70
+  }
+}));
 
-const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element => {
+const SearchPage = ({
+  dispatch,
+  selected,
+  filters,
+  marks
+}: Iprops): JSX.Element => {
   const router = useRouter();
   const classes = useStyles();
-  const question:typeQuestionBox = {
-    QID : 106062,
-    subject : "Government Hospitals in Delhi",
-    questionBy : [
+  const question: typeQuestionBox = {
+    QID: 106062,
+    subject: 'Government Hospitals in Delhi',
+    questionBy: [
       {
-        MID : 4758,
-        name : "Shri Parvesh Sahib Singh"
+        MID: 4758,
+        name: 'Shri Parvesh Sahib Singh'
       }
     ],
-    ministry : "HEALTH AND FAMILY WELFARE",
-    date : "2019-06-21",
-    type : "starred"
-  }
+    ministry: 'HEALTH AND FAMILY WELFARE',
+    date: '2019-06-21',
+    type: 'starred'
+  };
   React.useEffect(() => {
-    const { age , q, states , education , parties , sort , marital, terms, gender, type } = router.query;
-    const querySelected:any = { age : age , q : q, states:  states, education : education , parties : parties , sort : sort ,marital : marital, terms : terms, gender : gender, type :  type};
-    let state = {age : [ 0, 0 ], q : '' , states: [0] , education: [0] , parties : [0], sort: '' , marital : [0], terms : 1 , gender : [0] , type : [0]};
-    if(age && age.length === 2) state.age =  querySelected.age.map((value: string) => parseInt(value))
-    if(education && education.length === 2) state.education = querySelected.education.map((value:string) => parseInt(value))
-    if(states && states.length === 2) state.states = querySelected.states.map((value:string) => parseInt(value))
-    if(marital && marital.length === 2) state.marital = querySelected.marital.map((value:string) => parseInt(value))
-    if(parties && parties.length === 2) state.parties = querySelected.parties.map((value:string) => parseInt(value))
-    if(gender && gender.length === 2) state.gender = querySelected.gender.map((value:string) => parseInt(value))
-    if(type && type.length === 2) state.type = querySelected.type.map((value:string) => parseInt(value))
-    if(q) state.q = querySelected.q;
-    if(sort) state.sort = querySelected.sort;
-    if(terms) state.terms = parseInt(querySelected.terms);
+    const {
+      age,
+      q,
+      states,
+      education,
+      parties,
+      sort,
+      marital,
+      terms,
+      gender,
+      type
+    } = router.query;
+    const querySelected: any = {
+      age: age,
+      q: q,
+      states: states,
+      education: education,
+      parties: parties,
+      sort: sort,
+      marital: marital,
+      terms: terms,
+      gender: gender,
+      type: type
+    };
+    const state = {
+      age: [0, 0],
+      q: '',
+      states: [0],
+      education: [0],
+      parties: [0],
+      sort: '',
+      marital: [0],
+      terms: 1,
+      gender: [0],
+      type: [0]
+    };
+    if (age && age.length === 2)
+      state.age = querySelected.age.map((value: string) => parseInt(value));
+    if (education && education.length === 2)
+      state.education = querySelected.education.map((value: string) =>
+        parseInt(value)
+      );
+    if (states && states.length === 2)
+      state.states = querySelected.states.map((value: string) =>
+        parseInt(value)
+      );
+    if (marital && marital.length === 2)
+      state.marital = querySelected.marital.map((value: string) =>
+        parseInt(value)
+      );
+    if (parties && parties.length === 2)
+      state.parties = querySelected.parties.map((value: string) =>
+        parseInt(value)
+      );
+    if (gender && gender.length === 2)
+      state.gender = querySelected.gender.map((value: string) =>
+        parseInt(value)
+      );
+    if (type && type.length === 2)
+      state.type = querySelected.type.map((value: string) => parseInt(value));
+    if (q) state.q = querySelected.q;
+    if (sort) state.sort = querySelected.sort;
+    if (terms) state.terms = parseInt(querySelected.terms);
     dispatch(selectedActions.setAll(state));
   }, []);
 
   React.useEffect(() => {
-    const {age, education, states, marital, parties ,q , sort , terms , type, gender} = selected;
-    const querySelected:any = {};
-    if(age && age.length === 2  ) 
-      {
-      if( age[0] && age[1] && age[1] - age[0] !== 75 )
-      querySelected.age = age.map((value:number):number => value);
+    const {
+      age,
+      education,
+      states,
+      marital,
+      parties,
+      q,
+      sort,
+      terms,
+      type,
+      gender
+    } = selected;
+    const querySelected: any = {};
+    if (age && age.length === 2) {
+      if (age[0] && age[1] && age[1] - age[0] !== 75)
+        querySelected.age = age.map((value: number): number => value);
     }
-    if(education && education.length > 0) querySelected.education = education && education.length > 0 ? education.map((value:number) => `${value}`) : undefined;
-    if(states && states.length > 0) querySelected.states = states.map((value:number) => `${value}`);
-    if(marital && marital.length > 0) querySelected.marital = marital.map((value:number) => `${value}`);
-    if(parties && parties.length > 0) querySelected.parties = parties.map((value:number) => `${value}`);
-    if(sort !== 'popular') querySelected.sort = sort;
-    if(q) querySelected.q = q;
-    if(terms !== 1) querySelected.terms = terms;
-    if(type && type.length >0 ) querySelected.type = type.map((value:number) => value) ;
-    if(gender && gender.length >0 ) querySelected.gender = gender.map((value:number) => `${value}`);
+    if (education && education.length > 0)
+      querySelected.education =
+        education && education.length > 0
+          ? education.map((value: number) => `${value}`)
+          : undefined;
+    if (states && states.length > 0)
+      querySelected.states = states.map((value: number) => `${value}`);
+    if (marital && marital.length > 0)
+      querySelected.marital = marital.map((value: number) => `${value}`);
+    if (parties && parties.length > 0)
+      querySelected.parties = parties.map((value: number) => `${value}`);
+    if (sort !== 'popular') querySelected.sort = sort;
+    if (q) querySelected.q = q;
+    if (terms !== 1) querySelected.terms = terms;
+    if (type && type.length > 0)
+      querySelected.type = type.map((value: number) => value);
+    if (gender && gender.length > 0)
+      querySelected.gender = gender.map((value: number) => `${value}`);
     Router.push({
       pathname: '/search',
-      query: {...querySelected},
+      query: { ...querySelected }
     });
   }, [selected]);
 
@@ -115,12 +194,18 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
         <div>
-          <SelectedFilters selected={selected} filters={filters} dispatch={dispatch} />
+          <SelectedFilters
+            selected={selected}
+            filters={filters}
+            dispatch={dispatch}
+          />
           <CheckBoxFilter
             limit={2}
             heading="Type"
             list={filters.type}
-            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'type'))}
+            toogle={(value: number) =>
+              dispatch(selectedActions.toogle(value, 'type'))
+            }
             selected={selected.type}
           />
           <CheckBoxFilter
@@ -129,7 +214,9 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             defaultShow
             heading="State"
             list={filters.states}
-            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'states'))}
+            toogle={(value: number) =>
+              dispatch(selectedActions.toogle(value, 'states'))
+            }
             selected={selected.states}
           />
           <CheckBoxFilter
@@ -138,12 +225,14 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             defaultShow
             heading="Party"
             list={filters.parties}
-            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'parties'))}
+            toogle={(value: number) =>
+              dispatch(selectedActions.toogle(value, 'parties'))
+            }
             selected={selected.parties}
           />
           <SliderFilter
             heading="Terms"
-            marks = {marks.marksTerm}
+            marks={marks.marksTerm}
             selected={selected.terms}
             toogle={(event, value) => dispatch(selectedActions.setTerms(value))}
           />
@@ -151,12 +240,14 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             limit={filters.education.length}
             heading="Education"
             list={filters.education}
-            toogle={(value: number) => dispatch(selectedActions.toogle(value, 'education'))}
+            toogle={(value: number) =>
+              dispatch(selectedActions.toogle(value, 'education'))
+            }
             selected={selected.education}
           />
           <SliderFilter
             heading="Age"
-            marks = {marks.marksAge}
+            marks={marks.marksAge}
             selected={selected.age}
             toogle={(event, value) => dispatch(selectedActions.setAge(value))}
           />
@@ -164,88 +255,94 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
             limit={3}
             heading="Gender"
             list={filters.gender}
-            toogle={(value:number) => dispatch(selectedActions.toogle(value, 'gender'))}
+            toogle={(value: number) =>
+              dispatch(selectedActions.toogle(value, 'gender'))
+            }
             selected={selected.gender}
           />
           <CheckBoxFilter
             limit={filters.marital.length}
             heading="Marital"
             list={filters.marital}
-            toogle={(value) => dispatch(selectedActions.toogle(value, 'marital'))}
+            toogle={value => dispatch(selectedActions.toogle(value, 'marital'))}
             selected={selected.marital}
           />
         </div>
       </Grid>
       <Grid item xs={12} sm={4} md={7} lg={7} xl={8}>
         <div className={classes.suggestion}>
-        <Card className={classes.cardSuggestion} >
-          <CardMedia 
-            className ={classes.cardImage}
-            image={'/static/images/mp.jpg'}
-            title= {'Mp full name'}
-          />
-          <CardContent className={classes.cardSuggestion} >
-            <Link>
-              <a>Mp Full Name</a>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card className={classes.cardSuggestion} >
-          <CardMedia 
-            className ={classes.cardImage}
-            image={'/static/images/mp.jpg'}
-            title= {'Mp full name'}
-          />
-          <CardContent>
-            <Link>
-              <a>Mp Full Name</a>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card className={classes.cardSuggestion} >
-          <CardMedia 
-            className ={classes.cardImage}
-            image={'/static/images/mp.jpg'}
-            title= {'Mp full name'}
-          />
-          <CardContent>
-            <Link>
-              <a>Mp Full Name</a>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card className={classes.cardSuggestion} >
-          <CardMedia 
-            className ={classes.cardImage}
-            image={'/static/images/mp.jpg'}
-            title= {'Mp full name'}
-          />
-          <CardContent>
-            <Link>
-              <a>Mp Full Name</a>
-            </Link>
-          </CardContent>
-        </Card>
-        <Card className={classes.cardSuggestion} >
-          <CardMedia 
-            className ={classes.cardImage}
-            image={'/static/images/mp.jpg'}
-            title= {'Mp full name'}
-          />
-          <CardContent>
-            <Link>
-              <a>Mp Full Name</a>
-            </Link>
-          </CardContent>
-        </Card>
+          <Card className={classes.cardSuggestion}>
+            <CardMedia
+              className={classes.cardImage}
+              image={'/static/images/mp.jpg'}
+              title={'Mp full name'}
+            />
+            <CardContent className={classes.cardSuggestion}>
+              <Link>
+                <a>Mp Full Name</a>
+              </Link>
+            </CardContent>
+          </Card>
+          <Card className={classes.cardSuggestion}>
+            <CardMedia
+              className={classes.cardImage}
+              image={'/static/images/mp.jpg'}
+              title={'Mp full name'}
+            />
+            <CardContent>
+              <Link>
+                <a>Mp Full Name</a>
+              </Link>
+            </CardContent>
+          </Card>
+          <Card className={classes.cardSuggestion}>
+            <CardMedia
+              className={classes.cardImage}
+              image={'/static/images/mp.jpg'}
+              title={'Mp full name'}
+            />
+            <CardContent>
+              <Link>
+                <a>Mp Full Name</a>
+              </Link>
+            </CardContent>
+          </Card>
+          <Card className={classes.cardSuggestion}>
+            <CardMedia
+              className={classes.cardImage}
+              image={'/static/images/mp.jpg'}
+              title={'Mp full name'}
+            />
+            <CardContent>
+              <Link>
+                <a>Mp Full Name</a>
+              </Link>
+            </CardContent>
+          </Card>
+          <Card className={classes.cardSuggestion}>
+            <CardMedia
+              className={classes.cardImage}
+              image={'/static/images/mp.jpg'}
+              title={'Mp full name'}
+            />
+            <CardContent>
+              <Link>
+                <a>Mp Full Name</a>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
         <Card>
           <CardHeader
             title="Questions"
-            action={(
+            action={
               <Select
                 value={selected.sort}
-                onChange={(event :React.ChangeEvent<{ value: unknown }>) => dispatch(selectedActions.setSort(event.target.value as string))}
+                onChange={(event: React.ChangeEvent<{ value: unknown }>) =>
+                  dispatch(
+                    selectedActions.setSort(event.target.value as string)
+                  )
+                }
                 displayEmpty
                 disableUnderline
                 name="sorting"
@@ -254,20 +351,20 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
                 <MenuItem value="new">New</MenuItem>
                 <MenuItem value="alphabetical">Subject</MenuItem>
               </Select>
-            )}
+            }
           />
           <CardContent>
             <div className={classes.marginBottomOne}>
-              <QuestionBox question={question}/>
+              <QuestionBox question={question} />
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox question={question}/>
+              <QuestionBox question={question} />
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox question={question}/>
+              <QuestionBox question={question} />
             </div>
             <div className={classes.marginBottomOne}>
-              <QuestionBox question={question}/>
+              <QuestionBox question={question} />
             </div>
           </CardContent>
         </Card>
@@ -275,25 +372,19 @@ const SearchPage  = ({ dispatch, selected, filters, marks }: Iprops):JSX.Element
       <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
         <Card>
           <CardHeader
-            title = "MP Full Name"
+            title="MP Full Name"
             subheader="Hyderabad, Telangana"
-            avatar = {
+            avatar={
               <Avatar
                 src={'/static/images/mp.jpg'}
-                  className= {classes.avatar}
+                className={classes.avatar}
               />
             }
           />
           <CardContent>
-            <Typography>
-              Party : Telangana Rashtra Samithi
-            </Typography>
-            <Typography>
-             Education : 
-            </Typography>
-            <Typography>
-             Profession :
-            </Typography>
+            <Typography>Party : Telangana Rashtra Samithi</Typography>
+            <Typography>Education :</Typography>
+            <Typography>Profession :</Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -336,16 +427,16 @@ SearchPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 */
-interface StateProps{
+interface StateProps {
   filters: typeFilter;
   selected: typeSelected;
-  marks: typeMarks
-};
+  marks: typeMarks;
+}
 
 const mapStateToProps = (state: AppState): StateProps => ({
   filters: state.filters,
   selected: state.selected,
-  marks : state.marks
+  marks: state.marks
 });
 
 export default connect(mapStateToProps)(SearchPage);
