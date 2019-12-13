@@ -23,6 +23,7 @@ import {
   typeQuestionObject
 } from '../../types';
 import { AppState } from '../../store/reducers';
+import moment from 'moment';
 
 interface Props {
   members: typeMemberObject;
@@ -87,7 +88,7 @@ const MembersPage = ({ members, questions }: Props) => {
                         </Typography>
                       ) : null}
                       {member.dob ? (
-                        <Typography> Birthdate : {member.dob}</Typography>
+                        <Typography> Age : {moment.unix(+member.dob / 1000).fromNow(true)}</Typography>
                       ) : null}
                       {member.marital_status ? (
                         <Typography>
@@ -144,7 +145,7 @@ const MembersPage = ({ members, questions }: Props) => {
                           as={`/constituencies/${term.constituency.CID}`}
                         >
                           <a className={classes.link}>
-                            {term.constituency.name}, {term.constituency.state}
+                            {term.constituency.name} ({term.constituency.state})
                           </a>
                         </Link>
                       </TableCell>

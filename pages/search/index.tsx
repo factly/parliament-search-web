@@ -270,68 +270,6 @@ const SearchPage = ({
         </div>
       </Grid>
       <Grid item xs={12} sm={4} md={7} lg={7} xl={8}>
-        <div className={classes.suggestion}>
-          <Card className={classes.cardSuggestion}>
-            <CardMedia
-              className={classes.cardImage}
-              image={'/static/images/mp.jpg'}
-              title={'Mp full name'}
-            />
-            <CardContent className={classes.cardSuggestion}>
-              <Link href="/members/[mid]" as={`/members/${4758}`}>
-                <a>Mp Full Name</a>
-              </Link>
-            </CardContent>
-          </Card>
-          <Card className={classes.cardSuggestion}>
-            <CardMedia
-              className={classes.cardImage}
-              image={'/static/images/mp.jpg'}
-              title={'Mp full name'}
-            />
-            <CardContent>
-              <Link href="/members/[mid]" as={`/members/${4758}`}>
-                <a>Mp Full Name</a>
-              </Link>
-            </CardContent>
-          </Card>
-          <Card className={classes.cardSuggestion}>
-            <CardMedia
-              className={classes.cardImage}
-              image={'/static/images/mp.jpg'}
-              title={'Mp full name'}
-            />
-            <CardContent>
-              <Link href="/members/[mid]" as={`/members/${4758}`}>
-                <a>Mp Full Name</a>
-              </Link>
-            </CardContent>
-          </Card>
-          <Card className={classes.cardSuggestion}>
-            <CardMedia
-              className={classes.cardImage}
-              image={'/static/images/mp.jpg'}
-              title={'Mp full name'}
-            />
-            <CardContent>
-              <Link href="/members/[mid]" as={`/members/${4758}`}>
-                <a>Mp Full Name</a>
-              </Link>
-            </CardContent>
-          </Card>
-          <Card className={classes.cardSuggestion}>
-            <CardMedia
-              className={classes.cardImage}
-              image={'/static/images/mp.jpg'}
-              title={'Mp full name'}
-            />
-            <CardContent>
-              <Link href="/members/[mid]" as={`/members/${4758}`}>
-                <a>Mp Full Name</a>
-              </Link>
-            </CardContent>
-          </Card>
-        </div>
         <Card>
           <CardHeader
             title="Questions"
@@ -366,25 +304,6 @@ const SearchPage = ({
             <div className={classes.marginBottomOne}>
               <QuestionBox question={question} />
             </div>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
-        <Card>
-          <CardHeader
-            title="MP Full Name"
-            subheader="Hyderabad, Telangana"
-            avatar={
-              <Avatar
-                src={'/static/images/mp.jpg'}
-                className={classes.avatar}
-              />
-            }
-          />
-          <CardContent>
-            <Typography>Party : Telangana Rashtra Samithi</Typography>
-            <Typography>Education :</Typography>
-            <Typography>Profession :</Typography>
           </CardContent>
         </Card>
       </Grid>

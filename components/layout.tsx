@@ -1,6 +1,5 @@
 import React, { Dispatch } from 'react';
 import { connect } from 'react-redux';
-import { Container as NextContainer } from 'next/app';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 
@@ -35,18 +34,15 @@ const Wrapper = (props: any) => {
   return (
     <ThemeProvider theme={theme === 'dark' ? dark : light}>
       <Header dispatch={dispatch} />
-      <NextContainer>
         <Container maxWidth={false} className={classes.container}>
           <Component {...pageProps} />
         </Container>
-      </NextContainer>
     </ThemeProvider>
   );
 };
 
 Wrapper.propTypes = {
   Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.element,
   theme: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired
 };
