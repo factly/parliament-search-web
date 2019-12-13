@@ -26,7 +26,7 @@ export function getConstituencyById(id : number) {
                 id 
             };
             const {data} = await client.query({query : constituencyQuery, variables});
-            constituency = {...data.constituency};
+            constituency = data.constituency;
 
             if(constituency.CID){
                 const variables = {constituency : [id]}
@@ -35,19 +35,11 @@ export function getConstituencyById(id : number) {
             };
 
             if(constituency.CID){
-                let questions:typeQuestionObject = {};
                 const variables = {constituency : [constituency.CID]}
                 const {data} = await client.query({query : questionsByVariablesQuery, variables});
                 constituency.popularQuestionIds = data.questions.nodes.map((each : typeQuestionData) => each.QID);
-                if(constituency.popularQuestionIds)
-                    constituency.popularQuestionIds
-                        .map(( id:number ) => 
-                            questions[id] = data.questions.nodes
-                                .find(( each : typeQuestionData ) => 
-                                    id === each.QID
-                                )
-                        );
-                dispatch({type : questionConstants.SET_QUESTIONS, data : questions});
+               
+                dispatch({type : questionConstants.SET_QUESTIONS, data : data.questions.nodes});
             }
 
             dispatch({type : constituencyConstants.SET_CONSTITUENCY , data : constituency})

@@ -142,7 +142,7 @@ const ConstituencyPages = ({ constituencies , questions}: Props) => {
                     <QuestionBox question={questions[each]} />
                   </div>)
               : <p> No questions </p> 
-            }AppState
+            }
           </CardContent>
         </Card>
       </div>

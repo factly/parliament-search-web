@@ -1,17 +1,19 @@
 import {questionConstants} from '../constants';
-import { typeQuestionObject } from '../../types';
+import { typeQuestionObject, typeQuestionData } from '../../types';
 
 const initialState:typeQuestionObject = {};
 
-function questions(state = initialState, action : {type : string , data : typeQuestionObject})  {
+function questions(state = initialState, action : {type : string , data : typeQuestionData[]})  {
     switch (action.type) {
-      case questionConstants.SET_QUESTION:
-        return {...state, ...action.data};
       case questionConstants.SET_QUESTIONS:
-        Object.keys(action.data).map(function (key , value) {
-          action.data[+key] = state[+key] && state[+key].answer ? state[+key] : action.data[+key]
-        });
-        return {...state , ...action.data};  
+        let newQuestions: typeQuestionObject = {};
+        action.data.forEach((each: typeQuestionData) => {
+          if(!state[+each.QID] || !state[+each.QID].answer) 
+            newQuestions[+each.QID] = each
+
+          return null
+        })
+        return {...state , ...newQuestions};  
       default:
         return state;
     }
