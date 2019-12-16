@@ -67,6 +67,7 @@ export const questionsByVariablesQuery = gql`
         ministry
         date
       }
+      total
     }
   }
 `;

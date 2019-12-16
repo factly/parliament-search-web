@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
+import { withRouter } from 'next/router';
 import Link from 'next/link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -20,7 +20,7 @@ import { AppState } from '../../store/reducers';
 
 interface Props {
   dispatch: any;
-  parties: typePartyObject;
+  party: typePartyData;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,9 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const PartiesPage = ({ dispatch, parties }: Props) => {
-  const pid: number = +useRouter().query.pid;
-  const party: typePartyData = parties[pid];
+const PartiesPage = ({ dispatch, party }: Props) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -65,12 +63,12 @@ const PartiesPage = ({ dispatch, parties }: Props) => {
         (page + 1) * rowsPerPage < party.total
           ? (page + 1) * rowsPerPage - party.members.length
           : party.total - page * rowsPerPage;
-      dispatch(getPartyMembers(pid, rowsPerPage, page + 1, required));
+      dispatch(getPartyMembers(party.PID, rowsPerPage, page + 1, required));
     }
   }, [page, rowsPerPage]);
   if (!party) {
     return <div>Loading ....</div>;
-  } else {
+  } 
     return (
       <Card>
         <CardHeader title={`${party.name} (${party.abbr})`} />
@@ -145,16 +143,14 @@ const PartiesPage = ({ dispatch, parties }: Props) => {
         </CardContent>
       </Card>
     );
-  }
 };
 
 PartiesPage.getInitialProps = async ({ store, query }: any) => {
-  await store.dispatch(getPartyById(+query.pid));
-
-  return {};
+  if(!store.getState().parties[+query.pid])
+    await store.dispatch(getPartyById(+query.pid));
 };
 
-const mapStateToProps = (state: AppState) => ({
-  parties: state.parties
+const mapStateToProps = (state: AppState, props: any) => ({
+  party: state.parties[+props.router.query.pid]
 });
-export default connect(mapStateToProps)(PartiesPage);
+export default withRouter(connect(mapStateToProps)(PartiesPage));
