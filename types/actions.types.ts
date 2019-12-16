@@ -11,6 +11,7 @@ import {
   partyConstants,
   questionConstants
 } from '../store/constants';
+import { searchConstants } from '../store/constants/search.constants';
 
 export const appConstants = {
   CHANGE_THEME: 'CHANGE_THEME_SUCCESS'
@@ -70,7 +71,7 @@ export interface SetParty {
   data: typePartyData;
 }
 
-export interface setQuestion {
+export interface SetQuestion {
   type: typeof questionConstants.SET_QUESTION;
   data: typeQuestionObject;
 }
@@ -79,12 +80,20 @@ export interface SetPopularQuestions {
   data: typeQuestionObject;
 }
 
-export interface setPartyMembers {
+export interface SetPartyMembers {
   type: typeof partyConstants.ADD_PARTY_MEMBERS;
   data: {
     pid: number;
     members: typeMemberData;
   };
+}
+
+export interface SetSearchPageQuestions{
+  type : typeof searchConstants.SET_SEARCHPAGE_QUESTIONS,
+  data : {
+    qids : number[],
+    total : number
+  }
 }
 
 export type Actions =
@@ -98,7 +107,8 @@ export type Actions =
   | SetMember
   | SetParty
   | SetPopularQuestions
-  | setQuestion
-  | setPartyMembers;
+  | SetQuestion
+  | SetPartyMembers
+  | SetSearchPageQuestions;
 
 export type AppActions = Actions;

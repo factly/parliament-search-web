@@ -197,10 +197,9 @@ MembersPage.getInitialProps = async ({ store, query }: any) => {
 };
 const mapStateToProps = (state: AppState, props: any) => {
   const member = state.members[props.router.query.mid]
-  const popularQuestionIds = member.popularQuestionIds ? member.popularQuestionIds: [] 
   return {
     member: member,
-    questions: popularQuestionIds.map(each => state.questions[each])
+    questions: member.popularQuestionIds ? member.popularQuestionIds.map((each: number) => state.questions[each]) : []
   }
 };
 export default withRouter(connect(mapStateToProps)(MembersPage));

@@ -1,6 +1,7 @@
 // TODO add answer by ministry
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'next/router';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Card from '@material-ui/core/Card';
@@ -15,7 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { getQuestionById } from '../../store/actions';
 import { AppState } from '../../store/reducers';
-import { typeQuestionBy } from '../../types';
+import { typeQuestionBy, typeQuestionData } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,13 +32,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const QuestionPage = ({ questions }: any) => {
-  const qid = +useRouter().query.qid;
+const QuestionPage = ({ question }: {question : typeQuestionData}) => {
   const classes = useStyles();
-  const question = questions[qid];
+ 
 
   if (!question || !question.answer) return <div>loading...</div>;
-  else {
+
     return (
       <div>
         <Grid container spacing={3}>
@@ -104,18 +104,15 @@ const QuestionPage = ({ questions }: any) => {
         </Grid>
       </div>
     );
-  }
+  
 };
 
 QuestionPage.getInitialProps = async ({ store, query }: any) => {
-  const questions = store.getState().questions;
-  const qid = +query.qid;
-  if (!questions[qid] || !questions[qid].answer)
-    await store.dispatch(getQuestionById(qid));
-  return {};
+  if(!store.getState().questions[+query.qid] || !store.getState().questions[+query.qid].answer )
+    await store.dispatch(getQuestionById(+query.qid));
 };
 
-const mapStateToProps = (state: AppState) => ({
-  questions: state.questions
+const mapStateToProps = (state: AppState, props : any) => ({
+  question: state.questions[+props.router.query.qid]
 });
-export default connect(mapStateToProps)(QuestionPage);
+export default withRouter(connect(mapStateToProps)(QuestionPage));

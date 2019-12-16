@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router';
+import { withRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -19,15 +19,14 @@ import Paper from '@material-ui/core/Paper';
 import { getConstituencyById } from '../../store/actions';
 import {
   typeConstituencyMember,
-  typeConstituencyObject,
-  typeQuestionObject,
-  AppActions
+  typeConstituencyData,
+  typeQuestionData
 } from '../../types';
 import { AppState } from '../../store/reducers';
 
 interface Props {
-  constituencies: typeConstituencyObject;
-  questions: typeQuestionObject;
+  constituency: typeConstituencyData;
+  questions: typeQuestionData[];
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false 
@@ -73,14 +72,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const ConstituencyPages = ({ constituencies, questions }: Props) => {
-  const cid: number = +useRouter().query.cid;
-  const constituency = constituencies[cid];
+const ConstituencyPages = ({ constituency, questions }: Props) => {
   const classes = useStyles();
 
   if (!constituency) {
     return <p> loading ...</p>;
-  } else {
+  }
     return (
       <div>
         <Paper className={classes.paper}>
@@ -147,13 +144,11 @@ const ConstituencyPages = ({ constituencies, questions }: Props) => {
             }
           />
           <CardContent>
-            {constituency.popularQuestionIds &&
-            constituency.popularQuestionIds.length > 0 ? (
-              constituency.popularQuestionIds.map((each: number) => (
-                <div key={questions[each].QID} className={classes.marginBottomOne}>
-                  <QuestionBox question={questions[each]} />
+            {questions ? questions.map((question: typeQuestionData) => (
+                <div key={question.QID} className={classes.marginBottomOne}>
+                  <QuestionBox question={question} />
                 </div>
-              ))
+              )
             ) : (
               <p> No questions </p>
             )}
@@ -161,18 +156,19 @@ const ConstituencyPages = ({ constituencies, questions }: Props) => {
         </Card>
       </div>
     );
-  }
 };
 
 ConstituencyPages.getInitialProps = async ({ store, query }: any) => {
-  await store.dispatch(getConstituencyById(+query.cid));
-
-  return {};
+  if(!store.getState().constituencies[+query.cid])
+    await store.dispatch(getConstituencyById(+query.cid));
 };
 
-const mapStateToProps = (state: AppState) => ({
-  constituencies: state.constituencies,
-  questions: state.questions
-});
+const mapStateToProps = (state: AppState, props : any) => {
+  const constituency = state.constituencies[props.router.query.cid];
+  return {
+    constituency: constituency,
+    questions: constituency && constituency.popularQuestionIds ? constituency.popularQuestionIds.map((each: number) => state.questions[each]) : []
+  }
+};
 
-export default connect(mapStateToProps)(ConstituencyPages);
+export default withRouter(connect(mapStateToProps)(ConstituencyPages));

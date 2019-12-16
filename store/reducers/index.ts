@@ -7,6 +7,7 @@ import constituencies from './constituencies.reducers';
 import members from './members.reducers';
 import parties from './parties.reducers';
 import questions from './questions.reducers';
+import search from './search.reducers';
 
 const rootReducer = combineReducers({
   filters,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   constituencies,
   members,
   parties,
-  questions
+  questions,
+  search
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
