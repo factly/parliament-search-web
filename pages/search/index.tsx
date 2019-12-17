@@ -16,22 +16,32 @@ import QuestionBox from '../../components/QuestionBox';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { selectedActions } from '../../store/actions';
 import { AppState } from '../../store/reducers/index';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+
+
 import {
   AppActions,
   typeSelected,
   typeFilter,
   typeMarks,
   typeQuestionBox,
-  typeQuestionObject
+  typeQuestionObject,
+  typeSetAllState
 } from '../../types';
 import { Dispatch } from 'redux';
 import { CardMedia, Typography } from '@material-ui/core';
-import {getSearchPageQuestions} from '../../store/actions'
+import {getSearchPageQuestions, getSearchPageQuestionsInti} from '../../store/actions'
 
 interface Iprops {
   dispatch: any;
-  selected: typeSelected;
-  questions : typeQuestionBox[]
+  selected: typeSetAllState;
+  questions : typeQuestionBox[],
+  total: number
 }
 const useStyles = makeStyles((theme: Theme) => ({
   marginBottomOne: {
@@ -62,26 +72,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 const SearchPage = ({
   dispatch,
   selected,
-  questions
+  questions,
+  total
 }: Iprops): JSX.Element => {
-  const classes = useStyles();
-  
-  
-
   React.useEffect(() => {
-    const {
-      q
-    } = selected;
-    const querySelected: any = {};
-    
-    if (q) querySelected.q = q;
-    
-    Router.push({
-      pathname: '/search',
-      query: { ...querySelected }
-    });
+    dispatch(getSearchPageQuestions(selected))
   }, [selected]);
-
+  
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
@@ -103,18 +100,35 @@ const SearchPage = ({
                 disableUnderline
                 name="sorting"
               >
-                <MenuItem value="popular">Popular</MenuItem>
-                <MenuItem value="new">New</MenuItem>
-                <MenuItem value="alphabetical">Subject</MenuItem>
+                <MenuItem value="newest">New</MenuItem>
+                <MenuItem value="oldest">Old</MenuItem>
               </Select>
             }
           />
           <CardContent>
-            { questions && questions.length > 0 ? questions.map((question : typeQuestionBox) =>  
-            <div key={question.QID} className={classes.marginBottomOne}>
-              <QuestionBox question={question} />
-            </div>) : null
-            }
+            <Table>
+              <TableBody>
+                { questions && questions.length > 0 ? 
+                questions.map((question : typeQuestionBox) => 
+                    <TableRow key={question.QID}>
+                      <TableCell>
+                        <QuestionBox question={question} />
+                      </TableCell>
+                    </TableRow> 
+                    )
+                : null }
+              </TableBody>
+              <TableFooter>
+              <TableRow>
+                <TablePagination
+                  count={total}
+                  rowsPerPage={10}
+                  page={selected.page-1}
+                  onChangePage={(event, newPage: number) => dispatch(selectedActions.setPage(newPage + 1))}
+                />
+              </TableRow>
+            </TableFooter>
+            </Table>
           </CardContent>
         </Card>
       </Grid>
@@ -123,18 +137,19 @@ const SearchPage = ({
 };
 
 interface StateProps {
-  selected: typeSelected;
+  selected: typeSetAllState;
   questions: typeQuestionBox[];
+  total: number
 }
 
 SearchPage.getInitialProps = async ({ store, query }: any) => {
-  await store.dispatch(selectedActions.setAll(query))
-  await store.dispatch(getSearchPageQuestions(query.q as string));
+  await store.dispatch(getSearchPageQuestionsInti(query));
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
   selected: state.selected,
-  questions : state.search.qids.map((each: number) => state.questions[each])
+  questions : state.search.qids.map((each: number) => state.questions[each]),
+  total: state.search.total
 });
 
 export default connect(mapStateToProps)(SearchPage);

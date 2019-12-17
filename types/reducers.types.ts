@@ -13,8 +13,15 @@ export interface typeMarks {
   marksTerm: marks[];
 }
 
+export interface typeSelectedFilter {
+  [ key : string ]: number[],
+}
+
 export type typeSelected = {
-  [key: string]: any;
+  filters : typeSelectedFilter,
+  q?: string,
+  terms? : number,
+  sort? : string
 };
 
 export type typeFilter = {
@@ -22,14 +29,16 @@ export type typeFilter = {
 };
 
 export interface typeSetAllState {
-  q: string;
-  states: number[];
-  education: number[];
-  parties: number[];
-  marital: number[];
-  age: number[];
-  sort: string;
-  terms: number;
-  type: number[];
-  gender: number[];
-}
+  q?: string;
+  states?: number[];
+  education?: number[];
+  parties?: number[];
+  marital?: number[];
+  age?: number[];
+  sort?: string;
+  terms?: number;
+  type?: number[];
+  gender?: number[];
+  page: number;
+};
+

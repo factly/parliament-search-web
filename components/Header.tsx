@@ -141,7 +141,7 @@ const Header = ({ dispatch, theme }: headerProps) => {
     </Button>
   );
   const searchFunc = () => {
-    Router.push('/search/:q', `/search?q=${value}`);
+    Router.push(`/search?q=${value}`);
   };
   const onChange = (
     event: React.FormEvent<HTMLInputElement>,

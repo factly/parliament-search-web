@@ -1,70 +1,28 @@
 import { selectedConstants } from '../constants';
-import { typeSelected } from '../../types';
+import { typeSelected, typeSetAllState } from '../../types';
 
 type actionType = {
   type: string;
-  data: any;
-  field: string;
-};
-const q = '';
-const states: number[] = [];
-const parties: number[] = [];
-const education: number[] = [];
-const age: number[] = [25, 100];
-const marital: number[] = [];
-const sort = 'popular';
-const gender: number[] = [];
-const terms = 1;
-const type: number[] = [];
-
-const initialState: typeSelected = {
-  q: q,
-  states: states,
-  parties: parties,
-  education: education,
-  age: age,
-  marital: marital,
-  sort: sort,
-  terms: terms,
-  type: gender,
-  gender: type
+  data: typeSetAllState;
 };
 
-function toogleList(list: number[], element: number): number[] {
-  const currentIndex = list.indexOf(element);
-
-  if (currentIndex === -1) {
-    list.push(element);
-  } else {
-    list.splice(currentIndex, 1);
-  }
-  return list;
-}
+const initialState: typeSetAllState = {
+  sort : 'newest',
+  page: 1
+};
 
 function selected(state = initialState, action: actionType) {
   switch (action.type) {
     case selectedConstants.SET_ALL:
-      return action.data;
-    case selectedConstants.AGE_SET:
-      return {
-        ...state,
-        age: action.data
-      };
+      const result = { ...state, q: action.data.q, page: action.data.page ? +action.data.page : initialState.page};
+      return result
     case selectedConstants.SET_SORT:
       return {
         ...state,
-        sort: action.data
-      };
-    case selectedConstants.SET_TERMS:
-      return {
-        ...state,
-        terms: action.data
-      };
-    case selectedConstants.TOOGLE_ONE:
-      return {
-        ...state,
-        [action.field]: toogleList(state[action.field], action.data)
-      };
+        sort: action.data.sort
+      }
+    case selectedConstants.SET_PAGE:
+      return { ...state, page: action.data.page };
     default:
       return state;
   }
