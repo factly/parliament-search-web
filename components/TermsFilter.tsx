@@ -12,56 +12,60 @@ import Slider from '@material-ui/core/Slider';
 interface filterProps {
   toogle: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
   heading: string;
-  selected: number[];
+  selected: number;
 }
 
 const marks = [
   {
-    value: 25,
-    label: 'Min'
+    value: 0,
+    label: 'any'
   },
   {
-    value: 40,
-    label: '40'
+    value: 2,
+    label: '2'
   },
   {
-    value: 60,
-    label: '60'
+    value: 4,
+    label: '4'
   },
   {
-    value: 80,
-    label: '80'
+    value: 6,
+    label: '6'
   },
   {
-    value: 100,
-    label: 'Max'
+    value: 8,
+    label: '8'
+  },
+  {
+    value: 10,
+    label: '10'
   }
 ];
 
-const SliderFilter = ({ toogle, heading, selected }: filterProps) => (
+const TermsFilter = ({ toogle, heading, selected }: filterProps) => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">{heading}</Typography>
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       <Slider
-        value={selected}
-        min={25}
-        max={100}
-        step={5}
+        defaultValue={selected}
+        min={0}
+        max={10}
+        step={1}
         onChange={toogle}
         valueLabelDisplay="auto"
-        aria-labelledby="range-slider"
+        aria-labelledby="discrete-slider"
         marks={marks}
       />
     </ExpansionPanelDetails>
   </ExpansionPanel>
 );
 
-SliderFilter.propTypes = {
+TermsFilter.propTypes = {
   toogle: PropTypes.func.isRequired,
   heading: PropTypes.string.isRequired,
-  selected: PropTypes.arrayOf(PropTypes.number).isRequired,
+  selected: PropTypes.number.isRequired,
   marks: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number.isRequired,
@@ -70,4 +74,4 @@ SliderFilter.propTypes = {
   )
 };
 
-export default SliderFilter;
+export default TermsFilter;

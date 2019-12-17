@@ -1,4 +1,4 @@
-import { typeSetAllState } from './reducers.types';
+import { typeSetAllSelected } from './reducers.types';
 import {
   typeQuestionObject,
   typePartyData,
@@ -42,7 +42,7 @@ export interface SetTerms {
 
 export interface SetAll {
   type: typeof selectedConstants.SET_ALL;
-  data: typeSetAllState;
+  data: typeSetAllSelected;
 }
 
 export interface SetSort {
@@ -88,12 +88,12 @@ export interface SetPartyMembers {
   };
 }
 
-export interface SetSearchPageQuestions{
-  type : typeof searchConstants.SET_SEARCHPAGE_QUESTIONS,
-  data : {
-    qids : number[],
-    total : number
-  }
+export interface SetSearchPageQuestions {
+  type: typeof searchConstants.SET_SEARCHPAGE_QUESTIONS;
+  data: {
+    qids: number[];
+    total: number;
+  };
 }
 
 export type Actions =

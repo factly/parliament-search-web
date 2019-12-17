@@ -34,9 +34,9 @@ const Wrapper = (props: any) => {
   return (
     <ThemeProvider theme={theme === 'dark' ? dark : light}>
       <Header dispatch={dispatch} />
-        <Container maxWidth={false} className={classes.container}>
-          <Component {...pageProps} />
-        </Container>
+      <Container maxWidth={false} className={classes.container}>
+        <Component {...pageProps} />
+      </Container>
     </ThemeProvider>
   );
 };

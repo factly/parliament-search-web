@@ -29,7 +29,7 @@ interface Props {
   questions: typeQuestionData[];
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
-  ssr: false 
+  ssr: false
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -78,26 +78,27 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
   if (!constituency) {
     return <p> loading ...</p>;
   }
-    return (
-      <div>
-        <Paper className={classes.paper}>
-          <MapWithNoSSR constituencyId={201} />
-        </Paper>
-        <Card className={classes.marginTopOne}>
-          <CardHeader
-            title={`List of all MP's from ${constituency.name} (${constituency.state})`}
-          />
-          <CardContent className={classes.root}>
-            <Table className={classes.table} aria-label="list of MP's">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Party</TableCell>
-                  <TableCell>House</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {constituency.members.map((member: typeConstituencyMember, index: number) => (
+  return (
+    <div>
+      <Paper className={classes.paper}>
+        <MapWithNoSSR constituencyId={201} />
+      </Paper>
+      <Card className={classes.marginTopOne}>
+        <CardHeader
+          title={`List of all MP's from ${constituency.name} (${constituency.state})`}
+        />
+        <CardContent className={classes.root}>
+          <Table className={classes.table} aria-label="list of MP's">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Party</TableCell>
+                <TableCell>House</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {constituency.members.map(
+                (member: typeConstituencyMember, index: number) => (
                   <TableRow key={member.MID + index}>
                     <TableCell>
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
@@ -129,46 +130,53 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
                       {member.terms[0].session}, {member.terms[0].house}
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-        <Card className={classes.marginTopOne}>
-          <CardHeader
-            title="Questions"
-            action={
-              <Link href={`/search?states=1`}>
-                <Button>All Questions</Button>
-              </Link>
-            }
-          />
-          <CardContent>
-            {questions ? questions.map((question: typeQuestionData) => (
-                <div key={question.QID} className={classes.marginBottomOne}>
-                  <QuestionBox question={question} />
-                </div>
-              )
-            ) : (
-              <p> No questions </p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    );
+                )
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+      <Card className={classes.marginTopOne}>
+        <CardHeader
+          title="Questions"
+          action={
+            <Link href={`/search?states=1`}>
+              <Button>All Questions</Button>
+            </Link>
+          }
+        />
+        <CardContent>
+          {questions ? (
+            questions.map((question: typeQuestionData) => (
+              <div key={question.QID} className={classes.marginBottomOne}>
+                <QuestionBox question={question} />
+              </div>
+            ))
+          ) : (
+            <p> No questions </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 ConstituencyPages.getInitialProps = async ({ store, query }: any) => {
-  if(!store.getState().constituencies[+query.cid])
+  if (!store.getState().constituencies[+query.cid])
     await store.dispatch(getConstituencyById(+query.cid));
 };
 
-const mapStateToProps = (state: AppState, props : any) => {
+const mapStateToProps = (state: AppState, props: any) => {
   const constituency = state.constituencies[props.router.query.cid];
   return {
     constituency: constituency,
-    questions: constituency && constituency.popularQuestionIds ? constituency.popularQuestionIds.map((each: number) => state.questions[each]) : []
-  }
+    questions:
+      constituency && constituency.popularQuestionIds
+        ? constituency.popularQuestionIds.map(
+            (each: number) => state.questions[each]
+          )
+        : []
+  };
 };
 
 export default withRouter(connect(mapStateToProps)(ConstituencyPages));

@@ -1,10 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants } from '../constants';
-import {
-  typeQuestionBox,
-  AppActions
-} from '../../types';
+import { typeQuestionBox, AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { memberConstants } from '../constants';
 
@@ -38,9 +35,7 @@ const memberQuery = gql`
         session
       }
     }
-    questions(
-      questionBy: [$mid]
-    ) {
+    questions(questionBy: [$mid]) {
       nodes {
         QID
         subject
@@ -59,23 +54,22 @@ const memberQuery = gql`
 export function getMemberById(id: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      const variables = { mid : id };
+      const variables = { mid: id };
       const { data } = await client.query({ query: memberQuery, variables });
-      
+
       const popularQuestionIds: number[] = data.questions.nodes.map(
         (each: typeQuestionBox) => each.QID
       );
-      
+
       dispatch({
         type: questionConstants.SET_QUESTIONS,
         data: data.questions.nodes
       });
-      
-      dispatch({ 
-        type: memberConstants.SET_MEMBER, 
-        data: {...data.member , popularQuestionIds}
-      });
 
+      dispatch({
+        type: memberConstants.SET_MEMBER,
+        data: { ...data.member, popularQuestionIds }
+      });
     } catch (error) {
       console.error(error);
     }

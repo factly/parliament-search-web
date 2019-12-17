@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { typeQuestionBy, typeQuestionBox } from '../types';
+import moment from 'moment';
 
 interface Props {
   question: typeQuestionBox;
@@ -37,7 +38,7 @@ const QuestionBox = ({ question }: Props) => {
         </Link>
       </Typography>
       <Typography variant="caption" color="textSecondary" gutterBottom>
-        Lok Sabha · {ministry} · {date}
+        Lok Sabha · {ministry} · {moment.unix(+date / 1000).fromNow(true)}
       </Typography>
       <Typography variant="subtitle2" gutterBottom>
         Asked By
@@ -45,7 +46,11 @@ const QuestionBox = ({ question }: Props) => {
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
           {questionBy.map((each: typeQuestionBy) => (
-            <Link key={QID+each.MID} href="/members/[mid]" as={`/members/${each.MID}`}>
+            <Link
+              key={QID + each.MID}
+              href="/members/[mid]"
+              as={`/members/${each.MID}`}
+            >
               <Chip
                 className={classes.asked}
                 label={each.name}

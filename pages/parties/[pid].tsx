@@ -68,85 +68,85 @@ const PartiesPage = ({ dispatch, party }: Props) => {
   }, [page, rowsPerPage]);
   if (!party) {
     return <div>Loading ....</div>;
-  } 
-    return (
-      <Card>
-        <CardHeader title={`${party.name} (${party.abbr})`} />
-        <CardContent>
-          <Table className={classes.table} aria-label="custom pagination table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>No. of terms</TableCell>
-                <TableCell>Constituency</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {party.members
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((member: typePartyMember) => (
-                  <TableRow key={member.MID}>
-                    <TableCell>
-                      <Link href="/members/[mid]" as={`/members/${member.MID}`}>
-                        <a className={classes.link}>
-                          <div className={classes.flexDisplay}>
-                            <Avatar
-                              alt="Mp's image"
-                              src={
-                                'https://material-ui.com/static/images/avatar/1.jpg'
-                              }
-                            />
-                            <div className={classes.paddingOnLeft}>
-                              {member.name}
-                            </div>
+  }
+  return (
+    <Card>
+      <CardHeader title={`${party.name} (${party.abbr})`} />
+      <CardContent>
+        <Table className={classes.table} aria-label="custom pagination table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>No. of terms</TableCell>
+              <TableCell>Constituency</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {party.members
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((member: typePartyMember) => (
+                <TableRow key={member.MID}>
+                  <TableCell>
+                    <Link href="/members/[mid]" as={`/members/${member.MID}`}>
+                      <a className={classes.link}>
+                        <div className={classes.flexDisplay}>
+                          <Avatar
+                            alt="Mp's image"
+                            src={
+                              'https://material-ui.com/static/images/avatar/1.jpg'
+                            }
+                          />
+                          <div className={classes.paddingOnLeft}>
+                            {member.name}
                           </div>
-                        </a>
-                      </Link>
-                    </TableCell>
-                    <TableCell>{member.terms.length}</TableCell>
-                    <TableCell>
-                      <Link
-                        href="/constituencies/[cid]"
-                        as={`/constituencies/${member.terms[0].constituency.CID}`}
-                      >
-                        <a className={classes.link}>
-                          {member.terms[0].constituency.name},{' '}
-                          {member.terms[0].constituency.state}
-                        </a>
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 20]}
-                  count={party.total}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  backIconButtonProps={{
-                    'aria-label': 'previous page'
-                  }}
-                  nextIconButtonProps={{
-                    'aria-label': 'next page'
-                  }}
-                  onChangePage={(event, newPage: number) => setPage(newPage)}
-                  onChangeRowsPerPage={event => {
-                    setRowsPerPage(parseInt(event.target.value, 10));
-                    setPage(0);
-                  }}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </CardContent>
-      </Card>
-    );
+                        </div>
+                      </a>
+                    </Link>
+                  </TableCell>
+                  <TableCell>{member.terms.length}</TableCell>
+                  <TableCell>
+                    <Link
+                      href="/constituencies/[cid]"
+                      as={`/constituencies/${member.terms[0].constituency.CID}`}
+                    >
+                      <a className={classes.link}>
+                        {member.terms[0].constituency.name},{' '}
+                        {member.terms[0].constituency.state}
+                      </a>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 20]}
+                count={party.total}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                  'aria-label': 'previous page'
+                }}
+                nextIconButtonProps={{
+                  'aria-label': 'next page'
+                }}
+                onChangePage={(event, newPage: number) => setPage(newPage)}
+                onChangeRowsPerPage={event => {
+                  setRowsPerPage(parseInt(event.target.value, 10));
+                  setPage(0);
+                }}
+              />
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </CardContent>
+    </Card>
+  );
 };
 
 PartiesPage.getInitialProps = async ({ store, query }: any) => {
-  if(!store.getState().parties[+query.pid])
+  if (!store.getState().parties[+query.pid])
     await store.dispatch(getPartyById(+query.pid));
 };
 

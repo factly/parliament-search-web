@@ -29,16 +29,8 @@ const partyQuery = gql`
 `;
 
 const memberWithVariablesQuery = gql`
-  query(
-    $limit: Int
-    $page: Int
-    $party: [Int]
-  ) {
-    members(
-      limit: $limit
-      page: $page
-      party: $party
-    ) {
+  query($limit: Int, $page: Int, $party: [Int]) {
+    members(limit: $limit, page: $page, party: $party) {
       nodes {
         MID
         name

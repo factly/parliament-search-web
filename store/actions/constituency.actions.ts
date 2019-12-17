@@ -1,10 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants } from '../constants';
-import {
-  typeQuestionData,
-  AppActions
-} from '../../types';
+import { typeQuestionData, AppActions } from '../../types';
 import { Dispatch } from 'redux';
 import { constituencyConstants } from '../constants';
 
@@ -17,9 +14,7 @@ export const constituencyQuery = gql`
       from
       to
     }
-    members(
-      constituency: [$cid]
-    ) {
+    members(constituency: [$cid]) {
       nodes {
         MID
         name
@@ -35,9 +30,7 @@ export const constituencyQuery = gql`
       }
       total
     }
-    questions(
-      constituency: [$cid]
-    ) {
+    questions(constituency: [$cid]) {
       nodes {
         QID
         subject
@@ -57,7 +50,7 @@ export function getConstituencyById(id: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
       const variables = {
-        cid : id
+        cid: id
       };
 
       const { data } = await client.query({
@@ -76,7 +69,11 @@ export function getConstituencyById(id: number) {
 
       dispatch({
         type: constituencyConstants.SET_CONSTITUENCY,
-        data: { ...data.constituency, members: data.members.nodes, popularQuestionIds}
+        data: {
+          ...data.constituency,
+          members: data.members.nodes,
+          popularQuestionIds
+        }
       });
     } catch (error) {
       console.error(error);

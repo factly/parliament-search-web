@@ -17,11 +17,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from 'next/link';
-import {
-  typeMemberTerms,
-  typeMemberData,
-  typeQuestionData
-} from '../../types';
+import { typeMemberTerms, typeMemberData, typeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
 import moment from 'moment';
 
@@ -53,12 +49,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const MembersPage = ({ member, questions }: Props) => {
- 
   const classes = useStyles();
 
-  if (!member)
-    return <div>loading...</div>;
-    
+  if (!member) return <div>loading...</div>;
+
   return (
     <div>
       <Grid>
@@ -86,7 +80,10 @@ const MembersPage = ({ member, questions }: Props) => {
                       </Typography>
                     ) : null}
                     {member.dob ? (
-                      <Typography> Age : {moment.unix(+member.dob / 1000).fromNow(true)}</Typography>
+                      <Typography>
+                        {' '}
+                        Age : {moment.unix(+member.dob / 1000).fromNow(true)}
+                      </Typography>
                     ) : null}
                     {member.marital_status ? (
                       <Typography>
@@ -188,18 +185,20 @@ const MembersPage = ({ member, questions }: Props) => {
         </CardContent>
       </Card>
     </div>
-  ); 
+  );
 };
 
 MembersPage.getInitialProps = async ({ store, query }: any) => {
-  if(!store.getState().members[+query.mid])
+  if (!store.getState().members[+query.mid])
     await store.dispatch(getMemberById(+query.mid));
 };
 const mapStateToProps = (state: AppState, props: any) => {
-  const member = state.members[props.router.query.mid]
+  const member = state.members[props.router.query.mid];
   return {
     member: member,
-    questions: member.popularQuestionIds ? member.popularQuestionIds.map((each: number) => state.questions[each]) : []
-  }
+    questions: member.popularQuestionIds
+      ? member.popularQuestionIds.map((each: number) => state.questions[each])
+      : []
+  };
 };
 export default withRouter(connect(mapStateToProps)(MembersPage));

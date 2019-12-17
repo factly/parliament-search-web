@@ -3,32 +3,31 @@ export interface typeId {
   name: string;
 }
 
-export interface marks {
+export interface typeMarks {
   value: number;
   label: string;
 }
 
-export interface typeMarks {
-  marksAge: marks[];
-  marksTerm: marks[];
-}
-
 export interface typeSelectedFilter {
-  [ key : string ]: number[],
+  [key: string]: number[];
 }
 
 export type typeSelected = {
-  filters : typeSelectedFilter,
-  q?: string,
-  terms? : number,
-  sort? : string
+  q: string;
+  education: number[];
+  marital: number[];
+  age: number[];
+  sort: string;
+  page: number;
+  gender: number[];
+  terms: number;
 };
 
 export type typeFilter = {
   [key: string]: typeId[];
 };
 
-export interface typeSetAllState {
+export interface typeSetAllSelected {
   q?: string;
   states?: number[];
   education?: number[];
@@ -37,8 +36,19 @@ export interface typeSetAllState {
   age?: number[];
   sort?: string;
   terms?: number;
-  type?: number[];
   gender?: number[];
-  page: number;
-};
+  page?: number;
+}
 
+export interface typeQuestionGraphql {
+  q?: string;
+  states?: number[];
+  education?: string[];
+  parties?: number[];
+  marital_status?: string[];
+  age?: number[];
+  sort?: string;
+  terms?: number;
+  gender?: string;
+  page?: number;
+}
