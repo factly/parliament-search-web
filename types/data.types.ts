@@ -6,34 +6,41 @@ export interface typeQuestionBox {
   date: string;
   type: string;
 }
-export interface typeTermConstituency {
-  constituency: {
-    CID: number;
+export interface typeTermGeography {
+  geography: {
+    GID: number;
     name: string;
     state: string;
+    parent: {
+      name : string
+    }
   };
 }
 export interface typeMemberTerms {
-  constituency: {
-    CID: number;
+  geography: {
+    GID: number;
     name: string;
-    state: string;
+    parent: {
+      name : string
+    }
   };
   party: {
     PID: number;
     name: string;
     abbr: string;
   };
-  house: string;
+  house: {
+    name: string;
+  }
   session: number;
 }
 
 export interface typePartyMember {
   MID: number;
   name: string;
-  terms: typeTermConstituency[];
+  terms: typeTermGeography[];
 }
-export interface typeConstituencyMember {
+export interface typeGeographyMember {
   MID: number;
   name: string;
   terms: {
@@ -43,7 +50,9 @@ export interface typeConstituencyMember {
       abbr: string;
     };
     session: number;
-    house: string;
+    house: {
+      name: string;
+    }
   }[];
 }
 
@@ -89,22 +98,24 @@ export interface typePartyData {
   members: typePartyMember[];
 }
 
-export interface typeConstituencyData {
-  CID: number;
+export interface typeGeographyData {
+  GID: number;
   name: string;
-  state: string;
+  parent: {
+    name : string
+  };
   from?: string;
   to?: string;
   popularQuestionIds?: number[];
-  members: typeConstituencyMember[];
+  members: typeGeographyMember[];
 }
 
 export interface typeMemberObject {
   [index: number]: typeMemberData;
 }
 
-export interface typeConstituencyObject {
-  [index: number]: typeConstituencyData;
+export interface typeGeographyObject {
+  [index: number]: typeGeographyData;
 }
 
 export interface typeQuestionObject {

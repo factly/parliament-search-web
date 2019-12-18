@@ -1,15 +1,16 @@
-import { typeSetAllSelected } from './reducers.types';
+import { typeSetAllSelected, typeId } from './reducers.types';
 import {
   typeQuestionObject,
   typePartyData,
-  typeConstituencyData,
+  typeGeographyData,
   typeMemberData
 } from './data.types';
 import {
-  constituencyConstants,
+  geographyConstants,
   memberConstants,
   partyConstants,
-  questionConstants
+  questionConstants,
+  filterConstants
 } from '../store/constants';
 import { searchConstants } from '../store/constants/search.constants';
 
@@ -56,9 +57,9 @@ export interface Toogle {
   field: string;
 }
 
-export interface SetConstituency {
-  type: typeof constituencyConstants.SET_CONSTITUENCY;
-  data: typeConstituencyData;
+export interface SetGeography {
+  type: typeof geographyConstants.SET_GEOGRAPHY;
+  data: typeGeographyData;
 }
 
 export interface SetMember {
@@ -88,6 +89,16 @@ export interface SetPartyMembers {
   };
 }
 
+export interface SetPartyFilter{
+  type : typeof filterConstants.SET_PARTY_FILTER,
+  data : typeId[]
+}
+
+export interface setStatesFilter{
+  type : typeof filterConstants.SET_STATES_FILTER,
+  data : typeId[]
+}
+
 export interface SetSearchPageQuestions {
   type: typeof searchConstants.SET_SEARCHPAGE_QUESTIONS;
   data: {
@@ -96,19 +107,21 @@ export interface SetSearchPageQuestions {
   };
 }
 
-export type Actions =
+export type Actions = 
   | ChangeTheme
   | SetAge
   | SetSort
   | Toogle
   | SetAll
   | SetTerms
-  | SetConstituency
+  | SetGeography
   | SetMember
   | SetParty
   | SetPopularQuestions
   | SetQuestion
   | SetPartyMembers
-  | SetSearchPageQuestions;
+  | SetSearchPageQuestions
+  | SetPartyFilter
+  | setStatesFilter;
 
 export type AppActions = Actions;

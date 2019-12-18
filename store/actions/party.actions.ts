@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { typePartyData, AppActions } from '../../types';
 import { Dispatch } from 'react';
-import { partyConstants } from '../constants';
+import { partyConstants, filterConstants } from '../constants';
 
 const partyQuery = gql`
   query($pid: Int!, $limit: Int, $page: Int) {
@@ -16,8 +16,8 @@ const partyQuery = gql`
         MID
         name
         terms {
-          constituency {
-            CID
+          geography {
+            GID
             name
             state
           }
@@ -40,8 +40,8 @@ const memberWithVariablesQuery = gql`
             name
             abbr
           }
-          constituency {
-            CID
+          geography {
+            GID
             name
             state
           }
@@ -54,22 +54,30 @@ const memberWithVariablesQuery = gql`
   }
 `;
 
+const partyIdsQuery = gql`
+query{
+  parties {
+    nodes {
+      name
+      PID
+      abbr
+    }
+  }
+}
+`
+
 export function getPartyById(pid: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      let party: typePartyData = {
-        PID: 0,
-        members: [],
-        name: '',
-        abbr: '',
-        total: 0
-      };
+      
       const variables = { pid };
       const { data } = await client.query({ query: partyQuery, variables });
-      party = data.party;
-      party.total = data.members.total;
-      party.members = data.members.nodes;
-      dispatch({ type: partyConstants.SET_PARTY, data: party });
+     
+      dispatch({ type: partyConstants.SET_PARTY, data: { 
+        ...data.party, 
+        members: data.members.nodes, 
+        total: data.members.total 
+      } });
     } catch (error) {
       console.error(error.networkError.result);
     }
@@ -102,6 +110,24 @@ export function getPartyMembers(
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+}
+
+export function getAllPartyIds() {
+  return async (dispatch: Dispatch<AppActions>) => {
+    try {
+      const { data } = await client.query({ query: partyIdsQuery });
+      const party = data.parties.nodes.map((each:any) =>  { 
+        return { id : each.PID, name : each.abbr }
+      })
+      dispatch({
+        type : filterConstants.SET_PARTY_FILTER, 
+        data : party
+      })
+      //dispatch({type: partyConstants.SET_PARTY, data: data.party.nodes});
+    } catch (error) {
+      console.error(error);
     }
   };
 }

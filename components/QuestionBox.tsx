@@ -45,7 +45,7 @@ const QuestionBox = ({ question }: Props) => {
       </Typography>
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
-          {questionBy.map((each: typeQuestionBy) => (
+          {questionBy.filter((each: typeQuestionBy) => each !== null ).map((each: typeQuestionBy) => (
             <Link
               key={QID + each.MID}
               href="/members/[mid]"

@@ -106,12 +106,12 @@ const PartiesPage = ({ dispatch, party }: Props) => {
                   <TableCell>{member.terms.length}</TableCell>
                   <TableCell>
                     <Link
-                      href="/constituencies/[cid]"
-                      as={`/constituencies/${member.terms[0].constituency.CID}`}
+                      href="/geographies/[gid]"
+                      as={`/geographies/${member.terms[0].geography.GID}`}
                     >
                       <a className={classes.link}>
-                        {member.terms[0].constituency.name},{' '}
-                        {member.terms[0].constituency.state}
+                        {member.terms[0].geography.name},{' '}
+                        {'statenam'}
                       </a>
                     </Link>
                   </TableCell>

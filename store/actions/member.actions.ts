@@ -12,7 +12,7 @@ const memberQuery = gql`
       name
       gender
       dob
-      marital_status
+      maritalStatus
       education
       profession
       expertise
@@ -21,17 +21,21 @@ const memberQuery = gql`
       phone
       email
       terms {
-        constituency {
-          CID
+        geography {
+          GID
           name
-          state
+          parent {
+            name
+          }
         }
         party {
           PID
           name
           abbr
         }
-        house
+        house{
+          name
+        }
         session
       }
     }
@@ -56,7 +60,6 @@ export function getMemberById(id: number) {
     try {
       const variables = { mid: id };
       const { data } = await client.query({ query: memberQuery, variables });
-
       const popularQuestionIds: number[] = data.questions.nodes.map(
         (each: typeQuestionBox) => each.QID
       );
@@ -71,7 +74,7 @@ export function getMemberById(id: number) {
         data: { ...data.member, popularQuestionIds }
       });
     } catch (error) {
-      console.error(error);
+      console.error(error.networkError.result);
     }
   };
 }

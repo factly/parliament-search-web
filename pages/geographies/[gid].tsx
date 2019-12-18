@@ -16,16 +16,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
-import { getConstituencyById } from '../../store/actions';
+import { getGeographyById } from '../../store/actions';
 import {
-  typeConstituencyMember,
-  typeConstituencyData,
+  typeGeographyMember,
+  typeGeographyData,
   typeQuestionData
 } from '../../types';
 import { AppState } from '../../store/reducers';
 
 interface Props {
-  constituency: typeConstituencyData;
+  geography: typeGeographyData;
   questions: typeQuestionData[];
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
@@ -72,20 +72,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const ConstituencyPages = ({ constituency, questions }: Props) => {
+const GeographyPage = ({ geography, questions }: Props) => {
   const classes = useStyles();
 
-  if (!constituency) {
+  if (!geography) {
     return <p> loading ...</p>;
   }
   return (
     <div>
       <Paper className={classes.paper}>
-        <MapWithNoSSR constituencyId={201} />
+        <MapWithNoSSR geographyId={201} />
       </Paper>
       <Card className={classes.marginTopOne}>
         <CardHeader
-          title={`List of all MP's from ${constituency.name} (${constituency.state})`}
+          title={`List of all MP's from ${geography.name} (${geography.parent.name})`}
         />
         <CardContent className={classes.root}>
           <Table className={classes.table} aria-label="list of MP's">
@@ -97,8 +97,8 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {constituency.members.map(
-                (member: typeConstituencyMember, index: number) => (
+              {geography.members.map(
+                (member: typeGeographyMember, index: number) => (
                   <TableRow key={member.MID + index}>
                     <TableCell>
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
@@ -127,7 +127,7 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
                       </Link>
                     </TableCell>
                     <TableCell>
-                      {member.terms[0].session}, {member.terms[0].house}
+                      {member.terms[0].session}, {member.terms[0].house.name}
                     </TableCell>
                   </TableRow>
                 )
@@ -140,7 +140,7 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
         <CardHeader
           title="Questions"
           action={
-            <Link href={`/search?states=1`}>
+            <Link href={`/search?constituency=${geography.GID}`}>
               <Button>All Questions</Button>
             </Link>
           }
@@ -161,22 +161,22 @@ const ConstituencyPages = ({ constituency, questions }: Props) => {
   );
 };
 
-ConstituencyPages.getInitialProps = async ({ store, query }: any) => {
-  if (!store.getState().constituencies[+query.cid])
-    await store.dispatch(getConstituencyById(+query.cid));
+GeographyPage.getInitialProps = async ({ store, query }: any) => {
+  if (!store.getState().geographies[+query.gid])
+    await store.dispatch(getGeographyById(+query.gid));
 };
 
 const mapStateToProps = (state: AppState, props: any) => {
-  const constituency = state.constituencies[props.router.query.cid];
+  const geography = state.geographies[props.router.query.gid];
   return {
-    constituency: constituency,
+    geography: geography,
     questions:
-      constituency && constituency.popularQuestionIds
-        ? constituency.popularQuestionIds.map(
+      geography && geography.popularQuestionIds
+        ? geography.popularQuestionIds.map(
             (each: number) => state.questions[each]
           )
         : []
   };
 };
 
-export default withRouter(connect(mapStateToProps)(ConstituencyPages));
+export default withRouter(connect(mapStateToProps)(GeographyPage));

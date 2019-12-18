@@ -21,6 +21,10 @@ export type typeSelected = {
   page: number;
   gender: number[];
   terms: number;
+  questionBy: number[],
+  geography : number[],
+  party : number[],
+  state : number[] 
 };
 
 export type typeFilter = {
@@ -29,26 +33,31 @@ export type typeFilter = {
 
 export interface typeSetAllSelected {
   q?: string;
-  states?: number[];
+  state?: number[];
   education?: number[];
-  parties?: number[];
+  party?: number[];
   marital?: number[];
   age?: number[];
   sort?: string;
   terms?: number;
   gender?: number[];
   page?: number;
+  questionBy? : number[],
+  geography? : number[],
+  member? : string | string[],
+  constituency? : string | string[]
 }
 
 export interface typeQuestionGraphql {
   q?: string;
-  states?: number[];
   education?: string[];
-  parties?: number[];
+  party?: number[];
   marital_status?: string[];
   age?: number[];
   sort?: string;
   terms?: number;
   gender?: string;
   page?: number;
+  questionBy? : number[],
+  geography? : number[]
 }

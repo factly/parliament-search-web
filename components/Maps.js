@@ -4,11 +4,11 @@ import Router from 'next/router';
 import PropTypes from 'prop-types';
 import dataMap from '../public/static/map_data/pc.json';
 
-const ConstituencyMap = ({ constituencyId }) => {
+const GeographyMap = ({ geographyId }) => {
   let center = [];
   let zoom = 8;
   const index = dataMap.features.findIndex(
-    each => each.properties.pc_id === constituencyId
+    each => each.properties.pc_id === geographyId
   );
   if (index >= 0) {
     const { coordinates } = dataMap.features[index].geometry;
@@ -30,13 +30,13 @@ const ConstituencyMap = ({ constituencyId }) => {
       maxLat - minLat > maxLng - minLng ? maxLat - minLat : maxLng - minLng;
     zoom = a > 3 ? 7 : a > 1 ? 8 : 9.5;
   }
-  const [hover, setHover] = React.useState(constituencyId);
+  const [hover, setHover] = React.useState(geographyId);
 
   const onEachFeature = (feature, layer) => {
     const click = () =>
       Router.push(
-        '/constituencies/[cid]',
-        `/constituencies/${feature.properties.pc_id}`
+        '/geographies/[gid]',
+        `/geographies/${feature.properties.pc_id}`
       );
 
     const mouseOver = () => {
@@ -59,7 +59,7 @@ const ConstituencyMap = ({ constituencyId }) => {
     weight: 1,
     fillOpacity: 0.5,
     fillColor:
-      feature.properties.pc_id === constituencyId ||
+      feature.properties.pc_id === geographyId ||
       feature.properties.pc_id === hover
         ? '#cf8f8f'
         : '#d5dbd6',
@@ -87,7 +87,7 @@ const ConstituencyMap = ({ constituencyId }) => {
     </Map>
   );
 };
-ConstituencyMap.propTypes = {
-  constituencyId: PropTypes.number.isRequired
+GeographyMap.propTypes = {
+  geographyId: PropTypes.number.isRequired
 };
-export default ConstituencyMap;
+export default GeographyMap;

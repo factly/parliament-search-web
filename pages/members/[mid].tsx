@@ -136,11 +136,11 @@ const MembersPage = ({ member, questions }: Props) => {
                   <TableRow key={term.party.name}>
                     <TableCell>
                       <Link
-                        href="/constituencies/[cid]"
-                        as={`/constituencies/${term.constituency.CID}`}
+                        href="/geographies/[gid]"
+                        as={`/geographies/${term.geography.GID}`}
                       >
                         <a className={classes.link}>
-                          {term.constituency.name} ({term.constituency.state})
+                          {term.geography.name} ({term.geography.parent.name})
                         </a>
                       </Link>
                     </TableCell>
@@ -155,7 +155,7 @@ const MembersPage = ({ member, questions }: Props) => {
                       </Link>
                     </TableCell>
                     <TableCell>
-                      {term.session}, {term.house}
+                      {term.session}, {term.house.name}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -167,7 +167,7 @@ const MembersPage = ({ member, questions }: Props) => {
         <CardHeader
           title="Popular Questions"
           action={
-            <Link href={`/search`}>
+            <Link href={`/search?member=${member.MID}`}>
               <Button>All Questions</Button>
             </Link>
           }

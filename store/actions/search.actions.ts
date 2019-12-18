@@ -2,29 +2,15 @@ import { questionsByVariablesQuery } from './question.actions';
 import { client } from './client.apollo';
 import {
   questionConstants,
-  searchConstants,
-  selectedConstants
+  searchConstants
 } from '../constants';
 import {
   typeQuestionBox,
   AppActions,
-  typeSetAllSelected,
   typeQuestionGraphql
 } from '../../types';
 import { Dispatch } from 'react';
 
-export function getSearchPageQuestionsInti(query: typeSetAllSelected) {
-  return async (dispatch: Dispatch<AppActions>) => {
-    try {
-      dispatch({
-        type: selectedConstants.SET_ALL,
-        data: query
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-}
 
 export function getSearchPageQuestions(query: typeQuestionGraphql) {
   return async (dispatch: Dispatch<AppActions>) => {

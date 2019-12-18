@@ -38,7 +38,7 @@ const marks = [
   }
 ];
 
-const SliderFilter = ({ toogle, heading, selected }: filterProps) => (
+const AgeFilter = ({ toogle, heading, selected }: filterProps) => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">{heading}</Typography>
@@ -58,7 +58,7 @@ const SliderFilter = ({ toogle, heading, selected }: filterProps) => (
   </ExpansionPanel>
 );
 
-SliderFilter.propTypes = {
+AgeFilter.propTypes = {
   toogle: PropTypes.func.isRequired,
   heading: PropTypes.string.isRequired,
   selected: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -70,4 +70,4 @@ SliderFilter.propTypes = {
   )
 };
 
-export default SliderFilter;
+export default AgeFilter;

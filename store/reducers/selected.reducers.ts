@@ -14,7 +14,11 @@ const initialState: typeSelected = {
   marital: [],
   age: [25, 100],
   gender: [],
-  terms: 0
+  terms: 0,
+  questionBy : [],
+  geography: [],
+  party : [],
+  state : []
 };
 
 function toogleList(list: number[], element: number) {
@@ -34,7 +38,10 @@ function selected(state = initialState, action: actionType) {
       const result = {
         ...state,
         q: action.data.q ? action.data.q : initialState.q,
-        page: action.data.page ? +action.data.page : initialState.page
+        page: action.data.page ? +action.data.page : initialState.page,
+        questionBy : action.data.questionBy ? action.data.questionBy : initialState.questionBy,
+        geography : action.data.geography ? action.data.geography : initialState.geography,
+        state : action.data.state ? action.data.state : initialState.state
       };
       return result;
     case selectedConstants.SET_SORT:
