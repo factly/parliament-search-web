@@ -110,8 +110,7 @@ const PartiesPage = ({ dispatch, party }: Props) => {
                       as={`/geographies/${member.terms[0].geography.GID}`}
                     >
                       <a className={classes.link}>
-                        {member.terms[0].geography.name},{' '}
-                        {'statenam'}
+                        {member.terms[0].geography.name}, {member.terms[0].geography.parent.name}
                       </a>
                     </Link>
                   </TableCell>

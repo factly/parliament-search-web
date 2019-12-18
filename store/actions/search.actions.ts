@@ -1,16 +1,8 @@
 import { questionsByVariablesQuery } from './question.actions';
 import { client } from './client.apollo';
-import {
-  questionConstants,
-  searchConstants
-} from '../constants';
-import {
-  typeQuestionBox,
-  AppActions,
-  typeQuestionGraphql
-} from '../../types';
+import { questionConstants, searchConstants } from '../constants';
+import { typeQuestionBox, AppActions, typeQuestionGraphql } from '../../types';
 import { Dispatch } from 'react';
-
 
 export function getSearchPageQuestions(query: typeQuestionGraphql) {
   return async (dispatch: Dispatch<AppActions>) => {

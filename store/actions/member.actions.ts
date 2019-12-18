@@ -33,7 +33,7 @@ const memberQuery = gql`
           name
           abbr
         }
-        house{
+        house {
           name
         }
         session

@@ -19,7 +19,9 @@ const partyQuery = gql`
           geography {
             GID
             name
-            state
+            parent{
+              name
+            }
           }
         }
       }
@@ -43,9 +45,13 @@ const memberWithVariablesQuery = gql`
           geography {
             GID
             name
-            state
+            parent{
+              name
+            }
           }
-          house
+          house{
+            name
+          }
           session
         }
       }
@@ -55,29 +61,31 @@ const memberWithVariablesQuery = gql`
 `;
 
 const partyIdsQuery = gql`
-query{
-  parties {
-    nodes {
-      name
-      PID
-      abbr
+  query {
+    parties {
+      nodes {
+        name
+        PID
+        abbr
+      }
     }
   }
-}
-`
+`;
 
 export function getPartyById(pid: number) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-      
       const variables = { pid };
       const { data } = await client.query({ query: partyQuery, variables });
-     
-      dispatch({ type: partyConstants.SET_PARTY, data: { 
-        ...data.party, 
-        members: data.members.nodes, 
-        total: data.members.total 
-      } });
+
+      dispatch({
+        type: partyConstants.SET_PARTY,
+        data: {
+          ...data.party,
+          members: data.members.nodes,
+          total: data.members.total
+        }
+      });
     } catch (error) {
       console.error(error.networkError.result);
     }
@@ -97,6 +105,7 @@ export function getPartyMembers(
         query: memberWithVariablesQuery,
         variables
       });
+      console.log(data)
       let members = [];
       if (required <= data.members.nodes.length)
         members = data.members.nodes.slice(
@@ -118,13 +127,13 @@ export function getAllPartyIds() {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
       const { data } = await client.query({ query: partyIdsQuery });
-      const party = data.parties.nodes.map((each:any) =>  { 
-        return { id : each.PID, name : each.abbr }
-      })
+      const party = data.parties.nodes.map((each: any) => {
+        return { id: each.PID, name: each.abbr };
+      });
       dispatch({
-        type : filterConstants.SET_PARTY_FILTER, 
-        data : party
-      })
+        type: filterConstants.SET_PARTY_FILTER,
+        data: party
+      });
       //dispatch({type: partyConstants.SET_PARTY, data: data.party.nodes});
     } catch (error) {
       console.error(error);

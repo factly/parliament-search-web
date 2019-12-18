@@ -23,16 +23,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 
-import {
-  typeFilter,
-  typeQuestionBox,
-  typeSelected,
-} from '../../types';
+import { typeFilter, typeQuestionBox, typeSelected } from '../../types';
 import { CardMedia, Typography } from '@material-ui/core';
-import {
-  getSearchPageQuestions,
-  getAllPartyIds
-} from '../../store/actions';
+import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 
 interface Iprops {
@@ -59,7 +52,7 @@ const SearchPage = ({
       const queryMaritalStatus: string[] = [];
       const queryParty: number[] = [];
       let queryGender: any = null;
-      const queryState:number[] = []
+      const queryState: number[] = [];
       selected.party.forEach((element: number) => {
         const temp = filters.education.find(
           (each: { id: number; name: string }) => each.id === element
@@ -108,7 +101,7 @@ const SearchPage = ({
           gender: queryGender ? (queryGender as string) : undefined,
           terms: selected.terms > 0 ? selected.terms : undefined,
           questionBy: selected.questionBy,
-          geography : selected.geography.concat(queryState),
+          geography: selected.geography.concat(queryState),
           party: selected.party
         })
       );
@@ -124,16 +117,16 @@ const SearchPage = ({
           defaultShow
           heading="State"
           list={filters.state}
-          toogle={(value) => dispatch(selectedActions.toogle(value, 'state'))}
+          toogle={value => dispatch(selectedActions.toogle(value, 'state'))}
           selected={selected.state}
-        />  
+        />
         <CheckBoxFilter
           limit={5}
           search
           defaultShow
           heading="Party"
           list={filters.party}
-          toogle={(value) => dispatch(selectedActions.toogle(value, 'party'))}
+          toogle={value => dispatch(selectedActions.toogle(value, 'party'))}
           selected={selected.party}
         />
         <CheckBoxFilter
@@ -236,7 +229,7 @@ interface StateProps {
 
 SearchPage.getInitialProps = async ({ store, query }: any) => {
   await store.dispatch(getAllPartyIds());
-  await store.dispatch(getStates())
+  await store.dispatch(getStates());
   await store.dispatch(selectedActions.setAll(query));
 };
 

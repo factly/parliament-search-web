@@ -12,8 +12,8 @@ export interface typeTermGeography {
     name: string;
     state: string;
     parent: {
-      name : string
-    }
+      name: string;
+    };
   };
 }
 export interface typeMemberTerms {
@@ -21,8 +21,8 @@ export interface typeMemberTerms {
     GID: number;
     name: string;
     parent: {
-      name : string
-    }
+      name: string;
+    };
   };
   party: {
     PID: number;
@@ -31,7 +31,7 @@ export interface typeMemberTerms {
   };
   house: {
     name: string;
-  }
+  };
   session: number;
 }
 
@@ -52,7 +52,7 @@ export interface typeGeographyMember {
     session: number;
     house: {
       name: string;
-    }
+    };
   }[];
 }
 
@@ -102,7 +102,7 @@ export interface typeGeographyData {
   GID: number;
   name: string;
   parent: {
-    name : string
+    name: string;
   };
   from?: string;
   to?: string;

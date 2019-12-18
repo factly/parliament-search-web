@@ -89,14 +89,14 @@ export interface SetPartyMembers {
   };
 }
 
-export interface SetPartyFilter{
-  type : typeof filterConstants.SET_PARTY_FILTER,
-  data : typeId[]
+export interface SetPartyFilter {
+  type: typeof filterConstants.SET_PARTY_FILTER;
+  data: typeId[];
 }
 
-export interface setStatesFilter{
-  type : typeof filterConstants.SET_STATES_FILTER,
-  data : typeId[]
+export interface setStatesFilter {
+  type: typeof filterConstants.SET_STATES_FILTER;
+  data: typeId[];
 }
 
 export interface SetSearchPageQuestions {
@@ -107,7 +107,7 @@ export interface SetSearchPageQuestions {
   };
 }
 
-export type Actions = 
+export type Actions =
   | ChangeTheme
   | SetAge
   | SetSort

@@ -1,7 +1,7 @@
 import { typeFilter } from '../../types';
 import { filterConstants } from '../constants';
 
-const initialState:typeFilter = {}
+const initialState: typeFilter = {};
 initialState.topics = [
   {
     id: 1,
@@ -39,8 +39,8 @@ initialState.gender = [
   { id: 1, name: 'Male' },
   { id: 2, name: 'Female' }
 ];
-initialState.party = []
-initialState.state = []
+initialState.party = [];
+initialState.state = [];
 /*const initialState: typeFilter = {
   topics,
   gender,
@@ -49,12 +49,15 @@ initialState.state = []
   type
 };
 */
-function filters(state = initialState, action: { type: string , data : {id : number , name : string}[]}) {
+function filters(
+  state = initialState,
+  action: { type: string; data: { id: number; name: string }[] }
+) {
   switch (action.type) {
-    case filterConstants.SET_PARTY_FILTER : 
-      return {...state , party : action.data }
-    case filterConstants.SET_STATES_FILTER : 
-      return {...state , state : action.data}
+    case filterConstants.SET_PARTY_FILTER:
+      return { ...state, party: action.data };
+    case filterConstants.SET_STATES_FILTER:
+      return { ...state, state: action.data };
     default:
       return state;
   }

@@ -21,10 +21,10 @@ export type typeSelected = {
   page: number;
   gender: number[];
   terms: number;
-  questionBy: number[],
-  geography : number[],
-  party : number[],
-  state : number[] 
+  questionBy: number[];
+  geography: number[];
+  party: number[];
+  state: number[];
 };
 
 export type typeFilter = {
@@ -42,10 +42,10 @@ export interface typeSetAllSelected {
   terms?: number;
   gender?: number[];
   page?: number;
-  questionBy? : number[],
-  geography? : number[],
-  member? : string | string[],
-  constituency? : string | string[]
+  questionBy?: number[];
+  geography?: number[];
+  member?: string | string[];
+  constituency?: string | string[];
 }
 
 export interface typeQuestionGraphql {
@@ -58,6 +58,6 @@ export interface typeQuestionGraphql {
   terms?: number;
   gender?: string;
   page?: number;
-  questionBy? : number[],
-  geography? : number[]
+  questionBy?: number[];
+  geography?: number[];
 }

@@ -45,21 +45,23 @@ const QuestionBox = ({ question }: Props) => {
       </Typography>
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
-          {questionBy.filter((each: typeQuestionBy) => each !== null ).map((each: typeQuestionBy) => (
-            <Link
-              key={QID + each.MID}
-              href="/members/[mid]"
-              as={`/members/${each.MID}`}
-            >
-              <Chip
-                className={classes.asked}
-                label={each.name}
-                avatar={
-                  <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
-                }
-              />
-            </Link>
-          ))}
+          {questionBy
+            .filter((each: typeQuestionBy) => each !== null)
+            .map((each: typeQuestionBy) => (
+              <Link
+                key={QID + each.MID}
+                href="/members/[mid]"
+                as={`/members/${each.MID}`}
+              >
+                <Chip
+                  className={classes.asked}
+                  label={each.name}
+                  avatar={
+                    <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+                  }
+                />
+              </Link>
+            ))}
         </div>
       </div>
     </div>

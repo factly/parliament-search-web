@@ -6,60 +6,61 @@ import { Dispatch } from 'redux';
 import { geographyConstants } from '../constants';
 
 export const geographyQuery = gql`
-query($gid: Int!) {
-  geography(id: $gid) {
-    GID
-    name
-    parent{
+  query($gid: Int!) {
+    geography(id: $gid) {
+      GID
       name
-    }
-    from
-    to
-  }
-  members(geography: [$gid]) {
-    nodes {
-      MID
-      name
-      terms {
-        party {
-          PID
-          name
-          abbr
-        }
-        house{
-          name
-        }
-        session
-      }
-    }
-    total
-  }
-  questions(geography: [$gid]) {
-    nodes {
-      QID
-      subject
-      type
-      questionBy {
-        MID
+      parent {
         name
       }
-      ministry
-      date
+      from
+      to
+    }
+    members(geography: [$gid]) {
+      nodes {
+        MID
+        name
+        terms {
+          party {
+            PID
+            name
+            abbr
+          }
+          house {
+            name
+          }
+          session
+        }
+      }
+      total
+    }
+    questions(geography: [$gid]) {
+      nodes {
+        QID
+        subject
+        type
+        questionBy {
+          MID
+          name
+        }
+        ministry
+        date
+      }
     }
   }
-}
 `;
 
 const statesQuery = gql`
-{
-  states{
-    nodes{
-      name
-      GID
+  {
+    states {
+      nodes {
+        name
+        GID
+      }
+      total
     }
-    total
   }
-}`
+`;
 
 export function getGeographyById(id: number) {
   return async (dispatch: Dispatch<AppActions>) => {
@@ -99,13 +100,14 @@ export function getGeographyById(id: number) {
 export function getStates() {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
-
       const { data } = await client.query({
         query: statesQuery
       });
-      const states = data.states.nodes.map((each:{GID : number , name : string}) =>  { 
-        return { id : each.GID, name : each.name }
-      })
+      const states = data.states.nodes.map(
+        (each: { GID: number; name: string }) => {
+          return { id: each.GID, name: each.name };
+        }
+      );
       dispatch({
         type: filterConstants.SET_STATES_FILTER,
         data: states
@@ -115,4 +117,3 @@ export function getStates() {
     }
   };
 }
-
