@@ -37,8 +37,9 @@ export const questionsByVariablesQuery = gql`
     $expertise: [String]
     $terms: Int
     $party: [Int]
-    $geography: [Int]
+    $constituency: [Int]
     $sort: String
+    $state : [Int]
   ) {
     questions(
       limit: $limit
@@ -55,7 +56,8 @@ export const questionsByVariablesQuery = gql`
       expertise: $expertise
       terms: $terms
       party: $party
-      geography: $geography
+      constituency: $constituency
+      state : $state
       sort: $sort
     ) {
       nodes {

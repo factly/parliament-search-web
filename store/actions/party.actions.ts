@@ -105,7 +105,6 @@ export function getPartyMembers(
         query: memberWithVariablesQuery,
         variables
       });
-      console.log(data)
       let members = [];
       if (required <= data.members.nodes.length)
         members = data.members.nodes.slice(
@@ -118,7 +117,7 @@ export function getPartyMembers(
         data: { pid, members }
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 }

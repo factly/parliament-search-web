@@ -43,70 +43,62 @@ const SearchPage = ({
   total,
   filters
 }: Iprops): JSX.Element => {
+
   React.useEffect(() => {
-    let counter = 0;
-    if (selected.page) counter++;
-    if (selected.sort) counter++;
-    if (Object.keys(selected).length - counter > 0) {
-      const queryEducation: string[] = [];
-      const queryMaritalStatus: string[] = [];
-      const queryParty: number[] = [];
-      let queryGender: any = null;
-      const queryState: number[] = [];
-      selected.party.forEach((element: number) => {
-        const temp = filters.education.find(
-          (each: { id: number; name: string }) => each.id === element
-        );
-        if (temp) {
-          queryParty.push(temp.id);
-        }
-      });
-      selected.state.forEach((element: number) => {
-        const temp = filters.state.find(
-          (each: { id: number; name: string }) => each.id === element
-        );
-        if (temp) {
-          queryState.push(temp.id);
-        }
-      });
-      selected.education.forEach((element: number) => {
-        const temp = filters.education.find(
-          (each: { id: number; name: string }) => each.id === element
-        );
-        if (temp) {
-          queryEducation.push(temp.name);
-        }
-      });
-      selected.marital.forEach((element: number) => {
-        const temp = filters.marital.find(
-          (each: { id: number; name: string }) => each.id === element
-        );
-        if (temp) {
-          queryMaritalStatus.push(temp.name);
-        }
-      });
-      if (selected.gender.length === 1) {
-        const temp = filters.gender.find(
-          (each: { id: number; name: string }) => each.id === selected.gender[0]
-        );
-        if (temp) queryGender = temp.name;
-      }
-      dispatch(
-        getSearchPageQuestions({
-          sort: selected.sort,
-          page: selected.page,
-          q: selected.q,
-          education: queryEducation,
-          marital_status: queryMaritalStatus,
-          gender: queryGender ? (queryGender as string) : undefined,
-          terms: selected.terms > 0 ? selected.terms : undefined,
-          questionBy: selected.questionBy,
-          geography: selected.geography.concat(queryState),
-          party: selected.party
-        })
+    const queryEducation: string[] = [];
+    const queryMaritalStatus: string[] = [];
+    let queryGender: any = null;
+    
+    selected.education.forEach((element: number) => {
+      const temp = filters.education.find(
+        (each: { id: number; name: string }) => each.id === element
       );
-    } else Router.push('/');
-  }, [selected]);
+      if (temp) {
+        queryEducation.push(temp.name);
+      }
+    });
+
+    selected.marital.forEach((element: number) => {
+      const temp = filters.marital.find(
+        (each: { id: number; name: string }) => each.id === element
+      );
+      if (temp) {
+        queryMaritalStatus.push(temp.name);
+      }
+    });
+
+    if (selected.gender.length === 1) {
+      const temp = filters.gender.find(
+        (each: { id: number; name: string }) => each.id === selected.gender[0]
+      );
+      if (temp) queryGender = temp.name;
+    };
+
+    const query : any = {};
+
+    if(selected.page && selected.page > 1 ) query.page = selected.page
+    if(selected.sort && selected.sort !== 'newest') query.sort = selected.sort
+    if(selected.q) query.q = selected.q
+    if(queryGender) query.gender = selected.gender
+    if(selected.terms && selected.terms > 0 ) query.terms = selected.terms
+    if(selected.questionBy && selected.questionBy.length > 0) query.questionBy = selected.questionBy
+    if(selected.constituency && selected.constituency.length > 0) query.constituency = selected.constituency
+    if(selected.party && selected.party.length > 0) query.party = selected.party
+    if(selected.state && selected.state.length > 0) query.state = selected.state
+    if(queryEducation && queryEducation.length > 0) query.eduction = queryEducation
+    if(queryMaritalStatus && queryMaritalStatus.length > 0) query.maritalStatus = queryMaritalStatus
+
+    dispatch(
+      getSearchPageQuestions(query)
+    )
+
+
+    Router.push({
+      pathname: '/search',
+      query: query
+    })
+      
+  }, [selected /*, selected.page, selected.education, selected.gender, selected.questionBy, selected.marital, selected.constituency, selected.state*/]);
 
   return (
     <Grid container spacing={3}>

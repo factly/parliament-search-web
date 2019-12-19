@@ -25,6 +25,7 @@ export type typeSelected = {
   geography: number[];
   party: number[];
   state: number[];
+  constituency : number[]
 };
 
 export type typeFilter = {
@@ -45,7 +46,7 @@ export interface typeSetAllSelected {
   questionBy?: number[];
   geography?: number[];
   member?: string | string[];
-  constituency?: string | string[];
+  constituency?: number[];
 }
 
 export interface typeQuestionGraphql {
@@ -60,4 +61,6 @@ export interface typeQuestionGraphql {
   page?: number;
   questionBy?: number[];
   geography?: number[];
+  constituency?: number[];
+  state? : number[];
 }

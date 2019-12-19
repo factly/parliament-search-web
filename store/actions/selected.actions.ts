@@ -1,7 +1,7 @@
 import { selectedConstants } from '../constants';
-import { SetAll, typeSetAllSelected } from '../../types';
+import { SetAll } from '../../types';
 
-function setAll(query: typeSetAllSelected) {
+function setAll(query: any) {
   if (query.member) {
     query.questionBy =
       typeof query.member !== 'string' && query.member.length > 0
@@ -10,12 +10,12 @@ function setAll(query: typeSetAllSelected) {
     delete query.member;
   }
   if (query.constituency) {
-    query.geography =
+    const constituency:number[] =
       typeof query.constituency !== 'string' && query.constituency.length > 0
         ? query.constituency.map((each: string) => +each)
         : [+query.constituency];
-    delete query.constituency;
-  }
+    query.constituency = constituency;    
+  };
   return { type: selectedConstants.SET_ALL, data: query };
 }
 
