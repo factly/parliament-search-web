@@ -17,17 +17,17 @@ initialState.education = [
   { id: 1, name: 'Doctorate' },
   { id: 2, name: 'Post Graduate' },
   { id: 3, name: 'Graduation' },
-  { id: 4, name: 'Diploma' },
-  { id: 5, name: 'Intermediate' },
-  { id: 6, name: 'Matriculate' },
-  { id: 7, name: 'High School' }
+  { id: 4, name: 'Intermediate' },
+  { id: 5, name: 'High School' },
+  { id: 6, name: 'Not mentioned' }
 ];
 
 initialState.marital = [
-  { id: 1, name: 'Single' },
-  { id: 2, name: 'Married' },
-  { id: 3, name: 'Widowed' },
-  { id: 4, name: 'Divorced' }
+  { id: 1, name: 'Married' },
+  { id: 2, name: 'Widow' },
+  { id: 3, name: 'Divorcee' },
+  { id: 4, name: 'Unmarried' },
+  { id: 5, name: 'Widower' },
 ];
 
 initialState.type = [
@@ -36,8 +36,9 @@ initialState.type = [
 ];
 
 initialState.gender = [
-  { id: 1, name: 'Male' },
-  { id: 2, name: 'Female' }
+  { id: 1, name: 'Female' },
+  { id: 2, name: 'Male' },
+  { id: 3, name: 'Other' }
 ];
 initialState.party = [];
 initialState.state = [];

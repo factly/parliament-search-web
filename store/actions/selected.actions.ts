@@ -1,22 +1,21 @@
 import { selectedConstants } from '../constants';
-import { SetAll } from '../../types';
-
+import { SetAll, typeSetAllSelected } from '../../types';
+function urlParser(param: string | string []){
+  if(typeof param === 'string') return [+param]
+  else if(typeof param === 'object') return param.map((each: string) => +each)
+}
 function setAll(query: any) {
-  if (query.member) {
-    query.questionBy =
-      typeof query.member !== 'string' && query.member.length > 0
-        ? query.member.map((each: string) => +each)
-        : [+query.member];
-    delete query.member;
-  }
-  if (query.constituency) {
-    const constituency:number[] =
-      typeof query.constituency !== 'string' && query.constituency.length > 0
-        ? query.constituency.map((each: string) => +each)
-        : [+query.constituency];
-    query.constituency = constituency;    
-  };
-  return { type: selectedConstants.SET_ALL, data: query };
+  const setQuery: typeSetAllSelected = {}
+  if(query.q && query.q.trim() != '') setQuery.q = query.q;
+  if(query.page && +query.page > 1) setQuery.page = +query.page;
+  if(query.education && query.education.length > 0) setQuery.education = urlParser(query.education)
+  if(query.marital && query.marital.length > 1) setQuery.marital = urlParser(query.marital);
+  if(query.member && query.member.length > 1) setQuery.questionBy = urlParser(query.member);
+  if(query.party && query.party.length > 1) setQuery.party = urlParser(query.party);
+  if(query.state && query.state.length > 1) setQuery.state = urlParser(query.state);
+  if(query.gender && query.gender.length > 1) setQuery.gender = urlParser(query.gender);
+
+  return { type: selectedConstants.SET_ALL, data: setQuery };
 }
 
 function setSort(state: string): SetAll {

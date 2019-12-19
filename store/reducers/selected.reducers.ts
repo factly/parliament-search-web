@@ -34,18 +34,12 @@ function toogleList(list: number[], element: number) {
 }
 
 function selected(state = initialState, action: actionType) {
+  
   switch (action.type) {
     case selectedConstants.SET_ALL:
       const result = {
         ...state,
-        q: action.data.q ? action.data.q : initialState.q,
-        page: action.data.page ? +action.data.page : initialState.page,
-        questionBy: action.data.questionBy
-          ? action.data.questionBy
-          : initialState.questionBy,
-        constituency: action.data.constituency
-          ? action.data.constituency
-          : initialState.constituency
+        state: action.data.state ? action.data.state : initialState.state
       };
       return result;
     case selectedConstants.SET_SORT:

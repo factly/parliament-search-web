@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -27,6 +27,7 @@ import { typeFilter, typeQuestionBox, typeSelected } from '../../types';
 import { CardMedia, Typography } from '@material-ui/core';
 import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
+import url from 'url'
 
 interface Iprops {
   dispatch: any;
@@ -43,62 +44,33 @@ const SearchPage = ({
   total,
   filters
 }: Iprops): JSX.Element => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
   React.useEffect(() => {
-    const queryEducation: string[] = [];
-    const queryMaritalStatus: string[] = [];
-    let queryGender: any = null;
-    
-    selected.education.forEach((element: number) => {
-      const temp = filters.education.find(
-        (each: { id: number; name: string }) => each.id === element
-      );
-      if (temp) {
-        queryEducation.push(temp.name);
-      }
-    });
-
-    selected.marital.forEach((element: number) => {
-      const temp = filters.marital.find(
-        (each: { id: number; name: string }) => each.id === element
-      );
-      if (temp) {
-        queryMaritalStatus.push(temp.name);
-      }
-    });
-
-    if (selected.gender.length === 1) {
-      const temp = filters.gender.find(
-        (each: { id: number; name: string }) => each.id === selected.gender[0]
-      );
-      if (temp) queryGender = temp.name;
-    };
 
     const query : any = {};
 
     if(selected.page && selected.page > 1 ) query.page = selected.page
     if(selected.sort && selected.sort !== 'newest') query.sort = selected.sort
     if(selected.q) query.q = selected.q
-    if(queryGender) query.gender = selected.gender
+    if(selected.gender && selected.gender.length > 0 ) query.gender = selected.gender
     if(selected.terms && selected.terms > 0 ) query.terms = selected.terms
     if(selected.questionBy && selected.questionBy.length > 0) query.questionBy = selected.questionBy
     if(selected.constituency && selected.constituency.length > 0) query.constituency = selected.constituency
     if(selected.party && selected.party.length > 0) query.party = selected.party
     if(selected.state && selected.state.length > 0) query.state = selected.state
-    if(queryEducation && queryEducation.length > 0) query.eduction = queryEducation
-    if(queryMaritalStatus && queryMaritalStatus.length > 0) query.maritalStatus = queryMaritalStatus
+    if(selected.education && selected.education.length > 0) query.eduction = selected.education
+    if(selected.marital && selected.marital.length > 0) query.maritalStatus = selected.marital
 
     dispatch(
       getSearchPageQuestions(query)
     )
-
-
-    Router.push({
-      pathname: '/search',
-      query: query
-    })
-      
-  }, [selected /*, selected.page, selected.education, selected.gender, selected.questionBy, selected.marital, selected.constituency, selected.state*/]);
+    const as = url.format({
+      pathname : '/search',
+      query : query
+    });
+    Router.push('/search', as , {shallow : true} );
+  }, [selected]);
 
   return (
     <Grid container spacing={3}>
