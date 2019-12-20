@@ -1,9 +1,11 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { selectedConstants } from '../constants';
-import { typeSelected, typeSetAllSelected } from '../../types';
+import { typeSelected, TypeSetAllSelected } from '../../types';
 
 type actionType = {
   type: string;
-  data: typeSetAllSelected;
+  data: TypeSetAllSelected;
 };
 
 const initialState: typeSelected = {
@@ -16,10 +18,10 @@ const initialState: typeSelected = {
   gender: [],
   terms: 0,
   questionBy: [],
-  geography: [],
   party: [],
   state: [],
-  constituency: []
+  constituency: [],
+  topic: []
 };
 
 function toogleList(list: number[], element: number) {
@@ -34,14 +36,49 @@ function toogleList(list: number[], element: number) {
 }
 
 function selected(state = initialState, action: actionType) {
-  
   switch (action.type) {
     case selectedConstants.SET_ALL:
-      const result = {
+      return {
         ...state,
-        state: action.data.state ? action.data.state : initialState.state
+        q: action.data.q ? action.data.q : initialState.q,
+        sort: action.data.sort ? action.data.sort : initialState.sort,
+        terms:
+          action.data.terms && action.data.terms > 1
+            ? action.data.terms
+            : initialState.terms,
+        education:
+          action.data.education && action.data.education.length > 0
+            ? action.data.education
+            : initialState.education,
+        marital:
+          action.data.marital && action.data.marital.length > 0
+            ? action.data.marital
+            : initialState.marital,
+        gender:
+          action.data.gender && action.data.gender.length > 0
+            ? action.data.gender
+            : initialState.gender,
+        party:
+          action.data.party && action.data.party.length > 0
+            ? action.data.party
+            : initialState.party,
+        state:
+          action.data.state && action.data.state.length > 0
+            ? action.data.state
+            : initialState.state,
+        constituency:
+          action.data.constituency && action.data.constituency.length > 0
+            ? action.data.constituency
+            : initialState.constituency,
+        topic:
+          action.data.topic && action.data.topic.length > 0
+            ? action.data.topic
+            : initialState.topic,
+        questionBy:
+          action.data.questionBy && action.data.questionBy.length > 0
+            ? action.data.questionBy
+            : initialState.questionBy
       };
-      return result;
     case selectedConstants.SET_SORT:
       return {
         ...state,

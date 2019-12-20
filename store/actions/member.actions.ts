@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants } from '../constants';
-import { typeQuestionBox, AppActions } from '../../types';
+import { TypeQuestionBox, AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { memberConstants } from '../constants';
 
@@ -61,7 +61,7 @@ export function getMemberById(id: number) {
       const variables = { mid: id };
       const { data } = await client.query({ query: memberQuery, variables });
       const popularQuestionIds: number[] = data.questions.nodes.map(
-        (each: typeQuestionBox) => each.QID
+        (each: TypeQuestionBox) => each.QID
       );
 
       dispatch({

@@ -1,9 +1,9 @@
-import { typeSetAllSelected, typeId } from './reducers.types';
+import { TypeSetAllSelected, TypeId } from './reducers.types';
 import {
-  typeQuestionObject,
-  typePartyData,
-  typeGeographyData,
-  typeMemberData
+  TypeQuestionObject,
+  TypePartyData,
+  TypeGeographyData,
+  TypeMemberData
 } from './data.types';
 import {
   geographyConstants,
@@ -43,7 +43,7 @@ export interface SetTerms {
 
 export interface SetAll {
   type: typeof selectedConstants.SET_ALL;
-  data: typeSetAllSelected;
+  data: TypeSetAllSelected;
 }
 
 export interface SetSort {
@@ -59,44 +59,44 @@ export interface Toogle {
 
 export interface SetGeography {
   type: typeof geographyConstants.SET_GEOGRAPHY;
-  data: typeGeographyData;
+  data: TypeGeographyData;
 }
 
 export interface SetMember {
   type: typeof memberConstants.SET_MEMBER;
-  data: typeMemberData;
+  data: TypeMemberData;
 }
 
 export interface SetParty {
   type: typeof partyConstants.SET_PARTY;
-  data: typePartyData;
+  data: TypePartyData;
 }
 
 export interface SetQuestion {
   type: typeof questionConstants.SET_QUESTION;
-  data: typeQuestionObject;
+  data: TypeQuestionObject;
 }
 export interface SetPopularQuestions {
   type: typeof questionConstants.SET_QUESTIONS;
-  data: typeQuestionObject;
+  data: TypeQuestionObject;
 }
 
 export interface SetPartyMembers {
   type: typeof partyConstants.ADD_PARTY_MEMBERS;
   data: {
     pid: number;
-    members: typeMemberData;
+    members: TypeMemberData;
   };
 }
 
 export interface SetPartyFilter {
   type: typeof filterConstants.SET_PARTY_FILTER;
-  data: typeId[];
+  data: TypeId[];
 }
 
-export interface setStatesFilter {
+export interface SetStatesFilter {
   type: typeof filterConstants.SET_STATES_FILTER;
-  data: typeId[];
+  data: TypeId[];
 }
 
 export interface SetSearchPageQuestions {
@@ -122,6 +122,6 @@ export type Actions =
   | SetPartyMembers
   | SetSearchPageQuestions
   | SetPartyFilter
-  | setStatesFilter;
+  | SetStatesFilter;
 
 export type AppActions = Actions;

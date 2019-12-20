@@ -9,8 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { AppState } from '../store/reducers';
 
-interface typeTopics {
-  topics: { name: string; id: number }[];
+interface TypeTopics {
+  name: string;
+  id: number;
 }
 
 const useStyles = makeStyles({
@@ -27,7 +28,7 @@ const useStyles = makeStyles({
   }
 });
 
-const HomePage: React.FC<typeTopics> = ({ topics }) => {
+const HomePage = ({ topic }: { topic: TypeTopics[] }) => {
   const classes = useStyles();
 
   return (
@@ -35,7 +36,7 @@ const HomePage: React.FC<typeTopics> = ({ topics }) => {
       <div className={classes.topic}>
         <Paper>
           <Grid container spacing={3}>
-            {topics.map((x: { name: string; id: number }) => (
+            {topic.map((x: TypeTopics) => (
               <Grid item md={2} sm={6} key={x.id}>
                 <div className={classes.topic}>
                   <CardContent>
@@ -54,14 +55,14 @@ const HomePage: React.FC<typeTopics> = ({ topics }) => {
 };
 /*
 HomePage.propTypes = {
-  topics: PropTypes.arrayOf(PropTypes.shape({
+  topic: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
   })).isRequired,
 };
 */
 const mapStateToProps = (state: AppState) => ({
-  topics: state.filters.topics
+  topic: state.filters.topic
 });
 
 export default connect(mapStateToProps)(HomePage);

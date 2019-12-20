@@ -30,16 +30,16 @@ export const questionsByVariablesQuery = gql`
     $type: String
     $ministry: [String]
     $questionBy: [Int]
-    $gender: String
-    $marital_status: [String]
-    $education: [String]
+    $gender: [Int]
+    $marital_status: [Int]
+    $education: [Int]
     $profession: [String]
     $expertise: [String]
     $terms: Int
     $party: [Int]
     $constituency: [Int]
     $sort: String
-    $state : [Int]
+    $state: [Int]
   ) {
     questions(
       limit: $limit
@@ -57,7 +57,7 @@ export const questionsByVariablesQuery = gql`
       terms: $terms
       party: $party
       constituency: $constituency
-      state : $state
+      state: $state
       sort: $sort
     ) {
       nodes {

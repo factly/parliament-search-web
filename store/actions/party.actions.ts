@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { typePartyData, AppActions } from '../../types';
+import { AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { partyConstants, filterConstants } from '../constants';
 
@@ -19,7 +19,7 @@ const partyQuery = gql`
           geography {
             GID
             name
-            parent{
+            parent {
               name
             }
           }
@@ -45,11 +45,11 @@ const memberWithVariablesQuery = gql`
           geography {
             GID
             name
-            parent{
+            parent {
               name
             }
           }
-          house{
+          house {
             name
           }
           session

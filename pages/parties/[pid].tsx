@@ -15,12 +15,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import { getPartyById, getPartyMembers } from '../../store/actions';
-import { typePartyMember, typePartyObject, typePartyData } from '../../types';
+import { TypePartyMembe, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
 interface Props {
   dispatch: any;
-  party: typePartyData;
+  party: TypePartyData;
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -84,7 +84,7 @@ const PartiesPage = ({ dispatch, party }: Props) => {
           <TableBody>
             {party.members
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((member: typePartyMember) => (
+              .map((member: TypePartyMembe) => (
                 <TableRow key={member.MID}>
                   <TableCell>
                     <Link href="/members/[mid]" as={`/members/${member.MID}`}>
@@ -110,7 +110,8 @@ const PartiesPage = ({ dispatch, party }: Props) => {
                       as={`/geographies/${member.terms[0].geography.GID}`}
                     >
                       <a className={classes.link}>
-                        {member.terms[0].geography.name}, {member.terms[0].geography.parent.name}
+                        {member.terms[0].geography.name},
+                        {member.terms[0].geography.parent.name}
                       </a>
                     </Link>
                   </TableCell>

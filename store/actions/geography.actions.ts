@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants, filterConstants } from '../constants';
-import { typeQuestionData, AppActions } from '../../types';
+import { TypeQuestionData, AppActions } from '../../types';
 import { Dispatch } from 'redux';
 import { geographyConstants } from '../constants';
 
@@ -75,7 +75,7 @@ export function getGeographyById(id: number) {
       });
 
       const popularQuestionIds: number[] = data.questions.nodes.map(
-        (each: typeQuestionData) => each.QID
+        (each: TypeQuestionData) => each.QID
       );
 
       dispatch({

@@ -1,11 +1,11 @@
 import { memberConstants } from '../constants';
-import { typeMemberObject, typeMemberData } from '../../types';
+import { TypeMemberObject, TypeMemberData } from '../../types';
 
-const initialState: typeMemberObject = {};
+const initialState: TypeMemberObject = {};
 
 function members(
   state = initialState,
-  action: { type: string; data: typeMemberData }
+  action: { type: string; data: TypeMemberData }
 ) {
   switch (action.type) {
     case memberConstants.SET_MEMBER:

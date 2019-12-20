@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -23,18 +23,24 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 
-import { typeFilter, typeQuestionBox, typeSelected } from '../../types';
+import {
+  typeFilter,
+  TypeQuestionBox,
+  typeSelected,
+  TypeMinistries
+} from '../../types';
 import { CardMedia, Typography } from '@material-ui/core';
 import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
-import url from 'url'
+import url from 'url';
 
 interface Iprops {
   dispatch: any;
   selected: typeSelected;
-  questions: typeQuestionBox[];
+  questions: TypeQuestionBox[];
   total: number;
   filters: typeFilter;
+  ministries: TypeMinistries;
 }
 
 const SearchPage = ({
@@ -42,39 +48,62 @@ const SearchPage = ({
   selected,
   questions,
   total,
-  filters
+  filters,
+  ministries
 }: Iprops): JSX.Element => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-
   React.useEffect(() => {
+    const query: any = {};
+    query.ministry = [];
 
-    const query : any = {};
+    if (selected.page && selected.page > 1) query.page = selected.page;
+    if (selected.sort && selected.sort !== 'newest') query.sort = selected.sort;
+    if (selected.q) query.q = selected.q;
+    if (selected.gender && selected.gender.length > 0)
+      query.gender = selected.gender;
+    if (selected.terms && selected.terms > 0) query.terms = selected.terms;
+    if (selected.questionBy && selected.questionBy.length > 0)
+      query.questionBy = selected.questionBy;
+    if (selected.constituency && selected.constituency.length > 0)
+      query.constituency = selected.constituency;
+    if (selected.party && selected.party.length > 0)
+      query.party = selected.party;
+    if (selected.state && selected.state.length > 0)
+      query.state = selected.state;
+    if (selected.education && selected.education.length > 0)
+      query.eduction = selected.education;
+    if (selected.marital && selected.marital.length > 0)
+      query.maritalStatus = selected.marital;
+    if (selected.topic && selected.topic.length > 0)
+      selected.topic.forEach((each: number) => {
+        if (ministries[each])
+          query.ministry = query.ministry.concat(ministries[each]);
+      });
 
-    if(selected.page && selected.page > 1 ) query.page = selected.page
-    if(selected.sort && selected.sort !== 'newest') query.sort = selected.sort
-    if(selected.q) query.q = selected.q
-    if(selected.gender && selected.gender.length > 0 ) query.gender = selected.gender
-    if(selected.terms && selected.terms > 0 ) query.terms = selected.terms
-    if(selected.questionBy && selected.questionBy.length > 0) query.questionBy = selected.questionBy
-    if(selected.constituency && selected.constituency.length > 0) query.constituency = selected.constituency
-    if(selected.party && selected.party.length > 0) query.party = selected.party
-    if(selected.state && selected.state.length > 0) query.state = selected.state
-    if(selected.education && selected.education.length > 0) query.eduction = selected.education
-    if(selected.marital && selected.marital.length > 0) query.maritalStatus = selected.marital
+    if (query.ministry.length === 0) delete query.ministry;
 
-    dispatch(
-      getSearchPageQuestions(query)
-    )
+    dispatch(getSearchPageQuestions(query));
+    delete query.ministry;
+
+    if (selected.topic && selected.topic.length > 0)
+      query.topic = selected.topic;
     const as = url.format({
-      pathname : '/search',
-      query : query
+      pathname: '/search',
+      query: query
     });
-    Router.push('/search', as , {shallow : true} );
+    Router.push('/search', as, { shallow: true });
   }, [selected]);
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+        <CheckBoxFilter
+          limit={5}
+          search
+          heading="topic"
+          list={filters.topic}
+          toogle={value => dispatch(selectedActions.toogle(value, 'topic'))}
+          selected={selected.topic}
+        />
         <CheckBoxFilter
           limit={5}
           search
@@ -154,7 +183,7 @@ const SearchPage = ({
             <Table>
               <TableBody>
                 {questions && questions.length > 0
-                  ? questions.map((question: typeQuestionBox) => (
+                  ? questions.map((question: TypeQuestionBox) => (
                       <TableRow key={question.QID}>
                         <TableCell>
                           <QuestionBox question={question} />
@@ -187,8 +216,9 @@ const SearchPage = ({
 interface StateProps {
   filters: typeFilter;
   selected: typeSelected;
-  questions: typeQuestionBox[];
+  questions: TypeQuestionBox[];
   total: number;
+  ministries: TypeMinistries;
 }
 
 SearchPage.getInitialProps = async ({ store, query }: any) => {
@@ -201,7 +231,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
   filters: state.filters,
   selected: state.selected,
   questions: state.search.qids.map((each: number) => state.questions[each]),
-  total: state.search.total
+  total: state.search.total,
+  ministries: state.ministries
 });
 
 export default connect(mapStateToProps)(SearchPage);

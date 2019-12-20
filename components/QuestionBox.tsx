@@ -4,11 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { typeQuestionBy, typeQuestionBox } from '../types';
+import { TypeQuestionBy, TypeQuestionBox } from '../types';
 import moment from 'moment';
 
 interface Props {
-  question: typeQuestionBox;
+  question: TypeQuestionBox;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,8 +46,8 @@ const QuestionBox = ({ question }: Props) => {
       <div className={classes.asked}>
         <div className={classes.askedRoot}>
           {questionBy
-            .filter((each: typeQuestionBy) => each !== null)
-            .map((each: typeQuestionBy) => (
+            .filter((each: TypeQuestionBy) => each !== null)
+            .map((each: TypeQuestionBy) => (
               <Link
                 key={QID + each.MID}
                 href="/members/[mid]"

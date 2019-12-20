@@ -1,11 +1,11 @@
 import { geographyConstants } from '../constants';
-import { typeGeographyObject, typeGeographyData } from '../../types';
+import { TypeGeographyObject, TypeGeographyData } from '../../types';
 
-const initialState: typeGeographyObject = {};
+const initialState: TypeGeographyObject = {};
 
 function geographies(
   state = initialState,
-  action: { type: string; data: typeGeographyData }
+  action: { type: string; data: TypeGeographyData }
 ) {
   switch (action.type) {
     case geographyConstants.SET_GEOGRAPHY:

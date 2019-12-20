@@ -1,12 +1,12 @@
-export interface typeQuestionBox {
+export interface TypeQuestionBox {
   QID: number;
-  questionBy: typeQuestionBy[];
+  questionBy: TypeQuestionBy[];
   subject: string;
   ministry: string;
   date: string;
   type: string;
 }
-export interface typeTermGeography {
+export interface TypeTermGeography {
   geography: {
     GID: number;
     name: string;
@@ -16,7 +16,7 @@ export interface typeTermGeography {
     };
   };
 }
-export interface typeMemberTerms {
+export interface TypeMemberTerms {
   geography: {
     GID: number;
     name: string;
@@ -35,12 +35,12 @@ export interface typeMemberTerms {
   session: number;
 }
 
-export interface typePartyMember {
+export interface TypePartyMembe {
   MID: number;
   name: string;
-  terms: typeTermGeography[];
+  terms: TypeTermGeography[];
 }
-export interface typeGeographyMember {
+export interface TypeGeographyMember {
   MID: number;
   name: string;
   terms: {
@@ -56,12 +56,12 @@ export interface typeGeographyMember {
   }[];
 }
 
-export interface typeQuestionBy {
+export interface TypeQuestionBy {
   MID: number;
   name: string;
 }
 
-export interface typeMemberData {
+export interface TypeMemberData {
   MID: number;
   name: string;
   gender: string;
@@ -75,30 +75,30 @@ export interface typeMemberData {
   education?: string;
   expertise?: string[];
   profession?: string[];
-  terms?: typeMemberTerms[];
+  terms?: TypeMemberTerms[];
   popularQuestionIds?: number[];
 }
 
-export interface typeQuestionData {
+export interface TypeQuestionData {
   QID: number;
   subject: string;
   type: string;
   question: string;
-  questionBy: typeQuestionBy[];
+  questionBy: TypeQuestionBy[];
   answer: string;
   ministry: string;
   date: string;
 }
 
-export interface typePartyData {
+export interface TypePartyData {
   PID: number;
   name: string;
   abbr: string;
   total: number;
-  members: typePartyMember[];
+  members: TypePartyMembe[];
 }
 
-export interface typeGeographyData {
+export interface TypeGeographyData {
   GID: number;
   name: string;
   parent: {
@@ -107,21 +107,21 @@ export interface typeGeographyData {
   from?: string;
   to?: string;
   popularQuestionIds?: number[];
-  members: typeGeographyMember[];
+  members: TypeGeographyMember[];
 }
 
-export interface typeMemberObject {
-  [index: number]: typeMemberData;
+export interface TypeMemberObject {
+  [index: number]: TypeMemberData;
 }
 
-export interface typeGeographyObject {
-  [index: number]: typeGeographyData;
+export interface TypeGeographyObject {
+  [index: number]: TypeGeographyData;
 }
 
-export interface typeQuestionObject {
-  [index: number]: typeQuestionData;
+export interface TypeQuestionObject {
+  [index: number]: TypeQuestionData;
 }
 
-export interface typePartyObject {
-  [index: number]: typePartyData;
+export interface TypePartyObject {
+  [index: number]: TypePartyData;
 }

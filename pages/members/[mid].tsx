@@ -17,13 +17,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from 'next/link';
-import { typeMemberTerms, typeMemberData, typeQuestionData } from '../../types';
+import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
 import moment from 'moment';
 
 interface Props {
-  member: typeMemberData;
-  questions: typeQuestionData[];
+  member: TypeMemberData;
+  questions: TypeQuestionData[];
 }
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -132,7 +132,7 @@ const MembersPage = ({ member, questions }: Props) => {
             </TableHead>
             <TableBody>
               {member.terms &&
-                member.terms.map((term: typeMemberTerms) => (
+                member.terms.map((term: TypeMemberTerms) => (
                   <TableRow key={term.party.name}>
                     <TableCell>
                       <Link
@@ -174,7 +174,7 @@ const MembersPage = ({ member, questions }: Props) => {
         />
         <CardContent>
           {questions ? (
-            questions.map((question: typeQuestionData) => (
+            questions.map((question: TypeQuestionData) => (
               <div key={question.QID} className={classes.marginBottomOne}>
                 <QuestionBox question={question} />
               </div>

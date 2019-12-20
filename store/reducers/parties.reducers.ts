@@ -1,7 +1,7 @@
 import { partyConstants } from '../constants';
-import { typePartyObject } from '../../types';
+import { TypePartyObject } from '../../types';
 
-const initialState: typePartyObject = {};
+const initialState: TypePartyObject = {};
 
 function parties(state = initialState, action: { type: string; data: any }) {
   switch (action.type) {

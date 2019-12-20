@@ -1,16 +1,17 @@
+/* eslint-disable no-case-declarations */
 import { questionConstants } from '../constants';
-import { typeQuestionObject, typeQuestionData } from '../../types';
+import { TypeQuestionObject, TypeQuestionData } from '../../types';
 
-const initialState: typeQuestionObject = {};
+const initialState: TypeQuestionObject = {};
 
 function questions(
   state = initialState,
-  action: { type: string; data: typeQuestionData[] }
+  action: { type: string; data: TypeQuestionData[] }
 ) {
   switch (action.type) {
     case questionConstants.SET_QUESTIONS:
-      const newQuestions: typeQuestionObject = {};
-      action.data.forEach((each: typeQuestionData) => {
+      const newQuestions: TypeQuestionObject = {};
+      action.data.forEach((each: TypeQuestionData) => {
         if (!state[+each.QID] || !state[+each.QID].answer)
           newQuestions[+each.QID] = each;
 

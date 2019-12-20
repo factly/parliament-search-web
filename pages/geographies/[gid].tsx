@@ -18,15 +18,15 @@ import QuestionBox from '../../components/QuestionBox';
 import Paper from '@material-ui/core/Paper';
 import { getGeographyById } from '../../store/actions';
 import {
-  typeGeographyMember,
-  typeGeographyData,
-  typeQuestionData
+  TypeGeographyMember,
+  TypeGeographyData,
+  TypeQuestionData
 } from '../../types';
 import { AppState } from '../../store/reducers';
 
 interface Props {
-  geography: typeGeographyData;
-  questions: typeQuestionData[];
+  geography: TypeGeographyData;
+  questions: TypeQuestionData[];
 }
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
@@ -98,7 +98,7 @@ const GeographyPage = ({ geography, questions }: Props) => {
             </TableHead>
             <TableBody>
               {geography.members.map(
-                (member: typeGeographyMember, index: number) => (
+                (member: TypeGeographyMember, index: number) => (
                   <TableRow key={member.MID + index}>
                     <TableCell>
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
@@ -147,7 +147,7 @@ const GeographyPage = ({ geography, questions }: Props) => {
         />
         <CardContent>
           {questions ? (
-            questions.map((question: typeQuestionData) => (
+            questions.map((question: TypeQuestionData) => (
               <div key={question.QID} className={classes.marginBottomOne}>
                 <QuestionBox question={question} />
               </div>

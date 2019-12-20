@@ -16,7 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { getQuestionById } from '../../store/actions';
 import { AppState } from '../../store/reducers';
-import { typeQuestionBy, typeQuestionData } from '../../types';
+import { TypeQuestionBy, TypeQuestionData } from '../../types';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const QuestionPage = ({ question }: { question: typeQuestionData }) => {
+const QuestionPage = ({ question }: { question: TypeQuestionData }) => {
   const classes = useStyles();
 
   if (!question || !question.answer) return <div>loading...</div>;
@@ -63,7 +63,7 @@ const QuestionPage = ({ question }: { question: typeQuestionData }) => {
             <CardContent>
               <Typography variant="h6">Asked By</Typography>
               <div>
-                {question.questionBy.map((member: typeQuestionBy) => (
+                {question.questionBy.map((member: TypeQuestionBy) => (
                   <Link
                     key={question.QID + member.MID}
                     href="/members/[mid]"

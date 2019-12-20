@@ -1,15 +1,14 @@
-export interface typeId {
+export interface TypeId {
   id: number;
   name: string;
 }
 
-export interface typeMarks {
-  value: number;
-  label: string;
+export interface TypeSelectedFilter {
+  [key: string]: number[];
 }
 
-export interface typeSelectedFilter {
-  [key: string]: number[];
+export interface TypeMinistries {
+  [key: number]: string[];
 }
 
 export type typeSelected = {
@@ -22,17 +21,17 @@ export type typeSelected = {
   gender: number[];
   terms: number;
   questionBy: number[];
-  geography: number[];
   party: number[];
   state: number[];
-  constituency : number[]
+  constituency: number[];
+  topic: number[];
 };
 
 export type typeFilter = {
-  [key: string]: typeId[];
+  [key: string]: TypeId[];
 };
 
-export interface typeSetAllSelected {
+export interface TypeSetAllSelected {
   q?: string;
   state?: number[];
   education?: number[];
@@ -44,12 +43,12 @@ export interface typeSetAllSelected {
   gender?: number[];
   page?: number;
   questionBy?: number[];
-  geography?: number[];
   member?: string | string[];
   constituency?: number[];
+  topic?: number[];
 }
 
-export interface typeQuestionGraphql {
+export interface TypeQuestionGraphql {
   q?: string;
   education?: string[];
   party?: number[];
@@ -60,7 +59,7 @@ export interface typeQuestionGraphql {
   gender?: string;
   page?: number;
   questionBy?: number[];
-  geography?: number[];
   constituency?: number[];
-  state? : number[];
+  state?: number[];
+  topic?: number[];
 }

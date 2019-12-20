@@ -1,10 +1,10 @@
 import { questionsByVariablesQuery } from './question.actions';
 import { client } from './client.apollo';
 import { questionConstants, searchConstants } from '../constants';
-import { typeQuestionBox, AppActions, typeQuestionGraphql } from '../../types';
+import { TypeQuestionBox, AppActions, TypeQuestionGraphql } from '../../types';
 import { Dispatch } from 'react';
 
-export function getSearchPageQuestions(query: typeQuestionGraphql) {
+export function getSearchPageQuestions(query: TypeQuestionGraphql) {
   return async (dispatch: Dispatch<AppActions>) => {
     try {
       const variables = query;
@@ -21,7 +21,7 @@ export function getSearchPageQuestions(query: typeQuestionGraphql) {
       dispatch({
         type: searchConstants.SET_SEARCHPAGE_QUESTIONS,
         data: {
-          qids: data.questions.nodes.map((each: typeQuestionBox) => each.QID),
+          qids: data.questions.nodes.map((each: TypeQuestionBox) => each.QID),
           total: data.questions.total
         }
       });

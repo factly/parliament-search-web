@@ -20,11 +20,11 @@ import { Dispatch } from 'redux';
 import Grid from '@material-ui/core/Grid';
 import Autosuggest from 'react-autosuggest';
 
-interface headerProps {
+interface HeaderProps {
   dispatch: Dispatch<AppActions>;
   theme: string;
 }
-interface suggestionProp {
+interface SuggestionProps {
   name: string;
 }
 const useStyles = makeStyles((theme: Theme) => ({
@@ -90,9 +90,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Header = ({ dispatch, theme }: headerProps) => {
+const Header = ({ dispatch, theme }: HeaderProps) => {
   const classes = useStyles();
-  const suggestionsList: suggestionProp[] = [
+  const suggestionsList: SuggestionProps[] = [
     {
       name: 'Hi-tech city startup hub'
     },
@@ -117,7 +117,7 @@ const Header = ({ dispatch, theme }: headerProps) => {
     return inputLength === 0
       ? []
       : suggestionsList.filter(
-          (each: suggestionProp) =>
+          (each: SuggestionProps) =>
             each.name.toLowerCase().slice(0, inputLength) === inputValue
         );
   };
@@ -130,9 +130,9 @@ const Header = ({ dispatch, theme }: headerProps) => {
     setSuggestions([]);
   };
 
-  const getSuggestionValue = (suggestion: suggestionProp) => suggestion.name;
+  const getSuggestionValue = (suggestion: SuggestionProps) => suggestion.name;
 
-  const renderSuggestion = (suggestion: suggestionProp) => (
+  const renderSuggestion = (suggestion: SuggestionProps) => (
     <Button
       className={classes.searchBox}
       onClick={() => Router.push('/members/[mid]', '/members/1')}
