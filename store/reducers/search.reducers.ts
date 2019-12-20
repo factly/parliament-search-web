@@ -9,7 +9,7 @@ const initialState: TypeSearch = {
   total: 0
 };
 
-function search(state = initialState, action: any) {
+function search(state = initialState, action: any): TypeSearch {
   switch (action.type) {
     case searchConstants.SET_SEARCHPAGE_QUESTIONS:
       return action.data;

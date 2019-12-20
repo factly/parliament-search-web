@@ -32,7 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const QuestionPage = ({ question }: { question: TypeQuestionData }) => {
+const QuestionPage = ({
+  question
+}: {
+  question: TypeQuestionData;
+}): JSX.Element => {
   const classes = useStyles();
 
   if (!question || !question.answer) return <div>loading...</div>;
@@ -111,7 +115,7 @@ const QuestionPage = ({ question }: { question: TypeQuestionData }) => {
   );
 };
 
-QuestionPage.getInitialProps = async ({ store, query }: any) => {
+QuestionPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
   if (
     !store.getState().questions[+query.qid] ||
     !store.getState().questions[+query.qid].answer
@@ -119,7 +123,12 @@ QuestionPage.getInitialProps = async ({ store, query }: any) => {
     await store.dispatch(getQuestionById(+query.qid));
 };
 
-const mapStateToProps = (state: AppState, props: any) => ({
+const mapStateToProps = (
+  state: AppState,
+  props: any
+): {
+  question: TypeQuestionData;
+} => ({
   question: state.questions[+props.router.query.qid]
 });
 export default withRouter(connect(mapStateToProps)(QuestionPage));

@@ -38,16 +38,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   paper: {
     height: '70%'
   },
-  cardBox: {
-    backgroundColor: 'black',
-    opacity: 0.4,
-    color: 'white',
-    zIndex: 500,
-    position: 'absolute',
-    top: 200,
-    right: 30,
-    maxWidth: 300
-  },
   table: {
     minWidth: 650
   },
@@ -74,7 +64,7 @@ const GeographyPage = ({
 }: {
   geography: TypeGeographyData;
   questions: TypeQuestionData[];
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
 
   if (!geography) {
@@ -163,13 +153,19 @@ const GeographyPage = ({
   );
 };
 
-GeographyPage.getInitialProps = async ({ store, query }: any) => {
+GeographyPage.getInitialProps = async ({
+  store,
+  query
+}: any): Promise<void> => {
   if (!store.getState().geographies[+query.gid])
     await store.dispatch(getGeographyById(+query.gid));
 };
 
-const mapStateToProps = (state: AppState, props: any) => {
-  const geography = state.geographies[props.router.query.gid];
+const mapStateToProps = (
+  state: AppState,
+  props: any
+): { geography: TypeGeographyData; questions: TypeQuestionData[] } => {
+  const geography = state.geographies[+props.router.query.gid];
   return {
     geography: geography,
     questions:

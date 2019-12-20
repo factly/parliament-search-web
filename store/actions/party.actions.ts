@@ -73,7 +73,7 @@ const partyIdsQuery = gql`
 `;
 
 export function getPartyById(pid: number) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { pid };
       const { data } = await client.query({ query: partyQuery, variables });
@@ -98,7 +98,7 @@ export function getPartyMembers(
   page = 1,
   required: number
 ) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { party: [pid], limit, page };
       const { data } = await client.query({
@@ -123,7 +123,7 @@ export function getPartyMembers(
 }
 
 export function getAllPartyIds() {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const { data } = await client.query({ query: partyIdsQuery });
       const party = data.parties.nodes.map((each: any) => {

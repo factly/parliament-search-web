@@ -1,4 +1,4 @@
 import React from 'react';
-const MinistriesPage = () => <div>MinistriesPage</div>;
+const MinistriesPage = (): JSX.Element => <div>MinistriesPage</div>;
 
 export default MinistriesPage;

@@ -15,7 +15,7 @@ import HighlightIcon from '@material-ui/icons/Highlight';
 
 import { appActions } from '../store/actions';
 import { AppState } from '../store/reducers';
-import { AppActions } from '../types';
+import { AppActions, TypeChangeTheme } from '../types';
 import { Dispatch } from 'redux';
 
 import Grid from '@material-ui/core/Grid';
@@ -96,7 +96,7 @@ const Header = ({
 }: {
   dispatch: Dispatch<AppActions>;
   theme: string;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
   const suggestionsList: SuggestionProps[] = [
     {
@@ -116,7 +116,7 @@ const Header = ({
   const [value, setValue] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([{ name: '' }]);
 
-  const getSuggestions = (value: string) => {
+  const getSuggestions = (value: string): SuggestionProps[] => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
@@ -128,31 +128,34 @@ const Header = ({
         );
   };
 
-  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
+  const onSuggestionsFetchRequested = ({ value }: { value: string }): void => {
     setSuggestions(getSuggestions(value));
   };
 
-  const onSuggestionsClearRequested = () => {
+  const onSuggestionsClearRequested = (): void => {
     setSuggestions([]);
   };
 
-  const getSuggestionValue = (suggestion: SuggestionProps) => suggestion.name;
+  const getSuggestionValue = (suggestion: SuggestionProps): string =>
+    suggestion.name;
 
-  const renderSuggestion = (suggestion: SuggestionProps) => (
+  const renderSuggestion = (suggestion: SuggestionProps): JSX.Element => (
     <Button
       className={classes.searchBox}
-      onClick={() => Router.push('/members/[mid]', '/members/1')}
+      onClick={(): Promise<boolean> =>
+        Router.push('/members/[mid]', '/members/1')
+      }
     >
       {suggestion.name}
     </Button>
   );
-  const searchFunc = () => {
+  const searchFunc = (): void => {
     Router.push(`/search?q=${value}`);
   };
   const onChange = (
     event: React.FormEvent<HTMLInputElement>,
     { newValue }: { newValue: string }
-  ) => {
+  ): void => {
     setValue(newValue);
   };
   return (
@@ -197,7 +200,7 @@ const Header = ({
                 <IconButton
                   className={classes.searchButton}
                   aria-label="Search"
-                  onClick={() => searchFunc()}
+                  onClick={(): void => searchFunc()}
                 >
                   <SearchIcon />
                 </IconButton>
@@ -206,7 +209,7 @@ const Header = ({
             <Grid item md={1} lg={4}>
               <IconButton
                 className={classes.themeButton}
-                onClick={() =>
+                onClick={(): TypeChangeTheme =>
                   dispatch(
                     appActions.changeTheme(theme === 'light' ? 'dark' : 'light')
                   )

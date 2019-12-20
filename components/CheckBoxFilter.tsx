@@ -33,7 +33,7 @@ const CheckBoxFilter = ({
   selected: number[];
   toogle: (...args: number[]) => void;
   limit: number;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
   const [term, setTerm] = React.useState('');
   const [options, setOptions] = React.useState(list);
@@ -48,13 +48,25 @@ const CheckBoxFilter = ({
     } else setOptions(list);
   }, [term]);
 
-  const Row = ({ index, style }: { index: number; style: any }) => (
+  const styleExtra = {
+    overflow: 'hidden',
+    maxHeight: '47px',
+    textOverflow: 'ellipsis'
+  };
+
+  const Row = ({
+    index,
+    style
+  }: {
+    index: number;
+    style: any;
+  }): JSX.Element => (
     <FormControlLabel
-      style={style}
+      style={{ ...style, ...styleExtra }}
       control={
         <Checkbox
           checked={selected.indexOf(options[index].id) !== -1}
-          onChange={() => toogle(options[index].id)}
+          onChange={(): void => toogle(options[index].id)}
         />
       }
       label={options[index].name}
@@ -79,7 +91,7 @@ const CheckBoxFilter = ({
                 fullWidth
                 placeholder="Search..."
                 value={term}
-                onChange={event => {
+                onChange={(event): void => {
                   setTerm(event.target.value);
                 }}
               />

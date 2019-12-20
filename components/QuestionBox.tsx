@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const QuestionBox = ({ question }: { question: TypeQuestionBox }) => {
+const QuestionBox = ({
+  question
+}: {
+  question: TypeQuestionBox;
+}): JSX.Element => {
   const classes = useStyles();
   const { QID, questionBy, subject, ministry, date } = question;
   return (

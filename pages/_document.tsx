@@ -3,7 +3,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
 
 class MyDocument extends Document {
-  render() {
+  render(): JSX.Element {
     return (
       <html lang="en" dir="ltr">
         <Head>

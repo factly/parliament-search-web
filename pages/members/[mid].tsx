@@ -50,7 +50,7 @@ const MembersPage = ({
 }: {
   member: TypeMemberData;
   questions: TypeQuestionData[];
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
 
   if (!member) return <div>loading...</div>;
@@ -195,11 +195,17 @@ const MembersPage = ({
   );
 };
 
-MembersPage.getInitialProps = async ({ store, query }: any) => {
+MembersPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
   if (!store.getState().members[+query.mid])
     await store.dispatch(getMemberById(+query.mid));
 };
-const mapStateToProps = (state: AppState, props: any) => {
+const mapStateToProps = (
+  state: AppState,
+  props: any
+): {
+  member: TypeMemberData;
+  questions: TypeQuestionData[];
+} => {
   const member = state.members[props.router.query.mid];
   return {
     member: member,

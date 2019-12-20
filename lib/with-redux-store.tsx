@@ -38,7 +38,7 @@ const getOrCreateStore = (initialState?: Record<string, any>) => {
 }
 */
 
-export default (App: any) =>
+export default (App: any): React.ElementType =>
   class AppWithRedux extends React.Component<Props> {
     static async getInitialProps(appContext: any) {
       // Get or Create the store with `undefined` as initialState
@@ -64,7 +64,7 @@ export default (App: any) =>
       this.store = getOrCreateStore(props.initialReduxState);
     }
 
-    render() {
+    render(): JSX.Element {
       return <App {...this.props} store={this.store} />;
     }
   };

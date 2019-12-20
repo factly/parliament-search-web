@@ -77,7 +77,7 @@ export const questionsByVariablesQuery = gql`
 `;
 
 export function getQuestionById(id: number) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { id };
       const { data } = await client.query({ query: questionQuery, variables });

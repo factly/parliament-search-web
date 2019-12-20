@@ -93,9 +93,12 @@ const SearchPage = ({
         <CheckBoxFilter
           limit={5}
           search
+          defaultShow
           heading="Topics"
           list={filters.topic}
-          toogle={value => dispatch(selectedActions.toogle(value, 'topic'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'topic'))
+          }
           selected={selected.topic}
         />
         <CheckBoxFilter
@@ -104,7 +107,9 @@ const SearchPage = ({
           defaultShow
           heading="State"
           list={filters.state}
-          toogle={value => dispatch(selectedActions.toogle(value, 'state'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'state'))
+          }
           selected={selected.state}
         />
         <CheckBoxFilter
@@ -113,20 +118,24 @@ const SearchPage = ({
           defaultShow
           heading="Party"
           list={filters.party}
-          toogle={value => dispatch(selectedActions.toogle(value, 'party'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'party'))
+          }
           selected={selected.party}
         />
         <CheckBoxFilter
           limit={filters.education.length}
           heading="Education"
           list={filters.education}
-          toogle={value => dispatch(selectedActions.toogle(value, 'education'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'education'))
+          }
           selected={selected.education}
         />
         <AgeFilter
           heading="Age"
           selected={selected.age}
-          toogle={(event, value) =>
+          toogle={(event, value): void =>
             dispatch(selectedActions.setAge(value as number[]))
           }
         />
@@ -134,20 +143,24 @@ const SearchPage = ({
           limit={filters.marital.length}
           heading="Marital"
           list={filters.marital}
-          toogle={value => dispatch(selectedActions.toogle(value, 'marital'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'marital'))
+          }
           selected={selected.marital}
         />
         <CheckBoxFilter
           limit={filters.gender.length}
           heading="Gender"
           list={filters.gender}
-          toogle={value => dispatch(selectedActions.toogle(value, 'gender'))}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'gender'))
+          }
           selected={selected.gender}
         />
         <TermsFilter
           heading="Terms"
           selected={selected.terms}
-          toogle={(event, value) =>
+          toogle={(event, value): void =>
             dispatch(selectedActions.setTerms(value as number))
           }
         />
@@ -159,7 +172,9 @@ const SearchPage = ({
             action={
               <Select
                 value={selected.sort}
-                onChange={(event: React.ChangeEvent<{ value: unknown }>) =>
+                onChange={(
+                  event: React.ChangeEvent<{ value: unknown }>
+                ): void =>
                   dispatch(
                     selectedActions.setSort(event.target.value as string)
                   )
@@ -193,7 +208,7 @@ const SearchPage = ({
                     count={total}
                     rowsPerPage={10}
                     page={total ? selected.page - 1 : 0}
-                    onChangePage={(event, newPage: number) =>
+                    onChangePage={(event, newPage: number): void =>
                       dispatch(selectedActions.setPage(newPage + 1))
                     }
                   />
@@ -207,13 +222,21 @@ const SearchPage = ({
   );
 };
 
-SearchPage.getInitialProps = async ({ store, query }: any) => {
+SearchPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
   await store.dispatch(getAllPartyIds());
   await store.dispatch(getStates());
   await store.dispatch(selectedActions.setAll(query));
 };
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (
+  state: AppState
+): {
+  selected: TypeSelected;
+  questions: TypeQuestionBox[];
+  total: number;
+  filters: TypeFilter;
+  ministries: TypeMinistries;
+} => ({
   filters: state.filters,
   selected: state.selected,
   questions: state.search.qids.map((each: number) => state.questions[each]),

@@ -9,7 +9,12 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { selectedActions } from '../store/actions';
-import { AppActions, TypeFilter, TypeSelectedFilter } from '../types';
+import {
+  AppActions,
+  TypeFilter,
+  TypeSelectedFilter,
+  TypeSetAll
+} from '../types';
 import { Dispatch } from 'redux';
 
 interface TypeLists {
@@ -41,17 +46,10 @@ const SelectedFilters = ({
   selected: TypeSelectedFilter;
   filters: TypeFilter;
   dispatch: Dispatch<AppActions>;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
   const list: TypeLists[] = [];
-  const typeList = [
-    'states',
-    'parties',
-    'education',
-    'marital',
-    'gender',
-    'type'
-  ];
+  const typeList = ['state', 'party', 'education', 'marital', 'gender', 'type'];
   let name: { id: number; name: string } | undefined;
   typeList.forEach(type => {
     selected[type].forEach((element: number) => {
@@ -81,7 +79,7 @@ const SelectedFilters = ({
               key={value.type + value.id}
               className={classes.selected}
               label={value.label}
-              onDelete={() =>
+              onDelete={(): TypeSetAll =>
                 dispatch(selectedActions.toogle(value.id, value.type))
               }
             />
@@ -91,7 +89,9 @@ const SelectedFilters = ({
               size="small"
               className={classes.selected}
               label={`${selected.age[0]}-${selected.age[1]}`}
-              onDelete={() => dispatch(selectedActions.setAge([25, 100]))}
+              onDelete={(): TypeSetAll =>
+                dispatch(selectedActions.setAge([25, 100]))
+              }
             />
           ) : null}
         </div>

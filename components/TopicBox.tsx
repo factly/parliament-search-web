@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { TypeId } from '../types';
+import { TypeCheckBoxFilter } from '../types';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,6 +14,10 @@ const useStyles = makeStyles(() =>
     },
     cover: {
       height: 150
+    },
+    link: {
+      pointer: 'cursor',
+      textDecoration: 'none'
     }
   })
 );
@@ -22,29 +26,35 @@ const QuestionBox = ({
   topic,
   ministries
 }: {
-  topic: TypeId;
+  topic: TypeCheckBoxFilter;
   ministries: string[];
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
   const { id, name } = topic;
   return (
-    <Link href={`/search?topic=${id}`}>
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.cover}
-          image="/static/images/live-from-space.jpg"
-          title="Live from space album cover"
-        />
-        <CardContent>
-          <Typography component="h6" variant="h6">
-            {name}
-          </Typography>
-          <Typography variant="caption" color="textSecondary">
-            {ministries.join(', ')}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Link>
+    <Card className={classes.card}>
+      <Link href={`/search?topic=${id}`}>
+        <a className={classes.link}>
+          <CardMedia
+            className={classes.cover}
+            image="/static/images/live-from-space.jpg"
+            title="Live from space album cover"
+          />
+        </a>
+      </Link>
+      <CardContent>
+        <Link href={`/search?topic=${id}`}>
+          <a className={classes.link}>
+            <Typography color="textPrimary" component="h6" variant="h6">
+              {name}
+            </Typography>
+          </a>
+        </Link>
+        <Typography variant="caption" color="textSecondary">
+          {ministries.join(', ')}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { AppState } from '../store/reducers';
 import TopicBox from '../components/TopicBox';
-import { TypeMinistries, TypeId } from '../types';
+import { TypeMinistries, TypeCheckBoxFilter } from '../types';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -29,16 +29,16 @@ const HomePage = ({
   topic,
   ministries
 }: {
-  topic: TypeId[];
+  topic: TypeCheckBoxFilter[];
   ministries: TypeMinistries;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
 
   return (
     <div className={classes.wrapper}>
       <div className={classes.topic}>
         <Grid container spacing={3}>
-          {topic.map((x: TypeId) => (
+          {topic.map((x: TypeCheckBoxFilter) => (
             <Grid item md={3} sm={6} key={x.id}>
               <TopicBox topic={x} ministries={ministries[x.id]} />
             </Grid>
@@ -56,7 +56,9 @@ HomePage.propTypes = {
   })).isRequired,
 };
 */
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (
+  state: AppState
+): { topic: TypeCheckBoxFilter[]; ministries: TypeMinistries } => ({
   topic: state.filters.topic,
   ministries: state.ministries
 });

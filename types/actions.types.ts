@@ -1,4 +1,4 @@
-import { TypeSetAllSelected, TypeId } from './reducers.types';
+import { TypeSetAllSelected, TypeCheckBoxFilter } from './reducers.types';
 import {
   TypeQuestionObject,
   TypePartyData,
@@ -10,78 +10,68 @@ import {
   memberConstants,
   partyConstants,
   questionConstants,
-  filterConstants
+  filterConstants,
+  searchConstants,
+  selectedConstants,
+  appConstants
 } from '../store/constants';
-import { searchConstants } from '../store/constants/search.constants';
 
-export const appConstants = {
-  CHANGE_THEME: 'CHANGE_THEME_SUCCESS'
-};
-
-export const selectedConstants = {
-  AGE_SET: 'AGE_SET_SUCCESS',
-  SET_ALL: 'SET_ALL_SUCCESS',
-  SET_SORT: 'SET_SORT_SUCCESS',
-  SET_TERMS: 'SET_TERMS_SUCCESS',
-  TOOGLE_ONE: 'SET_ANY_SUCCESS'
-};
-
-export interface ChangeTheme {
+export interface TypeChangeTheme {
   type: typeof appConstants.CHANGE_THEME;
   data: string;
 }
 
-export interface SetAge {
-  type: typeof selectedConstants.AGE_SET;
+export interface TypeSetAge {
+  type: typeof selectedConstants.SET_AGE;
   data: number[];
 }
 
-export interface SetTerms {
+export interface TypeSetTerms {
   type: typeof selectedConstants.SET_TERMS;
   data: number;
 }
 
-export interface SetAll {
+export interface TypeSetAll {
   type: typeof selectedConstants.SET_ALL;
   data: TypeSetAllSelected;
 }
 
-export interface SetSort {
+export interface TypeSetSort {
   type: typeof selectedConstants.SET_SORT;
   data: string;
 }
 
-export interface Toogle {
+export interface TypeToogle {
   type: typeof selectedConstants.TOOGLE_ONE;
   data: number;
   field: string;
 }
 
-export interface SetGeography {
+export interface TypeSetGeography {
   type: typeof geographyConstants.SET_GEOGRAPHY;
   data: TypeGeographyData;
 }
 
-export interface SetMember {
+export interface TypeSetMember {
   type: typeof memberConstants.SET_MEMBER;
   data: TypeMemberData;
 }
 
-export interface SetParty {
+export interface TypeSetParty {
   type: typeof partyConstants.SET_PARTY;
   data: TypePartyData;
 }
 
-export interface SetQuestion {
+export interface TypeSetQuestion {
   type: typeof questionConstants.SET_QUESTION;
   data: TypeQuestionObject;
 }
-export interface SetPopularQuestions {
+export interface TypeSetPopularQuestions {
   type: typeof questionConstants.SET_QUESTIONS;
   data: TypeQuestionObject;
 }
 
-export interface SetPartyMembers {
+export interface TypeSetPartyMembers {
   type: typeof partyConstants.ADD_PARTY_MEMBERS;
   data: {
     pid: number;
@@ -89,17 +79,17 @@ export interface SetPartyMembers {
   };
 }
 
-export interface SetPartyFilter {
+export interface TypeSetPartyFilter {
   type: typeof filterConstants.SET_PARTY_FILTER;
-  data: TypeId[];
+  data: TypeCheckBoxFilter[];
 }
 
-export interface SetStatesFilter {
+export interface TypeSetStatesFilter {
   type: typeof filterConstants.SET_STATES_FILTER;
-  data: TypeId[];
+  data: TypeCheckBoxFilter[];
 }
 
-export interface SetSearchPageQuestions {
+export interface TypeSetSearchPageQuestions {
   type: typeof searchConstants.SET_SEARCHPAGE_QUESTIONS;
   data: {
     qids: number[];
@@ -108,20 +98,20 @@ export interface SetSearchPageQuestions {
 }
 
 export type Actions =
-  | ChangeTheme
-  | SetAge
-  | SetSort
-  | Toogle
-  | SetAll
-  | SetTerms
-  | SetGeography
-  | SetMember
-  | SetParty
-  | SetPopularQuestions
-  | SetQuestion
-  | SetPartyMembers
-  | SetSearchPageQuestions
-  | SetPartyFilter
-  | SetStatesFilter;
+  | TypeChangeTheme
+  | TypeSetAge
+  | TypeSetSort
+  | TypeToogle
+  | TypeSetAll
+  | TypeSetTerms
+  | TypeSetGeography
+  | TypeSetMember
+  | TypeSetParty
+  | TypeSetPopularQuestions
+  | TypeSetQuestion
+  | TypeSetPartyMembers
+  | TypeSetSearchPageQuestions
+  | TypeSetPartyFilter
+  | TypeSetStatesFilter;
 
 export type AppActions = Actions;

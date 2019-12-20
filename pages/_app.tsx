@@ -15,7 +15,7 @@ const MyApp = ({
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>;
   pageProps: any;
   store: Store;
-}) => {
+}): JSX.Element => {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = window.document.querySelector('#jss-server-side');

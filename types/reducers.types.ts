@@ -1,4 +1,4 @@
-export interface TypeId {
+export interface TypeCheckBoxFilter {
   id: number;
   name: string;
 }
@@ -28,7 +28,7 @@ export type TypeSelected = {
 };
 
 export type TypeFilter = {
-  [key: string]: TypeId[];
+  [key: string]: TypeCheckBoxFilter[];
 };
 
 export interface TypeSetAllSelected {

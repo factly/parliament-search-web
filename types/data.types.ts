@@ -6,16 +6,7 @@ export interface TypeQuestionBox {
   date: string;
   type: string;
 }
-export interface TypeTermGeography {
-  geography: {
-    GID: number;
-    name: string;
-    state: string;
-    parent: {
-      name: string;
-    };
-  };
-}
+
 export interface TypeMemberTerms {
   geography: {
     GID: number;
@@ -35,10 +26,19 @@ export interface TypeMemberTerms {
   session: number;
 }
 
-export interface TypePartyMembe {
+export interface TypePartyMember {
   MID: number;
   name: string;
-  terms: TypeTermGeography[];
+  terms: {
+    geography: {
+      GID: number;
+      name: string;
+      state: string;
+      parent: {
+        name: string;
+      };
+    };
+  }[];
 }
 export interface TypeGeographyMember {
   MID: number;
@@ -95,7 +95,7 @@ export interface TypePartyData {
   name: string;
   abbr: string;
   total: number;
-  members: TypePartyMembe[];
+  members: TypePartyMember[];
 }
 
 export interface TypeGeographyData {

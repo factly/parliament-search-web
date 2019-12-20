@@ -1,5 +1,5 @@
 import React from 'react';
 
-const HousesPage = () => <div>HousesPage</div>;
+const HousesPage = (): JSX.Element => <div>HousesPage</div>;
 
 export default HousesPage;

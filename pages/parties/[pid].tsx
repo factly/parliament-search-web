@@ -15,7 +15,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import { getPartyById, getPartyMembers } from '../../store/actions';
-import { TypePartyMembe, TypePartyData } from '../../types';
+import { TypePartyMember, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,7 +50,7 @@ const PartiesPage = ({
 }: {
   dispatch: any;
   party: TypePartyData;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -86,7 +86,7 @@ const PartiesPage = ({
           <TableBody>
             {party.members
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((member: TypePartyMembe) => (
+              .map((member: TypePartyMember) => (
                 <TableRow key={member.MID}>
                   <TableCell>
                     <Link href="/members/[mid]" as={`/members/${member.MID}`}>
@@ -133,8 +133,10 @@ const PartiesPage = ({
                 nextIconButtonProps={{
                   'aria-label': 'next page'
                 }}
-                onChangePage={(event, newPage: number) => setPage(newPage)}
-                onChangeRowsPerPage={event => {
+                onChangePage={(event, newPage: number): void =>
+                  setPage(newPage)
+                }
+                onChangeRowsPerPage={(event): void => {
                   setRowsPerPage(parseInt(event.target.value, 10));
                   setPage(0);
                 }}
@@ -147,12 +149,17 @@ const PartiesPage = ({
   );
 };
 
-PartiesPage.getInitialProps = async ({ store, query }: any) => {
+PartiesPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
   if (!store.getState().parties[+query.pid])
     await store.dispatch(getPartyById(+query.pid));
 };
 
-const mapStateToProps = (state: AppState, props: any) => ({
+const mapStateToProps = (
+  state: AppState,
+  props: any
+): {
+  party: TypePartyData;
+} => ({
   party: state.parties[+props.router.query.pid]
 });
 export default withRouter(connect(mapStateToProps)(PartiesPage));

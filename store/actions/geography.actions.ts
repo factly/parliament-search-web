@@ -63,7 +63,7 @@ const statesQuery = gql`
 `;
 
 export function getGeographyById(id: number) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = {
         gid: id
@@ -98,7 +98,7 @@ export function getGeographyById(id: number) {
 }
 
 export function getStates() {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const { data } = await client.query({
         query: statesQuery

@@ -56,7 +56,7 @@ const memberQuery = gql`
 `;
 
 export function getMemberById(id: number) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { mid: id };
       const { data } = await client.query({ query: memberQuery, variables });

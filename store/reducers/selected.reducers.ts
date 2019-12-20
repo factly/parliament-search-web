@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { selectedConstants } from '../constants';
 import { TypeSelected, TypeSetAllSelected } from '../../types';
 
@@ -24,7 +23,7 @@ const initialState: TypeSelected = {
   topic: []
 };
 
-function toogleList(list: number[], element: number) {
+function toogleList(list: number[], element: number): number[] {
   const currentIndex = list.indexOf(element);
 
   if (currentIndex === -1) {
@@ -35,7 +34,7 @@ function toogleList(list: number[], element: number) {
   return list;
 }
 
-function selected(state = initialState, action: actionType) {
+function selected(state = initialState, action: actionType): TypeSelected {
   switch (action.type) {
     case selectedConstants.SET_ALL:
       return {

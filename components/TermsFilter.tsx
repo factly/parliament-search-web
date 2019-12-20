@@ -44,7 +44,7 @@ const TermsFilter = ({
   toogle: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
   heading: string;
   selected: number;
-}) => (
+}): JSX.Element => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">{heading}</Typography>

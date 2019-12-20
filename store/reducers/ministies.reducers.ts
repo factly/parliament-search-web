@@ -71,7 +71,10 @@ const initialState: TypeMinistries = {
   33: ['WOMEN AND CHILD DEVELOPMENT']
 };
 
-function filters(state = initialState, action: { type: string }) {
+function filters(
+  state = initialState,
+  action: { type: string }
+): TypeMinistries {
   switch (action.type) {
     default:
       return state;

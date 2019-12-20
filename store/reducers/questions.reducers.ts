@@ -7,7 +7,7 @@ const initialState: TypeQuestionObject = {};
 function questions(
   state = initialState,
   action: { type: string; data: TypeQuestionData[] }
-) {
+): TypeQuestionObject {
   switch (action.type) {
     case questionConstants.SET_QUESTIONS:
       const newQuestions: TypeQuestionObject = {};

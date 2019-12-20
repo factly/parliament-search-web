@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
-import PropTypes from 'prop-types';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -32,7 +31,7 @@ const Wrapper = ({
   pageProps: any;
   theme: string;
   dispatch: Dispatch<AppActions>;
-}) => {
+}): JSX.Element => {
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -51,7 +50,7 @@ const Wrapper = ({
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): { theme: string } => ({
   theme: state.app.theme
 });
 

@@ -5,7 +5,7 @@ import { TypeQuestionBox, AppActions, TypeQuestionGraphql } from '../../types';
 import { Dispatch } from 'react';
 
 export function getSearchPageQuestions(query: TypeQuestionGraphql) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = query;
       const { data } = await client.query({

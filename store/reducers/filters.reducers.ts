@@ -81,7 +81,7 @@ initialState.topic = [
 function filters(
   state = initialState,
   action: { type: string; data: { id: number; name: string }[] }
-) {
+): TypeFilter {
   switch (action.type) {
     case filterConstants.SET_PARTY_FILTER:
       return { ...state, party: action.data };
