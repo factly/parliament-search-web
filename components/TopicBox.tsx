@@ -1,18 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { TypeId } from '../types';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
-interface Props {
-  topic: TypeId;
-  ministries: string[];
-}
-
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     card: {
       height: 250
@@ -23,7 +18,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const QuestionBox = ({ topic, ministries }: Props) => {
+const QuestionBox = ({
+  topic,
+  ministries
+}: {
+  topic: TypeId;
+  ministries: string[];
+}) => {
   const classes = useStyles();
   const { id, name } = topic;
   return (

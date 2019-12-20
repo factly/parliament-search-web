@@ -7,10 +7,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { TypeQuestionBy, TypeQuestionBox } from '../types';
 import moment from 'moment';
 
-interface Props {
-  question: TypeQuestionBox;
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
   askedRoot: {
     display: 'flex',
@@ -27,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const QuestionBox = ({ question }: Props) => {
+const QuestionBox = ({ question }: { question: TypeQuestionBox }) => {
   const classes = useStyles();
   const { QID, questionBy, subject, ministry, date } = question;
   return (

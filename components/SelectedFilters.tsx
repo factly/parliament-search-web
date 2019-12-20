@@ -9,7 +9,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
 import { selectedActions } from '../store/actions';
-import { AppActions, typeFilter, TypeSelectedFilter } from '../types';
+import { AppActions, TypeFilter, TypeSelectedFilter } from '../types';
 import { Dispatch } from 'redux';
 
 interface TypeLists {
@@ -39,7 +39,7 @@ const SelectedFilters = ({
   dispatch
 }: {
   selected: TypeSelectedFilter;
-  filters: typeFilter;
+  filters: TypeFilter;
   dispatch: Dispatch<AppActions>;
 }) => {
   const classes = useStyles();

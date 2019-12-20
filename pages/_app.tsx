@@ -7,14 +7,15 @@ import withReduxStore from '../lib/with-redux-store';
 import Wrapper from '../components/layout';
 import { Store } from 'redux';
 
-interface iprops {
+const MyApp = ({
+  Component,
+  pageProps,
+  store
+}: {
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>;
-  //pageProps: PropTypes.Requireable<PropTypes.ReactElementLike>,
   pageProps: any;
   store: Store;
-}
-
-const MyApp = (props: iprops) => {
+}) => {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = window.document.querySelector('#jss-server-side');
@@ -22,8 +23,6 @@ const MyApp = (props: iprops) => {
       jssStyles.parentNode.removeChild(jssStyles);
     }
   });
-
-  const { Component, pageProps, store } = props;
   return (
     <>
       <Head>

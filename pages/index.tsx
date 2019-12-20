@@ -2,16 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { AppState } from '../store/reducers';
 import TopicBox from '../components/TopicBox';
-import { TypeMinistries } from '../types';
-
-interface TypeTopics {
-  name: string;
-  id: number;
-}
+import { TypeMinistries, TypeId } from '../types';
 
 const useStyles = makeStyles({
   wrapper: {
@@ -35,7 +29,7 @@ const HomePage = ({
   topic,
   ministries
 }: {
-  topic: TypeTopics[];
+  topic: TypeId[];
   ministries: TypeMinistries;
 }) => {
   const classes = useStyles();
@@ -44,7 +38,7 @@ const HomePage = ({
     <div className={classes.wrapper}>
       <div className={classes.topic}>
         <Grid container spacing={3}>
-          {topic.map((x: TypeTopics) => (
+          {topic.map((x: TypeId) => (
             <Grid item md={3} sm={6} key={x.id}>
               <TopicBox topic={x} ministries={ministries[x.id]} />
             </Grid>

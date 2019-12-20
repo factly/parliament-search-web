@@ -2,7 +2,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';

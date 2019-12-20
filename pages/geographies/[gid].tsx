@@ -24,10 +24,6 @@ import {
 } from '../../types';
 import { AppState } from '../../store/reducers';
 
-interface Props {
-  geography: TypeGeographyData;
-  questions: TypeQuestionData[];
-}
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
 });
@@ -72,7 +68,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const GeographyPage = ({ geography, questions }: Props) => {
+const GeographyPage = ({
+  geography,
+  questions
+}: {
+  geography: TypeGeographyData;
+  questions: TypeQuestionData[];
+}) => {
   const classes = useStyles();
 
   if (!geography) {

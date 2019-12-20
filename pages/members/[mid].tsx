@@ -21,10 +21,6 @@ import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
 import moment from 'moment';
 
-interface Props {
-  member: TypeMemberData;
-  questions: TypeQuestionData[];
-}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     img: {
@@ -48,7 +44,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const MembersPage = ({ member, questions }: Props) => {
+const MembersPage = ({
+  member,
+  questions
+}: {
+  member: TypeMemberData;
+  questions: TypeQuestionData[];
+}) => {
   const classes = useStyles();
 
   if (!member) return <div>loading...</div>;

@@ -9,12 +9,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
-interface filterProps {
-  toogle: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
-  heading: string;
-  selected: number[];
-}
-
 const marks = [
   {
     value: 25,
@@ -38,7 +32,15 @@ const marks = [
   }
 ];
 
-const AgeFilter = ({ toogle, heading, selected }: filterProps) => (
+const AgeFilter = ({
+  toogle,
+  heading,
+  selected
+}: {
+  toogle: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
+  heading: string;
+  selected: number[];
+}) => (
   <ExpansionPanel square>
     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="body2">{heading}</Typography>

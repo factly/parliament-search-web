@@ -6,14 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import Avatar from '@material-ui/core/Avatar';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import CheckBoxFilter from '../../components/CheckBoxFilter';
 import AgeFilter from '../../components/AgeFilter';
-import SelectedFilters from '../../components/SelectedFilters';
 import QuestionBox from '../../components/QuestionBox';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { selectedActions, getStates } from '../../store/actions';
 import { AppState } from '../../store/reducers/index';
 import Table from '@material-ui/core/Table';
@@ -33,15 +30,6 @@ import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 import url from 'url';
 
-interface Iprops {
-  dispatch: any;
-  selected: TypeSelected;
-  questions: TypeQuestionBox[];
-  total: number;
-  filters: TypeFilter;
-  ministries: TypeMinistries;
-}
-
 const SearchPage = ({
   dispatch,
   selected,
@@ -49,7 +37,14 @@ const SearchPage = ({
   total,
   filters,
   ministries
-}: Iprops): JSX.Element => {
+}: {
+  dispatch: any;
+  selected: TypeSelected;
+  questions: TypeQuestionBox[];
+  total: number;
+  filters: TypeFilter;
+  ministries: TypeMinistries;
+}): JSX.Element => {
   React.useEffect(() => {
     const query: any = {};
     query.ministry = [];
@@ -212,21 +207,13 @@ const SearchPage = ({
   );
 };
 
-interface StateProps {
-  filters: TypeFilter;
-  selected: TypeSelected;
-  questions: TypeQuestionBox[];
-  total: number;
-  ministries: TypeMinistries;
-}
-
 SearchPage.getInitialProps = async ({ store, query }: any) => {
   await store.dispatch(getAllPartyIds());
   await store.dispatch(getStates());
   await store.dispatch(selectedActions.setAll(query));
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
+const mapStateToProps = (state: AppState) => ({
   filters: state.filters,
   selected: state.selected,
   questions: state.search.qids.map((each: number) => state.questions[each]),

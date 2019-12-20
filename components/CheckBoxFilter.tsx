@@ -17,16 +17,6 @@ const useStyles = makeStyles({
   }
 });
 
-interface checkBoxProps {
-  defaultShow: boolean;
-  list: { name: string; id: number }[];
-  heading: string;
-  search: boolean;
-  selected: number[];
-  toogle: (...args: number[]) => void;
-  limit: number;
-}
-
 const CheckBoxFilter = ({
   defaultShow,
   list,
@@ -35,7 +25,15 @@ const CheckBoxFilter = ({
   selected,
   toogle,
   limit
-}: checkBoxProps) => {
+}: {
+  defaultShow: boolean;
+  list: { name: string; id: number }[];
+  heading: string;
+  search: boolean;
+  selected: number[];
+  toogle: (...args: number[]) => void;
+  limit: number;
+}) => {
   const classes = useStyles();
   const [term, setTerm] = React.useState('');
   const [options, setOptions] = React.useState(list);

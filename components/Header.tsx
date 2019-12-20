@@ -21,10 +21,6 @@ import { Dispatch } from 'redux';
 import Grid from '@material-ui/core/Grid';
 import Autosuggest from 'react-autosuggest';
 
-interface HeaderProps {
-  dispatch: Dispatch<AppActions>;
-  theme: string;
-}
 interface SuggestionProps {
   name: string;
 }
@@ -94,7 +90,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Header = ({ dispatch, theme }: HeaderProps) => {
+const Header = ({
+  dispatch,
+  theme
+}: {
+  dispatch: Dispatch<AppActions>;
+  theme: string;
+}) => {
   const classes = useStyles();
   const suggestionsList: SuggestionProps[] = [
     {

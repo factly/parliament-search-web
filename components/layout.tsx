@@ -1,7 +1,7 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import PropTypes from 'prop-types';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -13,6 +13,8 @@ import { AppState } from '../store/reducers';
 import light from '../lib/theme/light';
 import dark from '../lib/theme/dark';
 import Header from './Header';
+import { Dispatch } from 'redux';
+import { AppActions } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -20,10 +22,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const Wrapper = (props: any) => {
+const Wrapper = ({
+  Component,
+  pageProps,
+  theme,
+  dispatch
+}: {
+  Component: any;
+  pageProps: any;
+  theme: string;
+  dispatch: Dispatch<AppActions>;
+}) => {
   const classes = useStyles();
-
-  const { Component, pageProps, theme, dispatch } = props;
 
   React.useEffect(() => {
     let localTheme: string | undefined = 'light';
@@ -39,16 +49,6 @@ const Wrapper = (props: any) => {
       </Container>
     </ThemeProvider>
   );
-};
-
-Wrapper.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  theme: PropTypes.string.isRequired,
-  dispatch: PropTypes.func.isRequired
-};
-
-Wrapper.defaultProps = {
-  pageProps: null
 };
 
 const mapStateToProps = (state: AppState) => ({

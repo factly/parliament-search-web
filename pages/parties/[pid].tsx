@@ -18,10 +18,6 @@ import { getPartyById, getPartyMembers } from '../../store/actions';
 import { TypePartyMembe, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
-interface Props {
-  dispatch: any;
-  party: TypePartyData;
-}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -48,7 +44,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const PartiesPage = ({ dispatch, party }: Props) => {
+const PartiesPage = ({
+  dispatch,
+  party
+}: {
+  dispatch: any;
+  party: TypePartyData;
+}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

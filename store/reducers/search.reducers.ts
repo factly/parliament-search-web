@@ -1,11 +1,10 @@
 import { searchConstants } from '../constants/search.constants';
-import { stat } from 'fs';
 
-interface typeSearch {
+interface TypeSearch {
   qids: number[];
   total: number;
 }
-const initialState: typeSearch = {
+const initialState: TypeSearch = {
   qids: [],
   total: 0
 };
