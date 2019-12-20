@@ -34,7 +34,7 @@ export const geographyQuery = gql`
       }
       total
     }
-    questions(geography: [$gid]) {
+    questions(constituency: [$gid]) {
       nodes {
         QID
         subject

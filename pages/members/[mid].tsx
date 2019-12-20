@@ -132,33 +132,38 @@ const MembersPage = ({ member, questions }: Props) => {
             </TableHead>
             <TableBody>
               {member.terms &&
-                member.terms.map((term: TypeMemberTerms) => (
-                  <TableRow key={term.party.name}>
-                    <TableCell>
-                      <Link
-                        href="/geographies/[gid]"
-                        as={`/geographies/${term.geography.GID}`}
-                      >
-                        <a className={classes.link}>
-                          {term.geography.name} ({term.geography.parent.name})
-                        </a>
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Link
-                        href="/parties/[pid]"
-                        as={`/parties/${term.party.PID}`}
-                      >
-                        <a className={classes.link}>
-                          {term.party.name} ({term.party.abbr})
-                        </a>
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      {term.session}, {term.house.name}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                member.terms
+                  .filter(
+                    (term: TypeMemberTerms) =>
+                      term.party && term.geography && term.house && term.session
+                  )
+                  .map((term: TypeMemberTerms) => (
+                    <TableRow key={term.party.name}>
+                      <TableCell>
+                        <Link
+                          href="/geographies/[gid]"
+                          as={`/geographies/${term.geography.GID}`}
+                        >
+                          <a className={classes.link}>
+                            {term.geography.name} ({term.geography.parent.name})
+                          </a>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link
+                          href="/parties/[pid]"
+                          as={`/parties/${term.party.PID}`}
+                        >
+                          <a className={classes.link}>
+                            {term.party.name} ({term.party.abbr})
+                          </a>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        {term.session}, {term.house.name}
+                      </TableCell>
+                    </TableRow>
+                  ))}
             </TableBody>
           </Table>
         </CardContent>

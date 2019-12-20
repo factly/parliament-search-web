@@ -18,7 +18,6 @@ function setAll(query: any) {
   if (query.state) setQuery.state = urlParser(query.state);
   if (query.gender) setQuery.gender = urlParser(query.gender);
   if (query.topic) setQuery.topic = urlParser(query.topic);
-  console.log(typeof query.topic);
   return { type: selectedConstants.SET_ALL, data: setQuery };
 }
 

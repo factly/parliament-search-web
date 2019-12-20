@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -87,6 +88,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   suggestionHighlighted: {
     backgroundColor: '#DCDCDC'
+  },
+  link: {
+    cursor: 'pointer'
   }
 }));
 
@@ -156,11 +160,15 @@ const Header = ({ dispatch, theme }: HeaderProps) => {
         <Toolbar>
           <Grid container spacing={3} alignItems="center">
             <Grid item sm={4} md={3} lg={2} xl={2}>
-              <img
-                className={classes.logo}
-                alt="Home"
-                src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png"
-              />
+              <Link href="/" as="/">
+                <a className={classes.link}>
+                  <img
+                    className={classes.logo}
+                    alt="Home"
+                    src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png"
+                  />
+                </a>
+              </Link>
             </Grid>
             <Grid item sm={5} md={8} lg={6} xl={2}>
               <div className={classes.search}>

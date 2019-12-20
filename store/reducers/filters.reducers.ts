@@ -1,7 +1,7 @@
-import { typeFilter } from '../../types';
+import { TypeFilter } from '../../types';
 import { filterConstants } from '../constants';
 
-const initialState: typeFilter = {};
+const initialState: TypeFilter = {};
 initialState.topic = [
   {
     id: 1,

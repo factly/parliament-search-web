@@ -24,22 +24,21 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import {
-  typeFilter,
+  TypeFilter,
   TypeQuestionBox,
-  typeSelected,
+  TypeSelected,
   TypeMinistries
 } from '../../types';
-import { CardMedia, Typography } from '@material-ui/core';
 import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 import url from 'url';
 
 interface Iprops {
   dispatch: any;
-  selected: typeSelected;
+  selected: TypeSelected;
   questions: TypeQuestionBox[];
   total: number;
-  filters: typeFilter;
+  filters: TypeFilter;
   ministries: TypeMinistries;
 }
 
@@ -99,7 +98,7 @@ const SearchPage = ({
         <CheckBoxFilter
           limit={5}
           search
-          heading="topic"
+          heading="Topics"
           list={filters.topic}
           toogle={value => dispatch(selectedActions.toogle(value, 'topic'))}
           selected={selected.topic}
@@ -214,8 +213,8 @@ const SearchPage = ({
 };
 
 interface StateProps {
-  filters: typeFilter;
-  selected: typeSelected;
+  filters: TypeFilter;
+  selected: TypeSelected;
   questions: TypeQuestionBox[];
   total: number;
   ministries: TypeMinistries;

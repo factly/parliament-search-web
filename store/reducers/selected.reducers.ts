@@ -1,14 +1,14 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { selectedConstants } from '../constants';
-import { typeSelected, TypeSetAllSelected } from '../../types';
+import { TypeSelected, TypeSetAllSelected } from '../../types';
 
 type actionType = {
   type: string;
   data: TypeSetAllSelected;
 };
 
-const initialState: typeSelected = {
+const initialState: TypeSelected = {
   q: '',
   sort: 'newest',
   page: 1,
@@ -103,9 +103,9 @@ function selected(state = initialState, action: actionType) {
         page: initialState.page
       };
     case selectedConstants.TOOGLE_ONE:
-      const fieldKey: keyof typeSelected = Object.keys(
+      const fieldKey: keyof TypeSelected = Object.keys(
         action.data
-      )[0] as keyof typeSelected;
+      )[0] as keyof TypeSelected;
       return {
         ...state,
         [fieldKey]: toogleList(

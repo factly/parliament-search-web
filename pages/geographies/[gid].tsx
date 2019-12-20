@@ -81,7 +81,7 @@ const GeographyPage = ({ geography, questions }: Props) => {
   return (
     <div>
       <Paper className={classes.paper}>
-        <MapWithNoSSR geographyId={201} />
+        <MapWithNoSSR geographyId={geography.GID} />
       </Paper>
       <Card className={classes.marginTopOne}>
         <CardHeader

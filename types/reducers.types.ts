@@ -11,7 +11,7 @@ export interface TypeMinistries {
   [key: number]: string[];
 }
 
-export type typeSelected = {
+export type TypeSelected = {
   q: string;
   education: number[];
   marital: number[];
@@ -27,7 +27,7 @@ export type typeSelected = {
   topic: number[];
 };
 
-export type typeFilter = {
+export type TypeFilter = {
   [key: string]: TypeId[];
 };
 
