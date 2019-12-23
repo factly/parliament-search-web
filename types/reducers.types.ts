@@ -11,7 +11,7 @@ export interface TypeMinistries {
   [key: number]: string[];
 }
 
-export type TypeSelected = {
+export interface TypeSelected {
   q: string;
   education: number[];
   marital: number[];
@@ -25,11 +25,11 @@ export type TypeSelected = {
   state: number[];
   constituency: number[];
   topic: number[];
-};
+}
 
-export type TypeFilter = {
+export interface TypeFilter {
   [key: string]: TypeCheckBoxFilter[];
-};
+}
 
 export interface TypeSetAllSelected {
   q?: string;
@@ -52,7 +52,7 @@ export interface TypeQuestionGraphql {
   q?: string;
   education?: string[];
   party?: number[];
-  marital_status?: string[];
+  maritalStatus?: string[];
   age?: number[];
   sort?: string;
   terms?: number;

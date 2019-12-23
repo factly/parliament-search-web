@@ -75,11 +75,8 @@ const MembersPage = ({
                 <Grid container direction="row" justify="space-between">
                   <Grid>
                     <Typography>Gender : {member.gender}</Typography>
-                    {member.birth_place ? (
-                      <Typography>
-                        {' '}
-                        Birthplace : {member.birth_place}
-                      </Typography>
+                    {member.birthPlace ? (
+                      <Typography>Birthplace : {member.birthPlace}</Typography>
                     ) : null}
                     {member.dob ? (
                       <Typography>
@@ -87,9 +84,9 @@ const MembersPage = ({
                         Age : {moment.unix(+member.dob / 1000).fromNow(true)}
                       </Typography>
                     ) : null}
-                    {member.marital_status ? (
+                    {member.maritalStatus ? (
                       <Typography>
-                        Marital Status : {member.marital_status}{' '}
+                        Marital Status : {member.maritalStatus}{' '}
                       </Typography>
                     ) : null}
                     {member.email && member.email.length > 0 ? (

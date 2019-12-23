@@ -66,8 +66,8 @@ export interface TypeMemberData {
   name: string;
   gender: string;
   dob?: string;
-  marital_status?: string;
-  birth_place?: string;
+  maritalStatus?: string;
+  birthPlace?: string;
   sons?: number;
   daughters?: number;
   email?: string[];

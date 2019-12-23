@@ -29,6 +29,7 @@ import {
 import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 import url from 'url';
+import SelectedFilters from '../../components/SelectedFilters';
 
 const SearchPage = ({
   dispatch,
@@ -64,7 +65,7 @@ const SearchPage = ({
     if (selected.state && selected.state.length > 0)
       query.state = selected.state;
     if (selected.education && selected.education.length > 0)
-      query.eduction = selected.education;
+      query.education = selected.education;
     if (selected.marital && selected.marital.length > 0)
       query.maritalStatus = selected.marital;
     if (selected.topic && selected.topic.length > 0)

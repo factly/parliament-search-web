@@ -31,7 +31,7 @@ export const questionsByVariablesQuery = gql`
     $ministry: [String]
     $questionBy: [Int]
     $gender: [Int]
-    $marital_status: [Int]
+    $maritalStatus: [Int]
     $education: [Int]
     $profession: [String]
     $expertise: [String]
@@ -50,7 +50,7 @@ export const questionsByVariablesQuery = gql`
       ministry: $ministry
       questionBy: $questionBy
       gender: $gender
-      marital_status: $marital_status
+      maritalStatus: $maritalStatus
       education: $education
       profession: $profession
       expertise: $expertise
