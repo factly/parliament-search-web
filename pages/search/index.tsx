@@ -91,6 +91,11 @@ const SearchPage = ({
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
+        <SelectedFilters
+          selected={selected}
+          filters={filters}
+          dispatch={dispatch}
+        />
         <CheckBoxFilter
           limit={5}
           search

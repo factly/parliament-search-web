@@ -2,16 +2,6 @@ import { TypeFilter } from '../../types';
 import { filterConstants } from '../constants';
 
 const initialState: TypeFilter = {};
-initialState.topic = [
-  {
-    id: 1,
-    name: 'Agriculture'
-  },
-  {
-    id: 2,
-    name: 'Art & Culture'
-  }
-];
 
 initialState.education = [
   { id: 1, name: 'Doctorate' },

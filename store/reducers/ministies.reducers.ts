@@ -71,7 +71,7 @@ const initialState: TypeMinistries = {
   33: ['WOMEN AND CHILD DEVELOPMENT']
 };
 
-function filters(
+function ministries(
   state = initialState,
   action: { type: string }
 ): TypeMinistries {
@@ -81,4 +81,4 @@ function filters(
   }
 }
 
-export default filters;
+export default ministries;

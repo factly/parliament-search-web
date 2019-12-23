@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -12,15 +11,20 @@ import { selectedActions } from '../store/actions';
 import {
   AppActions,
   TypeFilter,
-  TypeSelectedFilter,
-  TypeSetAll
+  TypeSelected,
+  TypeSetAll,
+  TypeCheckBoxFilter
 } from '../types';
 import { Dispatch } from 'redux';
 
 interface TypeLists {
   id: number;
   type: string;
-  label: string | undefined;
+  label: string;
+}
+
+interface TypeIDObject {
+  [key: number]: TypeCheckBoxFilter;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -43,27 +47,43 @@ const SelectedFilters = ({
   filters,
   dispatch
 }: {
-  selected: TypeSelectedFilter;
+  selected: TypeSelected;
   filters: TypeFilter;
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
   const classes = useStyles();
   const list: TypeLists[] = [];
-  const typeList = ['state', 'party', 'education', 'marital', 'gender', 'type'];
-  let name: { id: number; name: string } | undefined;
+  const typeList = [
+    'state',
+    'party',
+    'education',
+    'marital',
+    'gender',
+    'topic'
+  ];
+
   typeList.forEach(type => {
-    selected[type].forEach((element: number) => {
-      name = filters[type].find(
-        (each: { id: number; name: string }) => each.id === element
-      );
-      if (name) {
-        list.push({
-          type: type,
-          id: element,
-          label: name.name
-        });
+    const filtersObject: TypeIDObject = {};
+    filters[type as keyof TypeSelected].forEach(
+      (element: TypeCheckBoxFilter) => {
+        filtersObject[element.id] = element;
       }
-    });
+    );
+
+    /* New line */
+
+    (selected[type as keyof TypeSelected] as number[]).forEach(
+      (element: number) => {
+        const name: TypeCheckBoxFilter | undefined = filtersObject[element];
+        if (name) {
+          list.push({
+            type: type,
+            id: element,
+            label: name.name
+          });
+        }
+      }
+    );
   });
 
   return (
@@ -99,7 +119,7 @@ const SelectedFilters = ({
     </ExpansionPanel>
   );
 };
-const arrayOfFilter = {
+/*const arrayOfFilter = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
 };
@@ -118,6 +138,6 @@ SelectedFilters.propTypes = {
     marital: PropTypes.arrayOf(PropTypes.shape(arrayOfFilter)).isRequired
   }).isRequired,
   dispatch: PropTypes.func.isRequired
-};
+};*/
 
 export default SelectedFilters;
