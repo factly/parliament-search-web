@@ -1,4 +1,4 @@
-import { TypeSetAllSelected, TypeCheckBoxFilter } from './reducers.types';
+import { TypeSetAllSelected, TypeFilter } from './reducers.types';
 import {
   TypeQuestionObject,
   TypePartyData,
@@ -79,14 +79,9 @@ export interface TypeSetPartyMembers {
   };
 }
 
-export interface TypeSetPartyFilter {
-  type: typeof filterConstants.SET_PARTY_FILTER;
-  data: TypeCheckBoxFilter[];
-}
-
-export interface TypeSetStatesFilter {
-  type: typeof filterConstants.SET_STATES_FILTER;
-  data: TypeCheckBoxFilter[];
+export interface TypeSetFilters {
+  type: typeof filterConstants.SET_STATES_AND_PARTIES_FILTER;
+  data: TypeFilter;
 }
 
 export interface TypeSetSearchPageQuestions {
@@ -111,7 +106,6 @@ export type Actions =
   | TypeSetQuestion
   | TypeSetPartyMembers
   | TypeSetSearchPageQuestions
-  | TypeSetPartyFilter
-  | TypeSetStatesFilter;
+  | TypeSetFilters;
 
 export type AppActions = Actions;

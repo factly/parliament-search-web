@@ -38,7 +38,7 @@ function selected(state = initialState, action: actionType): TypeSelected {
   switch (action.type) {
     case selectedConstants.SET_ALL:
       return {
-        ...state,
+        ...initialState,
         q: action.data.q ? action.data.q : initialState.q,
         sort: action.data.sort ? action.data.sort : initialState.sort,
         terms:

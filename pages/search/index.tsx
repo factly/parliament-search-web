@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CheckBoxFilter from '../../components/CheckBoxFilter';
 import AgeFilter from '../../components/AgeFilter';
 import QuestionBox from '../../components/QuestionBox';
-import { selectedActions, getStates } from '../../store/actions';
+import { selectedActions, searchPageInitial } from '../../store/actions';
 import { AppState } from '../../store/reducers/index';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,7 +26,7 @@ import {
   TypeSelected,
   TypeMinistries
 } from '../../types';
-import { getSearchPageQuestions, getAllPartyIds } from '../../store/actions';
+import { getSearchPageQuestions } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 import url from 'url';
 import SelectedFilters from '../../components/SelectedFilters';
@@ -229,9 +229,14 @@ const SearchPage = ({
 };
 
 SearchPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
-  await store.dispatch(getAllPartyIds());
-  await store.dispatch(getStates());
-  await store.dispatch(selectedActions.setAll(query));
+  if (
+    store.getState().filters.state.length > 0 &&
+    store.getState().filters.party.length > 0
+  ) {
+    await store.dispatch(selectedActions.setAll(query));
+  } else {
+    await store.dispatch(searchPageInitial(query));
+  }
 };
 
 const mapStateToProps = (

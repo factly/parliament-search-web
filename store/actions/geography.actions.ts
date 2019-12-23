@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { questionConstants, filterConstants } from '../constants';
+import { questionConstants } from '../constants';
 import { TypeQuestionData, AppActions } from '../../types';
 import { Dispatch } from 'redux';
 import { geographyConstants } from '../constants';
@@ -50,18 +50,6 @@ export const geographyQuery = gql`
   }
 `;
 
-const statesQuery = gql`
-  {
-    states {
-      nodes {
-        name
-        GID
-      }
-      total
-    }
-  }
-`;
-
 export function getGeographyById(id: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
@@ -90,27 +78,6 @@ export function getGeographyById(id: number) {
           members: data.members.nodes,
           popularQuestionIds
         }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-}
-
-export function getStates() {
-  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const { data } = await client.query({
-        query: statesQuery
-      });
-      const states = data.states.nodes.map(
-        (each: { GID: number; name: string }) => {
-          return { id: each.GID, name: each.name };
-        }
-      );
-      dispatch({
-        type: filterConstants.SET_STATES_FILTER,
-        data: states
       });
     } catch (error) {
       console.error(error);

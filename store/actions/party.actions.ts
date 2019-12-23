@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { AppActions } from '../../types';
 import { Dispatch } from 'react';
-import { partyConstants, filterConstants } from '../constants';
+import { partyConstants } from '../constants';
 
 const partyQuery = gql`
   query($pid: Int!, $limit: Int, $page: Int) {
@@ -60,18 +60,6 @@ const memberWithVariablesQuery = gql`
   }
 `;
 
-const partyIdsQuery = gql`
-  query {
-    parties {
-      nodes {
-        name
-        PID
-        abbr
-      }
-    }
-  }
-`;
-
 export function getPartyById(pid: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
@@ -116,24 +104,6 @@ export function getPartyMembers(
         type: partyConstants.ADD_PARTY_MEMBERS,
         data: { pid, members }
       });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-}
-
-export function getAllPartyIds() {
-  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const { data } = await client.query({ query: partyIdsQuery });
-      const party = data.parties.nodes.map((each: any) => {
-        return { id: each.PID, name: each.abbr };
-      });
-      dispatch({
-        type: filterConstants.SET_PARTY_FILTER,
-        data: party
-      });
-      //dispatch({type: partyConstants.SET_PARTY, data: data.party.nodes});
     } catch (error) {
       console.error(error);
     }
