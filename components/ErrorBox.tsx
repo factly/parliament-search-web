@@ -33,6 +33,12 @@ const ErrorBox = ({ error }: { error: string }): JSX.Element => {
         {error === 'INVALID_ID' ? (
           <Typography variant="body1">Resource not found</Typography>
         ) : null}
+        {error === 'NETWORK_ERROR' ? (
+          <Typography variant="body1">Network error</Typography>
+        ) : null}
+        {error === 'GRAPHQL_ERROR' ? (
+          <Typography variant="body1">Internal server error</Typography>
+        ) : null}
       </CardContent>
     </Card>
   );

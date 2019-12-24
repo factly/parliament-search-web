@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { AppActions } from '../../types';
+import { AppActions, TypePartyData, TypePartyMember } from '../../types';
 import { Dispatch } from 'react';
 import { partyConstants, appConstants } from '../constants';
 
@@ -61,39 +61,42 @@ const memberWithVariablesQuery = gql`
 `;
 
 export function getPartyById(pid: number) {
-  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const variables = { pid };
-      const { data, errors } = await client.query({
+  return (dispatch: Dispatch<AppActions>): Promise<void> => {
+    return client
+      .query({
         query: partyQuery,
-        variables
-      });
-
-      if (errors && errors.length > 0) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: errors[0].message
+        variables: { pid }
+      })
+      .then(({ data }) => {
+        if (data.party === null) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'INVALID_ID'
+          });
+        }
+        dispatch({
+          type: partyConstants.SET_PARTY,
+          data: {
+            ...data.party,
+            members: data.members.nodes,
+            total: data.members.total
+          }
         });
-      }
-
-      if (data.party === null) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'INVALID_ID'
-        });
-      }
-
-      dispatch({
-        type: partyConstants.SET_PARTY,
-        data: {
-          ...data.party,
-          members: data.members.nodes,
-          total: data.members.total
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (networkError) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'NETWORK_ERROR'
+          });
+        }
+        if (graphQLErrors) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'GRAPHQL_ERROR'
+          });
         }
       });
-    } catch (error) {
-      console.error(error.networkError.result);
-    }
   };
 }
 
@@ -104,25 +107,37 @@ export function getPartyMembers(
   required: number
 ) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const variables = { party: [pid], limit, page };
-      const { data } = await client.query({
+    return client
+      .query({
         query: memberWithVariablesQuery,
-        variables
-      });
-      let members = [];
-      if (required <= data.members.nodes.length)
-        members = data.members.nodes.slice(
-          data.members.nodes.length - required,
-          data.members.nodes.length + 1
-        );
+        variables: { party: [pid], limit, page }
+      })
+      .then(({ data }) => {
+        let members = [];
+        if (required <= data.members.nodes.length)
+          members = data.members.nodes.slice(
+            data.members.nodes.length - required,
+            data.members.nodes.length + 1
+          );
 
-      dispatch({
-        type: partyConstants.ADD_PARTY_MEMBERS,
-        data: { pid, members }
+        dispatch({
+          type: partyConstants.ADD_PARTY_MEMBERS,
+          data: { pid, members }
+        });
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (networkError) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'NETWORK_ERROR'
+          });
+        }
+        if (graphQLErrors) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'GRAPHQL_ERROR'
+          });
+        }
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
 }

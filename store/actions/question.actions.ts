@@ -81,34 +81,37 @@ export const questionsByVariablesQuery = gql`
 `;
 
 export function getQuestionById(id: number) {
-  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const variables = { id };
-      const { data, errors } = await client.query({
+  return (dispatch: Dispatch<AppActions>): Promise<void> => {
+    return client
+      .query({
         query: questionQuery,
-        variables
-      });
-
-      if (errors && errors.length > 0) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: errors[0].message
+        variables: { id }
+      })
+      .then(({ data }) => {
+        if (data.question === null) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'INVALID_ID'
+          });
+        }
+        dispatch({
+          type: questionConstants.SET_QUESTIONS,
+          data: [data.question]
         });
-      }
-
-      if (data.question === null) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'INVALID_ID'
-        });
-      }
-
-      dispatch({
-        type: questionConstants.SET_QUESTIONS,
-        data: [data.question]
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (networkError) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'NETWORK_ERROR'
+          });
+        }
+        if (graphQLErrors) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'GRAPHQL_ERROR'
+          });
+        }
       });
-    } catch (error) {
-      console.error(error);
-    }
   };
 }

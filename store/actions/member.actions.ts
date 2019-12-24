@@ -57,44 +57,48 @@ const memberQuery = gql`
   }
 `;
 
-export function getMemberById(id: number) {
+export function getMemberById(mid: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
-    try {
-      const variables = { mid: id };
-      const { data, errors } = await client.query({
+    return client
+      .query({
         query: memberQuery,
-        variables
-      });
+        variables: { mid }
+      })
+      .then(({ data }) => {
+        if (data.member === null) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'INVALID_ID'
+          });
+        }
 
-      if (errors && errors.length > 0) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: errors[0].message
+        const popularQuestionIds: number[] = data.questions.nodes.map(
+          (each: TypeQuestionBox) => each.QID
+        );
+
+        dispatch({
+          type: questionConstants.SET_QUESTIONS,
+          data: data.questions.nodes
         });
-      }
 
-      if (data.member === null) {
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'INVALID_ID'
+        dispatch({
+          type: memberConstants.SET_MEMBER,
+          data: { ...data.member, popularQuestionIds }
         });
-      }
-
-      const popularQuestionIds: number[] = data.questions.nodes.map(
-        (each: TypeQuestionBox) => each.QID
-      );
-
-      dispatch({
-        type: questionConstants.SET_QUESTIONS,
-        data: data.questions.nodes
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (networkError) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'NETWORK_ERROR'
+          });
+        }
+        if (graphQLErrors) {
+          return dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'GRAPHQL_ERROR'
+          });
+        }
       });
-
-      dispatch({
-        type: memberConstants.SET_MEMBER,
-        data: { ...data.member, popularQuestionIds }
-      });
-    } catch (error) {
-      console.error(error.networkError.result);
-    }
   };
 }
