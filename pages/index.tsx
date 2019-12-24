@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { AppState } from '../store/reducers';
 import TopicBox from '../components/TopicBox';
-import { TypeMinistries, TypeCheckBoxFilter } from '../types';
+import { TypeCheckBoxFilter } from '../types';
 
 const useStyles = makeStyles({
   wrapper: {

@@ -1,10 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 import ErrorIcon from '@material-ui/icons/Error';
-import { makeStyles, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Card from '@material-ui/core/Card';

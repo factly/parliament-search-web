@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   link: {
     textDecoration: 'none',
     color: 'inherit'
+  },
+  text: {
+    textDecoration: 'none'
   }
 }));
 
@@ -53,13 +56,15 @@ const QuestionBox = ({
                 href="/members/[mid]"
                 as={`/members/${each.MID}`}
               >
-                <Chip
-                  className={classes.asked}
-                  label={each.name}
-                  avatar={
-                    <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
-                  }
-                />
+                <a className={classes.text}>
+                  <Chip
+                    className={classes.asked}
+                    label={each.name}
+                    avatar={
+                      <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
+                    }
+                  />
+                </a>
               </Link>
             ))}
         </div>

@@ -63,7 +63,7 @@ initialState.topic = [
   { id: 29, name: 'Transport' },
   { id: 30, name: 'Travel & Tourism' },
   { id: 31, name: 'Youth' },
-  { id: 32, name: 'Sports' },
+  { id: 32, name: 'Sports' }
 ];
 
 function filters(

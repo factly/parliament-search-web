@@ -15,6 +15,7 @@ import Header from './Header';
 import { Dispatch } from 'redux';
 import { AppActions } from '../types';
 import ErrorBox from './ErrorBox';
+import ErrorBoundary from './ErrorBoundary';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -48,7 +49,9 @@ const Wrapper = ({
         {app.error ? (
           <ErrorBox error={app.error} />
         ) : (
-          <Component {...pageProps} />
+          <ErrorBoundary>
+            <Component {...pageProps} />
+          </ErrorBoundary>
         )}
       </Container>
     </ThemeProvider>
