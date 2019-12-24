@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { AppActions } from '../../types';
 import { Dispatch } from 'react';
-import { partyConstants } from '../constants';
+import { partyConstants, appConstants } from '../constants';
 
 const partyQuery = gql`
   query($pid: Int!, $limit: Int, $page: Int) {
@@ -64,7 +64,24 @@ export function getPartyById(pid: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { pid };
-      const { data } = await client.query({ query: partyQuery, variables });
+      const { data, errors } = await client.query({
+        query: partyQuery,
+        variables
+      });
+
+      if (errors && errors.length > 0) {
+        return dispatch({
+          type: appConstants.ADD_ERROR,
+          data: errors[0].message
+        });
+      }
+
+      if (data.party === null) {
+        return dispatch({
+          type: appConstants.ADD_ERROR,
+          data: 'INVALID_ID'
+        });
+      }
 
       dispatch({
         type: partyConstants.SET_PARTY,

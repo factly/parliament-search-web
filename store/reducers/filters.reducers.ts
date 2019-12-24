@@ -43,7 +43,7 @@ initialState.topic = [
   { id: 9, name: 'Economy' },
   { id: 10, name: 'Education & Skilling' },
   { id: 11, name: 'Environment & Forest' },
-  { id: 12, name: 'Water Resources' },
+  { id: 12, name: 'Women' },
   { id: 13, name: 'Finance' },
   { id: 14, name: 'Food' },
   { id: 15, name: 'Foreign Affairs' },
@@ -64,7 +64,6 @@ initialState.topic = [
   { id: 30, name: 'Travel & Tourism' },
   { id: 31, name: 'Youth' },
   { id: 32, name: 'Sports' },
-  { id: 33, name: 'Women' }
 ];
 
 function filters(

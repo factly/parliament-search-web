@@ -92,6 +92,11 @@ export interface TypeSetSearchPageQuestions {
   };
 }
 
+export interface TypeAddError {
+  type: typeof appConstants.ADD_ERROR;
+  data: string;
+}
+
 export type Actions =
   | TypeChangeTheme
   | TypeSetAge
@@ -106,6 +111,7 @@ export type Actions =
   | TypeSetQuestion
   | TypeSetPartyMembers
   | TypeSetSearchPageQuestions
-  | TypeSetFilters;
+  | TypeSetFilters
+  | TypeAddError;
 
 export type AppActions = Actions;

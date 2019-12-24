@@ -38,7 +38,7 @@ const QuestionBox = ({
         </Link>
       </Typography>
       <Typography variant="caption" color="textSecondary" gutterBottom>
-        Lok Sabha · {ministry} · {moment.unix(+date / 1000).fromNow(true)}
+        Lok Sabha · {ministry.name} · {moment.unix(+date / 1000).fromNow(true)}
       </Typography>
       <Typography variant="subtitle2" gutterBottom>
         Asked By

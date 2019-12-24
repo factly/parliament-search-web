@@ -43,7 +43,9 @@ export const geographyQuery = gql`
           MID
           name
         }
-        ministry
+        ministry {
+          name
+        }
         date
       }
     }

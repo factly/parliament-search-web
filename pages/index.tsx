@@ -25,13 +25,7 @@ const useStyles = makeStyles({
   }
 });
 
-const HomePage = ({
-  topic,
-  ministries
-}: {
-  topic: TypeCheckBoxFilter[];
-  ministries: TypeMinistries;
-}): JSX.Element => {
+const HomePage = ({ topic }: { topic: TypeCheckBoxFilter[] }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -40,7 +34,7 @@ const HomePage = ({
         <Grid container spacing={3}>
           {topic.map((x: TypeCheckBoxFilter) => (
             <Grid item md={3} sm={6} key={x.id}>
-              <TopicBox topic={x} ministries={ministries[x.id]} />
+              <TopicBox topic={x} />
             </Grid>
           ))}
         </Grid>
@@ -56,11 +50,8 @@ HomePage.propTypes = {
   })).isRequired,
 };
 */
-const mapStateToProps = (
-  state: AppState
-): { topic: TypeCheckBoxFilter[]; ministries: TypeMinistries } => ({
-  topic: state.filters.topic,
-  ministries: state.ministries
+const mapStateToProps = (state: AppState): { topic: TypeCheckBoxFilter[] } => ({
+  topic: state.filters.topic
 });
 
 export default connect(mapStateToProps)(HomePage);

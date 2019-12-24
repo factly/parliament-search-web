@@ -2,7 +2,9 @@ export interface TypeQuestionBox {
   QID: number;
   questionBy: TypeQuestionBy[];
   subject: string;
-  ministry: string;
+  ministry: {
+    name: string;
+  };
   date: string;
   type: string;
 }
@@ -86,7 +88,9 @@ export interface TypeQuestionData {
   question: string;
   questionBy: TypeQuestionBy[];
   answer: string;
-  ministry: string;
+  ministry: {
+    name: string;
+  };
   date: string;
 }
 

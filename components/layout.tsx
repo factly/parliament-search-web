@@ -14,6 +14,7 @@ import dark from '../lib/theme/dark';
 import Header from './Header';
 import { Dispatch } from 'redux';
 import { AppActions } from '../types';
+import ErrorBox from './ErrorBox';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -24,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Wrapper = ({
   Component,
   pageProps,
-  theme,
+  app,
   dispatch
 }: {
   Component: any;
   pageProps: any;
-  theme: string;
+  app: any;
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
   const classes = useStyles();
@@ -41,17 +42,21 @@ const Wrapper = ({
   }, []);
 
   return (
-    <ThemeProvider theme={theme === 'dark' ? dark : light}>
+    <ThemeProvider theme={app.theme === 'dark' ? dark : light}>
       <Header dispatch={dispatch} />
       <Container maxWidth={false} className={classes.container}>
-        <Component {...pageProps} />
+        {app.error ? (
+          <ErrorBox error={app.error} />
+        ) : (
+          <Component {...pageProps} />
+        )}
       </Container>
     </ThemeProvider>
   );
 };
 
-const mapStateToProps = (state: AppState): { theme: string } => ({
-  theme: state.app.theme
+const mapStateToProps = (state: AppState): { app: any } => ({
+  app: state.app
 });
 
 export default connect(mapStateToProps)(Wrapper);

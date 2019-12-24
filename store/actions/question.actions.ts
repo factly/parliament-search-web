@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { AppActions } from '../../types';
 import { Dispatch } from 'react';
-import { questionConstants } from '../constants';
+import { questionConstants, appConstants } from '../constants';
 
 export const questionQuery = gql`
   query($id: Int!) {
@@ -16,7 +16,9 @@ export const questionQuery = gql`
         name
       }
       answer
-      ministry
+      ministry {
+        name
+      }
       date
     }
   }
@@ -28,7 +30,7 @@ export const questionsByVariablesQuery = gql`
     $q: String
     $house: String
     $type: String
-    $ministry: [String]
+    $ministry: [Int]
     $questionBy: [Int]
     $gender: [Int]
     $maritalStatus: [Int]
@@ -68,7 +70,9 @@ export const questionsByVariablesQuery = gql`
           MID
           name
         }
-        ministry
+        ministry {
+          name
+        }
         date
       }
       total
@@ -80,7 +84,25 @@ export function getQuestionById(id: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     try {
       const variables = { id };
-      const { data } = await client.query({ query: questionQuery, variables });
+      const { data, errors } = await client.query({
+        query: questionQuery,
+        variables
+      });
+
+      if (errors && errors.length > 0) {
+        return dispatch({
+          type: appConstants.ADD_ERROR,
+          data: errors[0].message
+        });
+      }
+
+      if (data.question === null) {
+        return dispatch({
+          type: appConstants.ADD_ERROR,
+          data: 'INVALID_ID'
+        });
+      }
+
       dispatch({
         type: questionConstants.SET_QUESTIONS,
         data: [data.question]

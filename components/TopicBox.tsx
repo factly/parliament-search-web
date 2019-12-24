@@ -22,13 +22,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-const QuestionBox = ({
-  topic,
-  ministries
-}: {
-  topic: TypeCheckBoxFilter;
-  ministries: string[];
-}): JSX.Element => {
+const TopicBox = ({ topic }: { topic: TypeCheckBoxFilter }): JSX.Element => {
   const classes = useStyles();
   const { id, name } = topic;
   return (
@@ -40,22 +34,15 @@ const QuestionBox = ({
             image="/static/images/live-from-space.jpg"
             title="Live from space album cover"
           />
-        </a>
-      </Link>
-      <CardContent>
-        <Link href={`/search?topic=${id}`}>
-          <a className={classes.link}>
+          <CardContent>
             <Typography color="textPrimary" component="h6" variant="h6">
               {name}
             </Typography>
-          </a>
-        </Link>
-        <Typography variant="caption" color="textSecondary">
-          {ministries.join(', ')}
-        </Typography>
-      </CardContent>
+          </CardContent>
+        </a>
+      </Link>
     </Card>
   );
 };
 
-export default QuestionBox;
+export default TopicBox;

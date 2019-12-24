@@ -8,7 +8,7 @@ export interface TypeSelectedFilter {
 }
 
 export interface TypeMinistries {
-  [key: number]: string[];
+  [key: number]: number[];
 }
 
 export interface TypeSelected {
