@@ -10,6 +10,7 @@ export const geographyQuery = gql`
     geography(id: $gid) {
       GID
       name
+      type
       parent {
         name
       }
@@ -34,7 +35,7 @@ export const geographyQuery = gql`
       }
       total
     }
-    questions(constituency: [$gid]) {
+    questions(constituency: [$gid], state: [$gid]) {
       nodes {
         QID
         subject

@@ -105,6 +105,7 @@ export interface TypePartyData {
 export interface TypeGeographyData {
   GID: number;
   name: string;
+  type: string;
   parent: {
     name: string;
   };

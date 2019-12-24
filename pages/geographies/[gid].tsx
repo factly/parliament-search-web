@@ -72,9 +72,11 @@ const GeographyPage = ({
   }
   return (
     <div>
-      <Paper className={classes.paper}>
-        <MapWithNoSSR geographyId={geography.GID} />
-      </Paper>
+      {geography.type === 'constituency' ? (
+        <Paper className={classes.paper}>
+          <MapWithNoSSR geographyId={geography.GID} />
+        </Paper>
+      ) : null}
       <Card className={classes.marginTopOne}>
         <CardHeader
           title={`List of all MP's from ${geography.name} (${geography.parent.name})`}
