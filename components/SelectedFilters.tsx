@@ -104,11 +104,11 @@ const SelectedFilters = ({
               }
             />
           ))}
-          {selected.age[0] !== 25 || selected.age[1] !== 100 ? (
+          {selected.ageMin !== 25 || selected.ageMax !== 100 ? (
             <Chip
               size="small"
               className={classes.selected}
-              label={`${selected.age[0]}-${selected.age[1]}`}
+              label={`${selected.ageMin}-${selected.ageMax}`}
               onDelete={(): TypeSetAll =>
                 dispatch(selectedActions.setAge([25, 100]))
               }

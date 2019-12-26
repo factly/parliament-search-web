@@ -42,6 +42,8 @@ export const questionsByVariablesQuery = gql`
     $constituency: [Int]
     $sort: String
     $state: [Int]
+    $ageMin: Float
+    $ageMax: Float
   ) {
     questions(
       limit: $limit
@@ -61,6 +63,8 @@ export const questionsByVariablesQuery = gql`
       constituency: $constituency
       state: $state
       sort: $sort
+      ageMin: $ageMin
+      ageMax: $ageMax
     ) {
       nodes {
         QID

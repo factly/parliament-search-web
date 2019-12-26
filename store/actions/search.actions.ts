@@ -80,8 +80,8 @@ export function searchPageInitial(query: any) {
           }
         );
         const party = data.parties.nodes.map(
-          (each: { GID: number; name: string }) => {
-            return { id: each.GID, name: each.name };
+          (each: { PID: number; name: string }) => {
+            return { id: each.PID, name: each.name };
           }
         );
         if (!data.states || !data.parties) {

@@ -15,10 +15,11 @@ export interface TypeSelected {
   q: string;
   education: number[];
   marital: number[];
-  age: number[];
   sort: string;
   page: number;
   gender: number[];
+  ageMin: number;
+  ageMax: number;
   terms: number;
   questionBy: number[];
   party: number[];
@@ -37,10 +38,11 @@ export interface TypeSetAllSelected {
   education?: number[];
   party?: number[];
   marital?: number[];
-  age?: number[];
   sort?: string;
   terms?: number;
   gender?: number[];
+  ageMin?: number;
+  ageMax?: number;
   page?: number;
   questionBy?: number[];
   member?: string | string[];
@@ -53,7 +55,8 @@ export interface TypeQuestionGraphql {
   education?: string[];
   party?: number[];
   maritalStatus?: string[];
-  age?: number[];
+  ageMin?: number;
+  ageMax?: number;
   sort?: string;
   terms?: number;
   gender?: string;

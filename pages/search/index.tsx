@@ -48,7 +48,6 @@ const SearchPage = ({
 }): JSX.Element => {
   React.useEffect(() => {
     const query: any = {};
-    query.ministry = [];
 
     if (selected.page && selected.page > 1) query.page = selected.page;
     if (selected.sort && selected.sort !== 'newest') query.sort = selected.sort;
@@ -68,6 +67,22 @@ const SearchPage = ({
       query.education = selected.education;
     if (selected.marital && selected.marital.length > 0)
       query.maritalStatus = selected.marital;
+    if (selected.ageMin && selected.ageMin !== 25)
+      query.ageMin = selected.ageMin;
+    if (selected.ageMax && selected.ageMax !== 100)
+      query.ageMax = selected.ageMax;
+
+    if (selected.topic && selected.topic.length > 0)
+      query.topic = selected.topic;
+
+    const as = url.format({
+      pathname: '/search',
+      query: query
+    });
+    Router.push('/search', as, { shallow: true });
+
+    query.ministry = [];
+
     if (selected.topic && selected.topic.length > 0)
       selected.topic.forEach((each: number) => {
         if (ministries[each])
@@ -77,15 +92,6 @@ const SearchPage = ({
     if (query.ministry.length === 0) delete query.ministry;
 
     dispatch(getSearchPageQuestions(query));
-    delete query.ministry;
-
-    if (selected.topic && selected.topic.length > 0)
-      query.topic = selected.topic;
-    const as = url.format({
-      pathname: '/search',
-      query: query
-    });
-    Router.push('/search', as, { shallow: true });
   }, [selected]);
 
   return (
@@ -140,7 +146,7 @@ const SearchPage = ({
         />
         <AgeFilter
           heading="Age"
-          selected={selected.age}
+          selected={[selected.ageMin, selected.ageMax]}
           toogle={(event, value): void =>
             dispatch(selectedActions.setAge(value as number[]))
           }

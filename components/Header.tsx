@@ -92,10 +92,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Header = ({
   dispatch,
-  theme
+  theme,
+  q
 }: {
   dispatch: Dispatch<AppActions>;
   theme: string;
+  q: string;
 }): JSX.Element => {
   const classes = useStyles();
   const suggestionsList: SuggestionProps[] = [
@@ -113,7 +115,7 @@ const Header = ({
     }
   ];
 
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState(q);
   const [suggestions, setSuggestions] = React.useState([{ name: '' }]);
 
   const getSuggestions = (value: string): SuggestionProps[] => {
@@ -158,6 +160,11 @@ const Header = ({
   ): void => {
     setValue(newValue);
   };
+  const onKeyDown = (e: React.KeyboardEvent<any>): void => {
+    if (e.key === 'Enter') {
+      searchFunc();
+    }
+  };
   return (
     <>
       <CssBaseline />
@@ -194,7 +201,8 @@ const Header = ({
                     placeholder: 'search ...',
                     value,
                     onChange: onChange,
-                    id: 'auto'
+                    id: 'auto',
+                    onKeyDown: onKeyDown
                   }}
                 />
                 <IconButton
@@ -230,8 +238,9 @@ Header.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state: AppState): { theme: string } => ({
-  theme: state.app.theme
+const mapStateToProps = (state: AppState): { theme: string; q: string } => ({
+  theme: state.app.theme,
+  q: state.selected.q
 });
 
 export default connect(mapStateToProps)(Header);

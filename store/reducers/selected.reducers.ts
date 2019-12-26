@@ -13,7 +13,8 @@ const initialState: TypeSelected = {
   page: 1,
   education: [],
   marital: [],
-  age: [25, 100],
+  ageMin: 25,
+  ageMax: 100,
   gender: [],
   terms: 0,
   questionBy: [],
@@ -76,7 +77,9 @@ function selected(state = initialState, action: actionType): TypeSelected {
         questionBy:
           action.data.questionBy && action.data.questionBy.length > 0
             ? action.data.questionBy
-            : initialState.questionBy
+            : initialState.questionBy,
+        ageMin: action.data.ageMin ? action.data.ageMin : initialState.ageMin,
+        ageMax: action.data.ageMax ? action.data.ageMax : initialState.ageMax
       };
     case selectedConstants.SET_SORT:
       return {
@@ -92,7 +95,8 @@ function selected(state = initialState, action: actionType): TypeSelected {
     case selectedConstants.SET_AGE:
       return {
         ...state,
-        age: action.data.age ? action.data.age : initialState.age,
+        ageMin: action.data.ageMin ? action.data.ageMin : initialState.ageMin,
+        ageMax: action.data.ageMax ? action.data.ageMax : initialState.ageMax,
         page: initialState.page
       };
     case selectedConstants.SET_TERMS:
