@@ -15,7 +15,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
-import Paper from '@material-ui/core/Paper';
 import { getGeographyById } from '../../store/actions';
 import {
   TypeGeographyMember,
@@ -35,8 +34,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   marginBottomOne: {
     marginBottom: theme.spacing(1)
   },
-  paper: {
-    height: '70%'
+  map: {
+    margin: 0,
+    padding: 0,
+    '&:last-child': {
+      paddingBottom: 0
+    }
   },
   table: {
     minWidth: 650
@@ -72,14 +75,17 @@ const GeographyPage = ({
   }
   return (
     <div>
-      {geography.type === 'constituency' ? (
-        <Paper className={classes.paper}>
-          <MapWithNoSSR geographyId={geography.GID} />
-        </Paper>
-      ) : null}
+      <Card>
+        <CardHeader title={geography.name} />
+        {geography.type === 'constituency' ? (
+          <CardContent className={classes.map}>
+            <MapWithNoSSR geographyId={geography.GID} />
+          </CardContent>
+        ) : null}
+      </Card>
       <Card className={classes.marginTopOne}>
         <CardHeader
-          title={`List of all MP's from ${geography.name} (${geography.parent.name})`}
+          title={`MP's from ${geography.name} (${geography.parent.name})`}
         />
         <CardContent className={classes.root}>
           <Table className={classes.table} aria-label="list of MP's">

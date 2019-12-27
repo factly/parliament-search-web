@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { AppActions, TypePartyData, TypePartyMember } from '../../types';
+import { AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { partyConstants, appConstants } from '../constants';
 
