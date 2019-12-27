@@ -1,12 +1,7 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-
 import { selectedActions } from '../store/actions';
 import {
   AppActions,
@@ -59,7 +54,8 @@ const SelectedFilters = ({
     'education',
     'marital',
     'gender',
-    'topic'
+    'topic',
+    'house'
   ];
 
   typeList.forEach(type => {
@@ -87,36 +83,29 @@ const SelectedFilters = ({
   });
 
   return (
-    <ExpansionPanel square>
-      <ExpansionPanelSummary>
-        <Typography variant="h5">Filters</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <div className={classes.selectedRoot}>
-          {list.map(value => (
-            <Chip
-              size="small"
-              key={value.type + value.id}
-              className={classes.selected}
-              label={value.label}
-              onDelete={(): TypeSetAll =>
-                dispatch(selectedActions.toogle(value.id, value.type))
-              }
-            />
-          ))}
-          {selected.ageMin !== 25 || selected.ageMax !== 100 ? (
-            <Chip
-              size="small"
-              className={classes.selected}
-              label={`${selected.ageMin}-${selected.ageMax}`}
-              onDelete={(): TypeSetAll =>
-                dispatch(selectedActions.setAge([25, 100]))
-              }
-            />
-          ) : null}
-        </div>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+    <div className={classes.selectedRoot}>
+      {list.map(value => (
+        <Chip
+          size="small"
+          key={value.type + value.id}
+          className={classes.selected}
+          label={value.label}
+          onDelete={(): TypeSetAll =>
+            dispatch(selectedActions.toogle(value.id, value.type))
+          }
+        />
+      ))}
+      {selected.ageMin !== 25 || selected.ageMax !== 100 ? (
+        <Chip
+          size="small"
+          className={classes.selected}
+          label={`${selected.ageMin}-${selected.ageMax}`}
+          onDelete={(): TypeSetAll =>
+            dispatch(selectedActions.setAge([25, 100]))
+          }
+        />
+      ) : null}
+    </div>
   );
 };
 /*const arrayOfFilter = {

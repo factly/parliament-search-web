@@ -22,7 +22,8 @@ const initialState: TypeSelected = {
   state: [],
   constituency: [],
   topic: [],
-  house: []
+  house: [],
+  category: 'questions'
 };
 
 function toogleList(list: number[], element: number): number[] {
@@ -120,6 +121,14 @@ function selected(state = initialState, action: actionType): TypeSelected {
           state[fieldKey] as number[],
           action.data[fieldKey] as number
         ),
+        page: initialState.page
+      };
+    case selectedConstants.SET_CATEGORY:
+      return {
+        ...state,
+        category: action.data.category
+          ? action.data.category
+          : initialState.category,
         page: initialState.page
       };
     default:

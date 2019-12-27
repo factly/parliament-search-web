@@ -45,7 +45,7 @@ export function getSearchPageQuestions(query: TypeQuestionGraphql) {
         dispatch({
           type: searchConstants.SET_SEARCHPAGE_QUESTIONS,
           data: {
-            qids: data.questions.nodes.map((each: TypeQuestionBox) => each.QID),
+            ids: data.questions.nodes.map((each: TypeQuestionBox) => each.QID),
             total: data.questions.total
           }
         });

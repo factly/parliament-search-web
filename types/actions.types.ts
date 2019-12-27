@@ -87,7 +87,7 @@ export interface TypeSetFilters {
 export interface TypeSetSearchPageQuestions {
   type: typeof searchConstants.SET_SEARCHPAGE_QUESTIONS;
   data: {
-    qids: number[];
+    ids: number[];
     total: number;
   };
 }

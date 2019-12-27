@@ -21,6 +21,7 @@ function setAll(query: any): TypeSetAll {
   if (query.ageMin) setQuery.ageMin = +query.ageMin;
   if (query.ageMax) setQuery.ageMax = +query.ageMax;
   if (query.house) setQuery.house = urlParser(query.house);
+  if (query.category) setQuery.category = query.category;
   return { type: selectedConstants.SET_ALL, data: setQuery };
 }
 

@@ -1,11 +1,11 @@
 import { searchConstants } from '../constants/search.constants';
 
 interface TypeSearch {
-  qids: number[];
+  ids: number[];
   total: number;
 }
 const initialState: TypeSearch = {
-  qids: [],
+  ids: [],
   total: 0
 };
 
@@ -14,7 +14,7 @@ function search(state = initialState, action: any): TypeSearch {
     case searchConstants.SET_SEARCHPAGE_QUESTIONS:
       return action.data;
     case searchConstants.ADD_SEARCHPAGE_QUESTIONS:
-      return { ...state, qids: state.qids.concat(action.data.qids) };
+      return { ...state, ids: state.ids.concat(action.data.ids) };
     default:
       return state;
   }

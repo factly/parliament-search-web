@@ -28,9 +28,28 @@ import {
 } from '../../types';
 import { getSearchPageQuestions } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
+import { selectedConstants } from './../../store/constants';
 import url from 'url';
 import SelectedFilters from '../../components/SelectedFilters';
+import {
+  makeStyles,
+  createStyles,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  Typography,
+  ExpansionPanelDetails,
+  RadioGroup,
+  FormControlLabel,
+  Radio
+} from '@material-ui/core';
 
+const useStyles = makeStyles(() =>
+  createStyles({
+    questionList: {
+      padding: 0
+    }
+  })
+);
 const SearchPage = ({
   dispatch,
   selected,
@@ -46,6 +65,8 @@ const SearchPage = ({
   filters: TypeFilter;
   ministries: TypeMinistries;
 }): JSX.Element => {
+  const classes = useStyles();
+
   React.useEffect(() => {
     const query: any = {};
 
@@ -98,11 +119,35 @@ const SearchPage = ({
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
-        <SelectedFilters
-          selected={selected}
-          filters={filters}
-          dispatch={dispatch}
-        />
+        <ExpansionPanel defaultExpanded={true}>
+          <ExpansionPanelSummary>
+            <Typography variant="h5">Filters</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <RadioGroup
+              aria-label="category"
+              name="category"
+              value={selected.category}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+                dispatch({
+                  type: selectedConstants.SET_CATEGORY,
+                  data: { category: (event.target as HTMLInputElement).value }
+                })
+              }
+            >
+              <FormControlLabel
+                value="questions"
+                control={<Radio />}
+                label="Questions"
+              />
+              <FormControlLabel
+                value="members"
+                control={<Radio />}
+                label="Members"
+              />
+            </RadioGroup>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
         <CheckBoxFilter
           limit={5}
           search
@@ -189,6 +234,13 @@ const SearchPage = ({
       </Grid>
       <Grid item xs={12} sm={4} md={7} lg={7} xl={8}>
         <Card>
+          <CardContent>
+            <SelectedFilters
+              selected={selected}
+              filters={filters}
+              dispatch={dispatch}
+            />
+          </CardContent>
           <CardHeader
             title="Questions"
             action={
@@ -210,33 +262,33 @@ const SearchPage = ({
               </Select>
             }
           />
-          <CardContent>
-            <Table>
-              <TableBody>
-                {questions && questions.length > 0
-                  ? questions.map((question: TypeQuestionBox) => (
-                      <TableRow key={question.QID}>
-                        <TableCell>
-                          <QuestionBox question={question} />
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : null}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[10]}
-                    count={total}
-                    rowsPerPage={10}
-                    page={total ? selected.page - 1 : 0}
-                    onChangePage={(event, newPage: number): void =>
-                      dispatch(selectedActions.setPage(newPage + 1))
-                    }
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
+          <CardContent className={classes.questionList}>
+            {questions && questions.length > 0 ? (
+              <Table>
+                <TableBody>
+                  {questions.map((question: TypeQuestionBox) => (
+                    <TableRow key={question.QID}>
+                      <TableCell>
+                        <QuestionBox question={question} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[10]}
+                      count={total}
+                      rowsPerPage={10}
+                      page={total ? selected.page - 1 : 0}
+                      onChangePage={(event, newPage: number): void =>
+                        dispatch(selectedActions.setPage(newPage + 1))
+                      }
+                    />
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            ) : null}
           </CardContent>
         </Card>
       </Grid>
@@ -266,7 +318,7 @@ const mapStateToProps = (
 } => ({
   filters: state.filters,
   selected: state.selected,
-  questions: state.search.qids.map((each: number) => state.questions[each]),
+  questions: state.search.ids.map((each: number) => state.questions[each]),
   total: state.search.total,
   ministries: state.ministries
 });
