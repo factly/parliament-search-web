@@ -71,9 +71,10 @@ const SearchPage = ({
       query.ageMin = selected.ageMin;
     if (selected.ageMax && selected.ageMax !== 100)
       query.ageMax = selected.ageMax;
-
     if (selected.topic && selected.topic.length > 0)
       query.topic = selected.topic;
+    if (selected.house && selected.house.length > 0)
+      query.house = selected.house;
 
     const as = url.format({
       pathname: '/search',
@@ -134,6 +135,15 @@ const SearchPage = ({
             dispatch(selectedActions.toogle(value, 'party'))
           }
           selected={selected.party}
+        />
+        <CheckBoxFilter
+          limit={filters.house.length}
+          heading="House"
+          list={filters.house}
+          toogle={(value): void =>
+            dispatch(selectedActions.toogle(value, 'house'))
+          }
+          selected={selected.house}
         />
         <CheckBoxFilter
           limit={filters.education.length}

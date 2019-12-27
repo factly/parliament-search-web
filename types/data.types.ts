@@ -5,6 +5,9 @@ export interface TypeQuestionBox {
   ministry: {
     name: string;
   };
+  house: {
+    name: string;
+  };
   date: string;
   type: string;
 }
@@ -89,6 +92,9 @@ export interface TypeQuestionData {
   questionBy: TypeQuestionBy[];
   answer: string;
   ministry: {
+    name: string;
+  };
+  house: {
     name: string;
   };
   date: string;

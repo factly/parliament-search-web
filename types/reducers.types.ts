@@ -26,6 +26,7 @@ export interface TypeSelected {
   state: number[];
   constituency: number[];
   topic: number[];
+  house: number[];
 }
 
 export interface TypeFilter {
@@ -48,6 +49,7 @@ export interface TypeSetAllSelected {
   member?: string | string[];
   constituency?: number[];
   topic?: number[];
+  house?: number[];
 }
 
 export interface TypeQuestionGraphql {
@@ -65,4 +67,5 @@ export interface TypeQuestionGraphql {
   constituency?: number[];
   state?: number[];
   topic?: number[];
+  house?: number[];
 }

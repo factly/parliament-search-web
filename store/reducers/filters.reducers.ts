@@ -4,6 +4,10 @@ import { filterConstants } from '../constants';
 const initialState: TypeFilter = {};
 initialState.party = [];
 initialState.state = [];
+initialState.house = [
+  { id: 1, name: 'Lok Sabha' },
+  { id: 2, name: 'Rajya Sabha' }
+];
 initialState.education = [
   { id: 1, name: 'Doctorate' },
   { id: 2, name: 'Post Graduate' },

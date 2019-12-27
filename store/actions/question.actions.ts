@@ -19,6 +19,9 @@ export const questionQuery = gql`
       ministry {
         name
       }
+      house {
+        name
+      }
       date
     }
   }
@@ -28,7 +31,6 @@ export const questionsByVariablesQuery = gql`
     $limit: Int
     $page: Int
     $q: String
-    $house: String
     $type: String
     $ministry: [Int]
     $questionBy: [Int]
@@ -44,13 +46,14 @@ export const questionsByVariablesQuery = gql`
     $state: [Int]
     $ageMin: Float
     $ageMax: Float
+    $house: [Int]
   ) {
     questions(
       limit: $limit
       page: $page
       q: $q
       house: $house
-      type: $type
+      questionType: $type
       ministry: $ministry
       questionBy: $questionBy
       gender: $gender
@@ -65,6 +68,7 @@ export const questionsByVariablesQuery = gql`
       sort: $sort
       ageMin: $ageMin
       ageMax: $ageMax
+      questionHouse: $house
     ) {
       nodes {
         QID
@@ -75,6 +79,9 @@ export const questionsByVariablesQuery = gql`
           name
         }
         ministry {
+          name
+        }
+        house {
           name
         }
         date

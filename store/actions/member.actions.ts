@@ -51,6 +51,9 @@ const memberQuery = gql`
         ministry {
           name
         }
+        house {
+          name
+        }
         date
       }
     }

@@ -32,7 +32,7 @@ const QuestionBox = ({
   question: TypeQuestionBox;
 }): JSX.Element => {
   const classes = useStyles();
-  const { QID, questionBy, subject, ministry, date } = question;
+  const { QID, questionBy, subject, ministry, date, house } = question;
   return (
     <div>
       <Typography variant="h6">
@@ -41,7 +41,8 @@ const QuestionBox = ({
         </Link>
       </Typography>
       <Typography variant="caption" color="textSecondary" gutterBottom>
-        Lok Sabha · {ministry.name} · {moment.unix(+date / 1000).fromNow(true)}
+        {house.name} · {ministry.name} ·
+        {moment.unix(+date / 1000).fromNow(true)}
       </Typography>
       <Typography variant="subtitle2" gutterBottom>
         Asked By

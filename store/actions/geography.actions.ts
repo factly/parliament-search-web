@@ -47,6 +47,9 @@ export const geographyQuery = gql`
         ministry {
           name
         }
+        house {
+          name
+        }
         date
       }
     }
