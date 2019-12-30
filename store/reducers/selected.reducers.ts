@@ -85,7 +85,10 @@ function selected(state = initialState, action: actionType): TypeSelected {
         house:
           action.data.house && action.data.house.length > 0
             ? action.data.house
-            : initialState.house
+            : initialState.house,
+        category: action.data.category
+          ? action.data.category
+          : initialState.category
       };
     case selectedConstants.SET_SORT:
       return {
@@ -129,7 +132,8 @@ function selected(state = initialState, action: actionType): TypeSelected {
         category: action.data.category
           ? action.data.category
           : initialState.category,
-        page: initialState.page
+        page: initialState.page,
+        topic: []
       };
     default:
       return state;

@@ -11,7 +11,7 @@ const initialState: TypeSearch = {
 
 function search(state = initialState, action: any): TypeSearch {
   switch (action.type) {
-    case searchConstants.SET_SEARCHPAGE_QUESTIONS:
+    case searchConstants.SET_SEARCHPAGE:
       return action.data;
     case searchConstants.ADD_SEARCHPAGE_QUESTIONS:
       return { ...state, ids: state.ids.concat(action.data.ids) };

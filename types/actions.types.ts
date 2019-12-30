@@ -54,7 +54,12 @@ export interface TypeSetGeography {
 
 export interface TypeSetMember {
   type: typeof memberConstants.SET_MEMBER;
-  data: TypeMemberData;
+  data: TypeMemberData[];
+}
+
+export interface TypeSetMembers {
+  type: typeof memberConstants.SET_MEMBERS;
+  data: TypeMemberData[];
 }
 
 export interface TypeSetParty {
@@ -85,7 +90,7 @@ export interface TypeSetFilters {
 }
 
 export interface TypeSetSearchPageQuestions {
-  type: typeof searchConstants.SET_SEARCHPAGE_QUESTIONS;
+  type: typeof searchConstants.SET_SEARCHPAGE;
   data: {
     ids: number[];
     total: number;

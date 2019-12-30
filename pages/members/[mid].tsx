@@ -193,7 +193,10 @@ const MembersPage = ({
 };
 
 MembersPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
-  if (!store.getState().members[+query.mid])
+  if (
+    !store.getState().members[+query.mid] ||
+    !store.getState().members[+query.mid].maritalStatus
+  )
     await store.dispatch(getMemberById(+query.mid));
 };
 const mapStateToProps = (

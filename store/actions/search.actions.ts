@@ -4,12 +4,20 @@ import {
   questionConstants,
   searchConstants,
   filterConstants,
-  appConstants
+  appConstants,
+  memberConstants
 } from '../constants';
-import { TypeQuestionBox, AppActions, TypeQuestionGraphql } from '../../types';
+import {
+  TypeQuestionBox,
+  AppActions,
+  TypeQuestionGraphql,
+  TypeMemberData,
+  TypeQuestionData
+} from '../../types';
 import { Dispatch } from 'react';
 import { gql } from 'apollo-boost';
-import { selectedActions } from '.';
+import { selectedActions } from './selected.actions';
+import { membersByVariableQuery } from './member.actions';
 
 const filtersQuery = gql`
   query {
@@ -29,24 +37,50 @@ const filtersQuery = gql`
   }
 `;
 
-export function getSearchPageQuestions(query: TypeQuestionGraphql) {
+export function getSearchPageResults(variables: TypeQuestionGraphql) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     return client
       .query({
-        query: questionsByVariablesQuery,
-        variables: query
+        query:
+          variables.category === 'questions'
+            ? questionsByVariablesQuery
+            : membersByVariableQuery,
+        variables
       })
       .then(({ data }) => {
-        dispatch({
-          type: questionConstants.SET_QUESTIONS,
-          data: data.questions.nodes
-        });
+        const search: {
+          nodes: TypeQuestionBox[] | TypeMemberData[];
+          total: number;
+        } =
+          variables.category === 'questions'
+            ? data.questions
+            : variables.category === 'members'
+            ? data.members
+            : null;
+
+        if (variables.category === 'questions')
+          dispatch({
+            type: questionConstants.SET_QUESTIONS,
+            data: search.nodes as TypeQuestionData[]
+          });
+        else
+          dispatch({
+            type: memberConstants.SET_MEMBERS,
+            data: search.nodes as TypeMemberData[]
+          });
 
         dispatch({
-          type: searchConstants.SET_SEARCHPAGE_QUESTIONS,
+          type: searchConstants.SET_SEARCHPAGE,
           data: {
-            ids: data.questions.nodes.map((each: TypeQuestionBox) => each.QID),
-            total: data.questions.total
+            ids:
+              variables.category === 'questions'
+                ? (search.nodes as TypeQuestionData[]).map(
+                    (each: TypeQuestionBox) => each.QID
+                  )
+                : (search.nodes as TypeMemberData[]).map(
+                    (each: TypeMemberData) => each.MID
+                  ),
+            total: search.total
           }
         });
       })

@@ -60,6 +60,77 @@ const memberQuery = gql`
   }
 `;
 
+export const membersByVariableQuery = gql`
+  query(
+    $limit: Int
+    $page: Int
+    $q: String
+    $gender: [Int]
+    $ageMin: Float
+    $ageMax: Float
+    $maritalStatus: [Int]
+    $sons: [Int]
+    $daughters: [Int]
+    $education: [Int]
+    $profession: [String]
+    $expertise: [String]
+    $terms: Int
+    $party: [Int]
+    $constituency: [Int]
+    $state: [Int]
+    $house: [Int]
+    $session: [Int]
+  ) {
+    members(
+      limit: $limit
+      page: $page
+      q: $q
+      gender: $gender
+      ageMin: $ageMin
+      ageMax: $ageMax
+      maritalStatus: $maritalStatus
+      sons: $sons
+      daughters: $daughters
+      education: $education
+      profession: $profession
+      expertise: $expertise
+      terms: $terms
+      party: $party
+      constituency: $constituency
+      state: $state
+      house: $house
+      session: $session
+    ) {
+      nodes {
+        MID
+        name
+        gender
+        dob
+        education
+        terms {
+          geography {
+            GID
+            name
+            parent {
+              name
+            }
+          }
+          party {
+            PID
+            name
+            abbr
+          }
+          house {
+            name
+          }
+          session
+        }
+      }
+      total
+    }
+  }
+`;
+
 export function getMemberById(mid: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     return client
@@ -86,7 +157,7 @@ export function getMemberById(mid: number) {
 
         dispatch({
           type: memberConstants.SET_MEMBER,
-          data: { ...data.member, popularQuestionIds }
+          data: [{ ...data.member, popularQuestionIds }]
         });
       })
       .catch(({ graphQLErrors, networkError }) => {

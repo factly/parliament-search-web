@@ -13,35 +13,31 @@ import AgeFilter from '../../components/AgeFilter';
 import QuestionBox from '../../components/QuestionBox';
 import { selectedActions, searchPageInitial } from '../../store/actions';
 import { AppState } from '../../store/reducers/index';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import {
   TypeFilter,
   TypeQuestionBox,
   TypeSelected,
-  TypeMinistries
+  TypeMinistries,
+  TypeMemberData
 } from '../../types';
-import { getSearchPageQuestions } from '../../store/actions';
+import { getSearchPageResults } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
 import { selectedConstants } from './../../store/constants';
 import url from 'url';
 import SelectedFilters from '../../components/SelectedFilters';
-import {
-  makeStyles,
-  createStyles,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  Typography,
-  ExpansionPanelDetails,
-  RadioGroup,
-  FormControlLabel,
-  Radio
-} from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import Radio from '@material-ui/core/Radio';
+import ListItem from '@material-ui/core/ListItem';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MemberBox from '../../components/MemberBox';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,14 +49,14 @@ const useStyles = makeStyles(() =>
 const SearchPage = ({
   dispatch,
   selected,
-  questions,
+  results,
   total,
   filters,
   ministries
 }: {
   dispatch: any;
   selected: TypeSelected;
-  questions: TypeQuestionBox[];
+  results: TypeMemberData[] | TypeQuestionBox[];
   total: number;
   filters: TypeFilter;
   ministries: TypeMinistries;
@@ -69,7 +65,6 @@ const SearchPage = ({
 
   React.useEffect(() => {
     const query: any = {};
-
     if (selected.page && selected.page > 1) query.page = selected.page;
     if (selected.sort && selected.sort !== 'newest') query.sort = selected.sort;
     if (selected.q) query.q = selected.q;
@@ -92,11 +87,14 @@ const SearchPage = ({
       query.ageMin = selected.ageMin;
     if (selected.ageMax && selected.ageMax !== 100)
       query.ageMax = selected.ageMax;
-    if (selected.topic && selected.topic.length > 0)
+    if (selected.topic && selected.topic.length > 0) {
       query.topic = selected.topic;
+    }
     if (selected.house && selected.house.length > 0)
       query.house = selected.house;
-
+    if (selected.category && selected.category !== 'questions') {
+      query.category = selected.category;
+    }
     const as = url.format({
       pathname: '/search',
       query: query
@@ -105,17 +103,15 @@ const SearchPage = ({
 
     query.ministry = [];
 
-    if (selected.topic && selected.topic.length > 0)
-      selected.topic.forEach((each: number) => {
+    if (query.topic && query.topic.length > 0)
+      query.topic.forEach((each: number) => {
         if (ministries[each])
           query.ministry = query.ministry.concat(ministries[each]);
       });
-
+    if (selected.category) query.category = selected.category;
     if (query.ministry.length === 0) delete query.ministry;
-
-    dispatch(getSearchPageQuestions(query));
+    dispatch(getSearchPageResults(query));
   }, [selected]);
-
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={4} md={3} lg={2} xl={2}>
@@ -148,17 +144,19 @@ const SearchPage = ({
             </RadioGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <CheckBoxFilter
-          limit={5}
-          search
-          defaultShow
-          heading="Topics"
-          list={filters.topic}
-          toogle={(value): void =>
-            dispatch(selectedActions.toogle(value, 'topic'))
-          }
-          selected={selected.topic}
-        />
+        {selected.category === 'questions' ? (
+          <CheckBoxFilter
+            limit={5}
+            search
+            defaultShow
+            heading="Topics"
+            list={filters.topic}
+            toogle={(value): void =>
+              dispatch(selectedActions.toogle(value, 'topic'))
+            }
+            selected={selected.topic}
+          />
+        ) : null}
         <CheckBoxFilter
           limit={5}
           search
@@ -242,7 +240,7 @@ const SearchPage = ({
             />
           </CardContent>
           <CardHeader
-            title="Questions"
+            title={selected.category}
             action={
               <Select
                 value={selected.sort}
@@ -263,31 +261,38 @@ const SearchPage = ({
             }
           />
           <CardContent className={classes.questionList}>
-            {questions && questions.length > 0 ? (
-              <Table>
-                <TableBody>
-                  {questions.map((question: TypeQuestionBox) => (
-                    <TableRow key={question.QID}>
-                      <TableCell>
-                        <QuestionBox question={question} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TablePagination
-                      rowsPerPageOptions={[10]}
-                      count={total}
-                      rowsPerPage={10}
-                      page={total ? selected.page - 1 : 0}
-                      onChangePage={(event, newPage: number): void =>
-                        dispatch(selectedActions.setPage(newPage + 1))
-                      }
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
+            {results && results.length > 0 ? (
+              <div>
+                <List>
+                  {selected.category === 'questions'
+                    ? (results as TypeQuestionBox[]).map(
+                        (question: TypeQuestionBox) => (
+                          <ListItem key={question.QID}>
+                            <QuestionBox question={question} />
+                          </ListItem>
+                        )
+                      )
+                    : selected.category === 'members'
+                    ? (results as TypeMemberData[]).map(
+                        (member: TypeMemberData) => (
+                          <ListItem key={member.MID}>
+                            <MemberBox member={member} />
+                          </ListItem>
+                        )
+                      )
+                    : null}
+                </List>
+                <TablePagination
+                  component="nav"
+                  rowsPerPageOptions={[10]}
+                  count={total}
+                  rowsPerPage={10}
+                  page={total ? selected.page - 1 : 0}
+                  onChangePage={(event, newPage: number): void =>
+                    dispatch(selectedActions.setPage(newPage + 1))
+                  }
+                />
+              </div>
             ) : null}
           </CardContent>
         </Card>
@@ -311,14 +316,21 @@ const mapStateToProps = (
   state: AppState
 ): {
   selected: TypeSelected;
-  questions: TypeQuestionBox[];
+  results: TypeMemberData[] | TypeQuestionBox[];
   total: number;
   filters: TypeFilter;
   ministries: TypeMinistries;
 } => ({
   filters: state.filters,
   selected: state.selected,
-  questions: state.search.ids.map((each: number) => state.questions[each]),
+  results:
+    state.selected.category === 'members'
+      ? state.search.ids
+          .map((each: number) => state.members[each])
+          .filter((each: undefined | TypeMemberData) => each !== undefined)
+      : state.search.ids
+          .map((each: number) => state.questions[each])
+          .filter((each: undefined | TypeQuestionBox) => each !== undefined),
   total: state.search.total,
   ministries: state.ministries
 });
