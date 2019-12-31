@@ -91,6 +91,8 @@ export interface TypeQuestionData {
   question: string;
   questionBy: TypeQuestionBy[];
   answer: string;
+  englishPdf: string;
+  hindiPdf: string;
   ministry: {
     name: string;
   };

@@ -17,6 +17,11 @@ import { getQuestionById } from '../../store/actions';
 import { AppState } from '../../store/reducers';
 import { TypeQuestionBy, TypeQuestionData } from '../../types';
 import moment from 'moment';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AttachmentIcon from '@material-ui/icons/Attachment';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -88,6 +93,36 @@ const QuestionPage = ({
             <CardContent>
               <Typography variant="h6">Answer</Typography>
               <div dangerouslySetInnerHTML={{ __html: question.answer }} />
+            </CardContent>
+            <CardContent>
+              <List component="nav" aria-labelledby="nested-list-subheader">
+                <a
+                  href={question.englishPdf as string}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classes.link}
+                >
+                  <ListItem>
+                    <ListItemIcon>
+                      <AttachmentIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="English PDF" />
+                  </ListItem>
+                </a>
+                <a
+                  href={question.hindiPdf as string}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classes.link}
+                >
+                  <ListItem>
+                    <ListItemIcon>
+                      <AttachmentIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Hindi PDF" />
+                  </ListItem>
+                </a>
+              </List>
             </CardContent>
           </Card>
         </Grid>

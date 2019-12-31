@@ -22,6 +22,8 @@ export const questionQuery = gql`
       house {
         name
       }
+      englishPdf
+      hindiPdf
       date
     }
   }
