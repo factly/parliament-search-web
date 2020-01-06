@@ -4,8 +4,9 @@ import { questionConstants, appConstants } from '../constants';
 import { TypeQuestionData, AppActions } from '../../types';
 import { Dispatch } from 'redux';
 import { geographyConstants } from '../constants';
+import { questionNodesQuery } from './question.actions';
 
-export const geographyQuery = gql`
+export const geographyQuery = gql(String.raw`
   query($gid: Int!) {
     geography(id: $gid) {
       GID
@@ -36,25 +37,12 @@ export const geographyQuery = gql`
       total
     }
     questions(constituency: [$gid], state: [$gid]) {
-      nodes {
-        QID
-        subject
-        type
-        questionBy {
-          MID
-          name
-        }
-        ministry {
-          name
-        }
-        house {
-          name
-        }
-        date
+      nodes{
+        ${questionNodesQuery}
       }
     }
   }
-`;
+`);
 
 export function getGeographyById(gid: number) {
   return async (dispatch: Dispatch<AppActions>) => {

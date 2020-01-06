@@ -3,6 +3,7 @@ import { client } from './client.apollo';
 import { AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { partyConstants, appConstants } from '../constants';
+import { memberNodesQuery } from './member.actions';
 
 const partyQuery = gql`
   query($pid: Int!, $limit: Int, $page: Int) {
@@ -34,26 +35,7 @@ const memberWithVariablesQuery = gql`
   query($limit: Int, $page: Int, $party: [Int]) {
     members(limit: $limit, page: $page, party: $party) {
       nodes {
-        MID
-        name
-        terms {
-          party {
-            PID
-            name
-            abbr
-          }
-          geography {
-            GID
-            name
-            parent {
-              name
-            }
-          }
-          house {
-            name
-          }
-          session
-        }
+        ${memberNodesQuery}
       }
       total
     }

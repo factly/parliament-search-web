@@ -4,12 +4,35 @@ import { questionConstants, appConstants } from '../constants';
 import { TypeQuestionBox, AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { memberConstants } from '../constants';
+import { questionNodesQuery } from './question.actions';
 
-const memberQuery = gql`
+export const memberNodesQuery = `
+MID
+name
+terms {
+  party {
+    PID
+    name
+    abbr
+  }
+  geography {
+    GID
+    name
+    parent {
+      name
+    }
+}
+house {
+  name
+}
+session
+}
+`;
+
+const memberQuery = gql(String.raw`
   query($mid: Int!) {
     member(id: $mid) {
-      MID
-      name
+      ${memberNodesQuery}
       gender
       dob
       maritalStatus
@@ -20,47 +43,16 @@ const memberQuery = gql`
       daughters
       phone
       email
-      terms {
-        geography {
-          GID
-          name
-          parent {
-            name
-          }
-        }
-        party {
-          PID
-          name
-          abbr
-        }
-        house {
-          name
-        }
-        session
-      }
     }
     questions(questionBy: [$mid]) {
       nodes {
-        QID
-        subject
-        type
-        questionBy {
-          MID
-          name
-        }
-        ministry {
-          name
-        }
-        house {
-          name
-        }
-        date
-      }
+        ${questionNodesQuery}
+      } 
     }
   }
-`;
+`);
 
-export const membersByVariableQuery = gql`
+export const membersByVariableQuery = gql(String.raw`
   query(
     $limit: Int
     $page: Int
@@ -102,34 +94,15 @@ export const membersByVariableQuery = gql`
       session: $session
     ) {
       nodes {
-        MID
-        name
+        ${memberNodesQuery} 
         gender
         dob
         education
-        terms {
-          geography {
-            GID
-            name
-            parent {
-              name
-            }
-          }
-          party {
-            PID
-            name
-            abbr
-          }
-          house {
-            name
-          }
-          session
-        }
       }
       total
     }
   }
-`;
+`);
 
 export function getMemberById(mid: number) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {

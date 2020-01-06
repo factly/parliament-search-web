@@ -4,31 +4,36 @@ import { AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { questionConstants, appConstants } from '../constants';
 
-export const questionQuery = gql`
+export const questionNodesQuery = `
+QID
+subject
+type
+questionBy {
+  MID
+  name
+}
+ministry {
+  name
+}
+house {
+  name
+}
+date
+`;
+
+export const questionQuery = gql(String.raw`
   query($id: Int!) {
     question(id: $id) {
-      QID
-      subject
-      type
+      ${questionNodesQuery}
       question
-      questionBy {
-        MID
-        name
-      }
       answer
-      ministry {
-        name
-      }
-      house {
-        name
-      }
       englishPdf
       hindiPdf
-      date
     }
   }
-`;
-export const questionsByVariablesQuery = gql`
+`);
+
+export const questionsByVariablesQuery = gql(String.raw`
   query(
     $limit: Int
     $page: Int
@@ -73,25 +78,12 @@ export const questionsByVariablesQuery = gql`
       questionHouse: $house
     ) {
       nodes {
-        QID
-        subject
-        type
-        questionBy {
-          MID
-          name
-        }
-        ministry {
-          name
-        }
-        house {
-          name
-        }
-        date
+        ${questionNodesQuery}
       }
       total
     }
   }
-`;
+`);
 
 export function getQuestionById(id: number) {
   return (dispatch: Dispatch<AppActions>): Promise<void> => {
