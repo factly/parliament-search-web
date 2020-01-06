@@ -17,7 +17,7 @@ export const geographyQuery = gql`
       from
       to
     }
-    members(geography: [$gid]) {
+    members(constituency: [$gid]) {
       nodes {
         MID
         name
