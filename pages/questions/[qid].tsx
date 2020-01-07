@@ -22,6 +22,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AttachmentIcon from '@material-ui/icons/Attachment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,9 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(0.5),
       cursor: 'pointer'
     },
-    link: {
-      textDecoration: 'none',
-      color: 'inherit'
+    progress: {
+      marginLeft: '50%'
     }
   })
 );
@@ -44,7 +44,12 @@ const QuestionPage = ({
 }): JSX.Element => {
   const classes = useStyles();
 
-  if (!question || !question.answer) return <div>loading...</div>;
+  if (!question || !question.answer)
+    return (
+      <div className={classes.progress}>
+        <CircularProgress />
+      </div>
+    );
 
   return (
     <div>
@@ -77,7 +82,7 @@ const QuestionPage = ({
                     href="/members/[mid]"
                     as={`/members/${member.MID}`}
                   >
-                    <a className={classes.link}>
+                    <a className="link">
                       <Chip
                         className={classes.asked}
                         label={member.name}
@@ -100,7 +105,7 @@ const QuestionPage = ({
                   href={question.englishPdf as string}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={classes.link}
+                  className="link"
                 >
                   <ListItem>
                     <ListItemIcon>
@@ -113,7 +118,7 @@ const QuestionPage = ({
                   href={question.hindiPdf as string}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={classes.link}
+                  className="link"
                 >
                   <ListItem>
                     <ListItemIcon>

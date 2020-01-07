@@ -24,7 +24,7 @@ import {
 } from '../../types';
 import { getSearchPageResults } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
-import { selectedConstants } from './../../store/constants';
+import { selectedConstants, searchConstants } from './../../store/constants';
 import url from 'url';
 import SelectedFilters from '../../components/SelectedFilters';
 import { makeStyles, createStyles } from '@material-ui/core';
@@ -38,11 +38,17 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MemberBox from '../../components/MemberBox';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const useStyles = makeStyles(() =>
   createStyles({
     questionList: {
       padding: 0
+    },
+    progress: {
+      marginLeft: '50%'
+    },
+    results: {
+      textAlign: 'center'
     }
   })
 );
@@ -110,7 +116,13 @@ const SearchPage = ({
       });
     if (selected.category) query.category = selected.category;
     if (query.ministry.length === 0) delete query.ministry;
+    dispatch({
+      type: searchConstants.SET_SEARCHPAGE,
+      data: { ids: [], total: -1 }
+    });
+    //total is equal to -1 indicates loading results for selected filters
     dispatch(getSearchPageResults(query));
+    window.scrollTo(0, 0);
   }, [selected]);
   return (
     <Grid container spacing={3}>
@@ -240,7 +252,7 @@ const SearchPage = ({
             />
           </CardContent>
           <CardHeader
-            title={selected.category}
+            title={selected.category.toUpperCase()}
             action={
               <Select
                 value={selected.sort}
@@ -285,7 +297,7 @@ const SearchPage = ({
                 <TablePagination
                   component="nav"
                   rowsPerPageOptions={[10]}
-                  count={total}
+                  count={total >= 0 ? total : 0}
                   rowsPerPage={10}
                   page={total ? selected.page - 1 : 0}
                   onChangePage={(event, newPage: number): void =>
@@ -293,7 +305,17 @@ const SearchPage = ({
                   }
                 />
               </div>
-            ) : null}
+            ) : total === -1 ? (
+              <div className={classes.progress}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <div className={classes.results}>
+                <Typography variant="body1">
+                  No results found for selected filters
+                </Typography>
+              </div>
+            )}
           </CardContent>
         </Card>
       </Grid>

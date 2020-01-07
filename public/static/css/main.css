@@ -1,3 +1,22 @@
-.drawer-list{
-  width: 250px;
+.link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.flexDisplay {
+  display: flex;
+  align-items: center;
+}
+
+.paddingOnLeft {
+  padding-left: 8px;
+}
+
+.marginTopOne {
+  margin-top: 5px;
+}
+
+.table {
+  min-width: 650;
 }

@@ -14,10 +14,6 @@ const useStyles = makeStyles(() =>
     },
     cover: {
       height: 150
-    },
-    link: {
-      pointer: 'cursor',
-      textDecoration: 'none'
     }
   })
 );
@@ -28,7 +24,7 @@ const TopicBox = ({ topic }: { topic: TypeCheckBoxFilter }): JSX.Element => {
   return (
     <Card className={classes.card}>
       <Link href={`/search?topic=${id}`}>
-        <a className={classes.link}>
+        <a className="link">
           <CardMedia
             className={classes.cover}
             image="/static/images/live-from-space.jpg"

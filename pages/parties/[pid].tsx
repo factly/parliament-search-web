@@ -14,32 +14,15 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { getPartyById, getPartyMembers } from '../../store/actions';
 import { TypePartyMember, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: '100%',
-      marginTop: theme.spacing(3)
-    },
-    table: {
-      minWidth: 500
-    },
-    tableWrapper: {
-      overflowX: 'auto'
-    },
-    flexDisplay: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    paddingOnLeft: {
-      paddingLeft: theme.spacing(1)
-    },
-    link: {
-      textDecoration: 'none',
-      color: 'inherit'
+    progress: {
+      marginLeft: '50%'
     }
   })
 );
@@ -69,13 +52,17 @@ const PartiesPage = ({
     }
   }, [page, rowsPerPage]);
   if (!party) {
-    return <div>Loading ....</div>;
+    return (
+      <div className={classes.progress}>
+        <CircularProgress />
+      </div>
+    );
   }
   return (
     <Card>
       <CardHeader title={`${party.name} (${party.abbr})`} />
       <CardContent>
-        <Table className={classes.table} aria-label="custom pagination table">
+        <Table className="table" aria-label="custom pagination table">
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
@@ -90,17 +77,15 @@ const PartiesPage = ({
                 <TableRow key={member.MID}>
                   <TableCell>
                     <Link href="/members/[mid]" as={`/members/${member.MID}`}>
-                      <a className={classes.link}>
-                        <div className={classes.flexDisplay}>
+                      <a className="link">
+                        <div className="flexDisplay">
                           <Avatar
                             alt="Mp's image"
                             src={
                               'https://material-ui.com/static/images/avatar/1.jpg'
                             }
                           />
-                          <div className={classes.paddingOnLeft}>
-                            {member.name}
-                          </div>
+                          <div className="paddingOnLeft">{member.name}</div>
                         </div>
                       </a>
                     </Link>
@@ -111,7 +96,7 @@ const PartiesPage = ({
                       href="/geographies/[gid]"
                       as={`/geographies/${member.terms[0].geography.GID}`}
                     >
-                      <a className={classes.link}>
+                      <a className="link">
                         {member.terms[0].geography.name},{' '}
                         {member.terms[0].geography.parent.name}
                       </a>

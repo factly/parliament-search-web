@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: theme.spacing(0.5),
     cursor: 'pointer'
   },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit'
-  },
   text: {
     textDecoration: 'none'
   }
@@ -37,7 +33,7 @@ const QuestionBox = ({
     <div>
       <Typography variant="h6">
         <Link href="/questions/[qid]" as={`/questions/${QID}`}>
-          <a className={classes.link}>{subject}</a>
+          <a className="link">{subject}</a>
         </Link>
       </Typography>
       <Typography variant="caption" color="textSecondary" gutterBottom>

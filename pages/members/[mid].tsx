@@ -16,6 +16,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Link from 'next/link';
 import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
@@ -28,18 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '80%',
       height: '80%'
     },
-    table: {
-      minWidth: 650
-    },
-    marginTopOne: {
-      marginTop: theme.spacing(0.7)
-    },
     marginBottomOne: {
       marginBottom: theme.spacing(1.5)
     },
-    link: {
-      textDecoration: 'none',
-      color: 'inherit'
+    list: {
+      padding: theme.spacing(0, 1)
+    },
+    progress: {
+      margin: '50%'
     }
   })
 );
@@ -53,7 +54,12 @@ const MembersPage = ({
 }): JSX.Element => {
   const classes = useStyles();
 
-  if (!member) return <div>loading...</div>;
+  if (!member)
+    return (
+      <div className={classes.progress}>
+        <CircularProgress />
+      </div>
+    );
 
   return (
     <div>
@@ -69,18 +75,15 @@ const MembersPage = ({
                 />
               </Grid>
               <Grid item md={8}>
-                <Grid>
-                  <Typography variant="h5">{member.name}</Typography>
-                </Grid>
                 <Grid container direction="row" justify="space-between">
                   <Grid>
+                    <Typography variant="h5">{member.name}</Typography>
                     <Typography>Gender : {member.gender}</Typography>
                     {member.birthPlace ? (
                       <Typography>Birthplace : {member.birthPlace}</Typography>
                     ) : null}
                     {member.dob ? (
                       <Typography>
-                        {' '}
                         Age : {moment.unix(+member.dob / 1000).fromNow(true)}
                       </Typography>
                     ) : null}
@@ -89,27 +92,37 @@ const MembersPage = ({
                         Marital Status : {member.maritalStatus}{' '}
                       </Typography>
                     ) : null}
-                    {member.email && member.email.length > 0 ? (
-                      <Typography>
-                        E-mail : {member.email.join(', ')}
-                      </Typography>
-                    ) : null}
-                    {member.phone && member.phone.length > 0 ? (
-                      <Typography>
-                        {' '}
-                        Phone number : {member.phone.join(', ')}{' '}
-                      </Typography>
-                    ) : null}
-                  </Grid>
-                  <Grid>
                     {member.education ? (
                       <Typography>Education : {member.education}</Typography>
                     ) : null}
                     {member.profession && member.profession.length > 0 ? (
                       <Typography>
-                        {' '}
                         Profession : {member.profession.join(', ')}
                       </Typography>
+                    ) : null}
+                  </Grid>
+                  <Grid>
+                    {member.email && member.email.length > 0 ? (
+                      <List dense={true} className={classes.list}>
+                        <ListSubheader>E-mail</ListSubheader>
+                        {member.email.map((each: string, index: number) => (
+                          <ListItem key={index}>
+                            <a href={`mailto:${each}`} className="link">
+                              <ListItemText primary={each} />
+                            </a>
+                          </ListItem>
+                        ))}
+                      </List>
+                    ) : null}
+                    {member.phone && member.phone.length > 0 ? (
+                      <List dense={true} className={classes.list}>
+                        <ListSubheader>Phone number</ListSubheader>
+                        {member.phone.map((each: string, index: number) => (
+                          <ListItem key={index}>
+                            <ListItemText primary={each} />
+                          </ListItem>
+                        ))}
+                      </List>
                     ) : null}
                   </Grid>
                 </Grid>
@@ -118,10 +131,10 @@ const MembersPage = ({
           </CardContent>
         </Card>
       </Grid>
-      <Card className={classes.marginTopOne}>
+      <Card className="marginTopOne">
         <CardHeader title="Overview" />
         <CardContent>
-          <Table className={classes.table} aria-label="MP's terms">
+          <Table className="table" aria-label="MP's terms">
             <TableHead>
               <TableRow>
                 <TableCell>Constituency</TableCell>
@@ -143,7 +156,7 @@ const MembersPage = ({
                           href="/geographies/[gid]"
                           as={`/geographies/${term.geography.GID}`}
                         >
-                          <a className={classes.link}>
+                          <a className="link">
                             {term.geography.name} ({term.geography.parent.name})
                           </a>
                         </Link>
@@ -153,7 +166,7 @@ const MembersPage = ({
                           href="/parties/[pid]"
                           as={`/parties/${term.party.PID}`}
                         >
-                          <a className={classes.link}>
+                          <a className="link">
                             {term.party.name} ({term.party.abbr})
                           </a>
                         </Link>
@@ -167,7 +180,7 @@ const MembersPage = ({
           </Table>
         </CardContent>
       </Card>
-      <Card className={classes.marginTopOne}>
+      <Card className="marginTopOne">
         <CardHeader
           title="Popular Questions"
           action={

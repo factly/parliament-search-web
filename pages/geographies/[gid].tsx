@@ -16,6 +16,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import QuestionBox from '../../components/QuestionBox';
 import { getGeographyById } from '../../store/actions';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   TypeGeographyMember,
   TypeGeographyData,
@@ -28,9 +29,6 @@ const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
 });
 
 const useStyles = makeStyles((theme: Theme) => ({
-  marginTopOne: {
-    marginTop: theme.spacing(0.7)
-  },
   marginBottomOne: {
     marginBottom: theme.spacing(1)
   },
@@ -41,23 +39,12 @@ const useStyles = makeStyles((theme: Theme) => ({
       paddingBottom: 0
     }
   },
-  table: {
-    minWidth: 650
-  },
   root: {
     width: '100%',
     overflowX: 'auto'
   },
-  flexDisplay: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  paddingOnLeft: {
-    paddingLeft: theme.spacing(1)
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit'
+  progress: {
+    marginLeft: '50%'
   }
 }));
 
@@ -71,7 +58,11 @@ const GeographyPage = ({
   const classes = useStyles();
 
   if (!geography) {
-    return <p> loading ...</p>;
+    return (
+      <div className={classes.progress}>
+        <CircularProgress />
+      </div>
+    );
   }
   return (
     <div>
@@ -83,12 +74,12 @@ const GeographyPage = ({
           </CardContent>
         ) : null}
       </Card>
-      <Card className={classes.marginTopOne}>
+      <Card className="marginTopOne">
         <CardHeader
           title={`MP's from ${geography.name} (${geography.parent.name})`}
         />
         <CardContent className={classes.root}>
-          <Table className={classes.table} aria-label="list of MP's">
+          <Table className="table" aria-label="list of MP's">
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
@@ -102,15 +93,13 @@ const GeographyPage = ({
                   <TableRow key={member.MID + index}>
                     <TableCell>
                       <Link href="/members/[mid]" as={`/members/${member.MID}`}>
-                        <a className={classes.link}>
-                          <div className={classes.flexDisplay}>
+                        <a className="link">
+                          <div className="flexDisplay">
                             <Avatar
                               alt="Mp's image"
                               src="/static/images/mp.jpg"
                             />
-                            <div className={classes.paddingOnLeft}>
-                              {member.name}
-                            </div>
+                            <div className="paddingOnLeft">{member.name}</div>
                           </div>
                         </a>
                       </Link>
@@ -120,7 +109,7 @@ const GeographyPage = ({
                         href="/parties/[pid]"
                         as={`/parties/${member.terms[0].party.PID}`}
                       >
-                        <a className={classes.link}>
+                        <a className="link">
                           {member.terms[0].party.name} (
                           {member.terms[0].party.abbr})
                         </a>
@@ -136,7 +125,7 @@ const GeographyPage = ({
           </Table>
         </CardContent>
       </Card>
-      <Card className={classes.marginTopOne}>
+      <Card className="marginTopOne">
         <CardHeader
           title="Questions"
           action={

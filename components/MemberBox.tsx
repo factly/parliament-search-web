@@ -15,10 +15,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: theme.spacing(0.5),
     marginBottom: theme.spacing(0.5)
   },
-  link: {
-    textDecoration: 'none',
-    color: 'inherit'
-  },
   text: {
     textDecoration: 'none'
   },
@@ -35,7 +31,7 @@ const MemberBox = ({ member }: { member: TypeMemberData }): JSX.Element => {
     <div>
       <Typography variant="h6">
         <Link href="/members/[mid]" as={`/members/${member.MID}`}>
-          <a className={classes.link}>{member.name}</a>
+          <a className="link">{member.name}</a>
         </Link>
       </Typography>
       <Typography variant="caption" color="textSecondary" gutterBottom>

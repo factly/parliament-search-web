@@ -6,7 +6,7 @@ interface TypeSearch {
 }
 const initialState: TypeSearch = {
   ids: [],
-  total: 0
+  total: -1
 };
 
 function search(state = initialState, action: any): TypeSearch {

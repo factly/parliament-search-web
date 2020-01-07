@@ -20,6 +20,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"
           />
+          <link rel="stylesheet" href="/static/css/main.css" />
         </Head>
         <body>
           <Main />

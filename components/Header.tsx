@@ -84,9 +84,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   suggestionHighlighted: {
     backgroundColor: '#DCDCDC'
-  },
-  link: {
-    cursor: 'pointer'
   }
 }));
 
@@ -173,7 +170,7 @@ const Header = ({
           <Grid container spacing={3} alignItems="center">
             <Grid item sm={4} md={3} lg={2} xl={2}>
               <Link href="/" as="/">
-                <a className={classes.link}>
+                <a className="link">
                   <img
                     className={classes.logo}
                     alt="Home"
