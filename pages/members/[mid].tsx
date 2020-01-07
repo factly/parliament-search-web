@@ -119,7 +119,9 @@ const MembersPage = ({
                         <ListSubheader>Phone number</ListSubheader>
                         {member.phone.map((each: string, index: number) => (
                           <ListItem key={index}>
-                            <ListItemText primary={each} />
+                            <a href={`tel:${each}`} className="link">
+                              <ListItemText primary={each} />
+                            </a>
                           </ListItem>
                         ))}
                       </List>
@@ -132,7 +134,7 @@ const MembersPage = ({
         </Card>
       </Grid>
       <Card className="marginTopOne">
-        <CardHeader title="Overview" />
+        <CardHeader title="Terms" />
         <CardContent>
           <Table className="table" aria-label="MP's terms">
             <TableHead>
