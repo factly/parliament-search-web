@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -18,11 +18,15 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { getPartyById, getPartyMembers } from '../../store/actions';
 import { TypePartyMember, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
+import { Typography } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     progress: {
       marginLeft: '50%'
+    },
+    text: {
+      textAlign: 'center'
     }
   })
 );
@@ -50,6 +54,7 @@ const PartiesPage = ({
           : party.total - page * rowsPerPage;
       dispatch(getPartyMembers(party.PID, rowsPerPage, page + 1, required));
     }
+    window.scrollTo(0, 0);
   }, [page, rowsPerPage]);
   if (!party) {
     return (
@@ -62,73 +67,85 @@ const PartiesPage = ({
     <Card>
       <CardHeader title={`${party.name} (${party.abbr})`} />
       <CardContent>
-        <Table className="table" aria-label="custom pagination table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>No. of terms</TableCell>
-              <TableCell>Constituency</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {party.members
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((member: TypePartyMember) => (
-                <TableRow key={member.MID}>
-                  <TableCell>
-                    <Link href="/members/[mid]" as={`/members/${member.MID}`}>
-                      <a className="link">
-                        <div className="flexDisplay">
-                          <Avatar
-                            alt="Mp's image"
-                            src={
-                              'https://material-ui.com/static/images/avatar/1.jpg'
-                            }
-                          />
-                          <div className="paddingOnLeft">{member.name}</div>
-                        </div>
-                      </a>
-                    </Link>
-                  </TableCell>
-                  <TableCell>{member.terms.length}</TableCell>
-                  <TableCell>
-                    <Link
-                      href="/geographies/[gid]"
-                      as={`/geographies/${member.terms[0].geography.GID}`}
-                    >
-                      <a className="link">
-                        {member.terms[0].geography.name},{' '}
-                        {member.terms[0].geography.parent.name}
-                      </a>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 20]}
-                count={party.total}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                backIconButtonProps={{
-                  'aria-label': 'previous page'
-                }}
-                nextIconButtonProps={{
-                  'aria-label': 'next page'
-                }}
-                onChangePage={(event, newPage: number): void =>
-                  setPage(newPage)
-                }
-                onChangeRowsPerPage={(event): void => {
-                  setRowsPerPage(parseInt(event.target.value, 10));
-                  setPage(0);
-                }}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
+        {party.total === 0 ? (
+          <div className={classes.text}>
+            <Typography variant="body1">
+              No members from {party.name}
+            </Typography>
+          </div>
+        ) : party.members[page * rowsPerPage] ? (
+          <Table className="table" aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>No. of terms</TableCell>
+                <TableCell>Constituency</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {party.members
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((member: TypePartyMember) => (
+                  <TableRow key={member.MID}>
+                    <TableCell>
+                      <Link href="/members/[mid]" as={`/members/${member.MID}`}>
+                        <a className="link">
+                          <div className="flexDisplay">
+                            <Avatar
+                              alt="Mp's image"
+                              src={
+                                'https://material-ui.com/static/images/avatar/1.jpg'
+                              }
+                            />
+                            <div className="paddingOnLeft">{member.name}</div>
+                          </div>
+                        </a>
+                      </Link>
+                    </TableCell>
+                    <TableCell>{member.terms.length}</TableCell>
+                    <TableCell>
+                      <Link
+                        href="/geographies/[gid]"
+                        as={`/geographies/${member.terms[0].geography.GID}`}
+                      >
+                        <a className="link">
+                          {member.terms[0].geography.name},{' '}
+                          {member.terms[0].geography.parent.name}
+                        </a>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 20]}
+                  count={party.total}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  backIconButtonProps={{
+                    'aria-label': 'previous page'
+                  }}
+                  nextIconButtonProps={{
+                    'aria-label': 'next page'
+                  }}
+                  onChangePage={(event, newPage: number): void =>
+                    setPage(newPage)
+                  }
+                  onChangeRowsPerPage={(event): void => {
+                    setRowsPerPage(parseInt(event.target.value, 10));
+                    setPage(0);
+                  }}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        ) : (
+          <div className={classes.progress}>
+            <CircularProgress />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
