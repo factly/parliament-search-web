@@ -41,6 +41,9 @@ const GeographyMap = ({ geographyId }) => {
 
     const mouseOver = () => {
       setHover(feature.properties.pc_id);
+      layer.setStyle({
+        fillColor: '#cf8f8f'
+      });
       layer
         .bindTooltip(
           `${feature.properties.pc_name}, ${feature.properties.st_name}(${feature.properties.pc_category})`,
@@ -48,9 +51,15 @@ const GeographyMap = ({ geographyId }) => {
         )
         .openTooltip();
     };
+    const mouseOut = () => {
+      layer.setStyle({
+        fillColor: '#d5dbd6'
+      });
+    };
     layer.on({
       click,
-      mouseover: mouseOver
+      mouseover: mouseOver,
+      mouseout: mouseOut
     });
   };
 
@@ -58,11 +67,7 @@ const GeographyMap = ({ geographyId }) => {
     color: '#1f2021',
     weight: 1,
     fillOpacity: 0.5,
-    fillColor:
-      feature.properties.pc_id === geographyId ||
-      feature.properties.pc_id === hover
-        ? '#cf8f8f'
-        : '#d5dbd6',
+    fillColor: feature.properties.pc_id === geographyId ? '#cf8f8f' : '#d5dbd6',
     zIndex: 0
   });
 
