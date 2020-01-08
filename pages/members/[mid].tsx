@@ -32,15 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(2),
       width: '80%',
       height: '80%'
-    },
-    marginBottomOne: {
-      marginBottom: theme.spacing(1.5)
-    },
-    list: {
-      padding: theme.spacing(0, 1)
-    },
-    progress: {
-      margin: '50%'
     }
   })
 );
@@ -56,7 +47,7 @@ const MembersPage = ({
 
   if (!member)
     return (
-      <div className={classes.progress}>
+      <div className="progress">
         <CircularProgress />
       </div>
     );
@@ -103,7 +94,7 @@ const MembersPage = ({
                   </Grid>
                   <Grid>
                     {member.email && member.email.length > 0 ? (
-                      <List dense={true} className={classes.list}>
+                      <List dense={true} className="contactList">
                         <ListSubheader>E-mail</ListSubheader>
                         {member.email.map((each: string, index: number) => (
                           <ListItem key={index}>
@@ -115,7 +106,7 @@ const MembersPage = ({
                       </List>
                     ) : null}
                     {member.phone && member.phone.length > 0 ? (
-                      <List dense={true} className={classes.list}>
+                      <List dense={true} className="contactList">
                         <ListSubheader>Phone number</ListSubheader>
                         {member.phone.map((each: string, index: number) => (
                           <ListItem key={index}>
@@ -194,7 +185,7 @@ const MembersPage = ({
         <CardContent>
           {questions ? (
             questions.map((question: TypeQuestionData) => (
-              <div key={question.QID} className={classes.marginBottomOne}>
+              <div key={question.QID} className="marginBottomOne">
                 <QuestionBox question={question} />
               </div>
             ))

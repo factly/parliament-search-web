@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Cookies from 'js-cookie';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
@@ -17,12 +16,6 @@ import { AppActions } from '../types';
 import ErrorBox from './ErrorBox';
 import ErrorBoundary from './ErrorBoundary';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    padding: theme.spacing(1.5)
-  }
-}));
-
 const Wrapper = ({
   Component,
   pageProps,
@@ -34,8 +27,6 @@ const Wrapper = ({
   app: any;
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
-  const classes = useStyles();
-
   React.useEffect(() => {
     let localTheme: string | undefined = 'light';
     localTheme = Cookies.get('theme');
@@ -45,7 +36,7 @@ const Wrapper = ({
   return (
     <ThemeProvider theme={app.theme === 'dark' ? dark : light}>
       <Header dispatch={dispatch} />
-      <Container maxWidth={false} className={classes.container}>
+      <Container maxWidth={false} className="container">
         {app.error ? (
           <ErrorBox error={app.error} />
         ) : (

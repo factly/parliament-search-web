@@ -3,31 +3,14 @@ import Link from 'next/link';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { TypeQuestionBy, TypeQuestionBox } from '../types';
 import moment from 'moment';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  askedRoot: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  asked: {
-    marginRight: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5),
-    cursor: 'pointer'
-  },
-  text: {
-    textDecoration: 'none'
-  }
-}));
 
 const QuestionBox = ({
   question
 }: {
   question: TypeQuestionBox;
 }): JSX.Element => {
-  const classes = useStyles();
   const { QID, questionBy, subject, ministry, date, house } = question;
   return (
     <div>
@@ -43,8 +26,8 @@ const QuestionBox = ({
       <Typography variant="subtitle2" gutterBottom>
         Asked By
       </Typography>
-      <div className={classes.asked}>
-        <div className={classes.askedRoot}>
+      <div className="asked">
+        <div className="askedRoot">
           {questionBy
             .filter((each: TypeQuestionBy) => each !== null)
             .map((each: TypeQuestionBy) => (
@@ -53,9 +36,9 @@ const QuestionBox = ({
                 href="/members/[mid]"
                 as={`/members/${each.MID}`}
               >
-                <a className={classes.text}>
+                <a className="link">
                   <Chip
-                    className={classes.asked}
+                    className="chip"
                     label={each.name}
                     avatar={
                       <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />

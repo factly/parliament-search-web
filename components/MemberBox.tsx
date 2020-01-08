@@ -1,32 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { TypeMemberData, TypeMemberTerms } from '../types';
 import { Avatar, Chip } from '@material-ui/core';
 import moment from 'moment';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  askedRoot: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  asked: {
-    marginRight: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5)
-  },
-  text: {
-    textDecoration: 'none'
-  },
-  large: {
-    width: 100,
-    height: 100
-  }
-}));
-
 const MemberBox = ({ member }: { member: TypeMemberData }): JSX.Element => {
-  const classes = useStyles();
-
   return (
     <div>
       <Typography variant="h6">
@@ -41,15 +20,15 @@ const MemberBox = ({ member }: { member: TypeMemberData }): JSX.Element => {
       <Typography variant="subtitle2" gutterBottom>
         Terms
       </Typography>
-      <div className={classes.asked}>
-        <div className={classes.askedRoot}>
+      <div className="memberBox">
+        <div className="askedRoot">
           {member.terms
             ? member.terms
                 .filter((each: TypeMemberTerms) => each !== null)
                 .map((each: TypeMemberTerms, index: number) => (
                   <Chip
                     key={member.MID + index}
-                    className={classes.asked}
+                    className="memberBox"
                     label={`${each.geography.name} (${each.geography.parent.name})`}
                     avatar={<Avatar src="/static/images/bjp.png" />}
                   />

@@ -4,19 +4,88 @@
   cursor: pointer;
 }
 
+.notFoundtext {
+  text-align: center;
+}
+
+.askedRoot {
+  display: flex;
+  flex-wrap: wrap;
+}
 .flexDisplay {
   display: flex;
   align-items: center;
 }
 
+.container {
+  padding: 12px;
+}
+
 .paddingOnLeft {
-  padding-left: 8px;
+  padding: 0 0 0 8px ;
 }
 
+.contactList {
+  padding: 0 8px;
+}
+
+.questionList {
+  padding: 0
+}
+
+.selected {
+  border-radius: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+.chip {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  cursor: pointer !important;
+}
 .marginTopOne {
-  margin-top: 5px;
+  margin: 5px 0 0 0;
 }
 
+.marginBottomOne {
+  margin: 0 0 8px 0;
+}
+
+.progress {
+  margin-left: 50%
+}
+
+.memberBox {
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
 .table {
   min-width: 650;
+}
+
+.checkBoxFilter {
+  width: 100%;
+}
+
+.errorBoxCard {
+  width: 300px;
+  margin: auto;
+}
+.errorBoxHeader {
+  background-color: #d32f2f;
+  padding: 8px;
+  color: #ffffff;
+}
+
+.topicBox {
+  height: 250px
+}
+
+.topicBoxImage {
+  height: 150px
+}
+
+.map {
+  padding: 0 !important;
 }

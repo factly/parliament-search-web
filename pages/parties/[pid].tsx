@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -20,17 +19,6 @@ import { TypePartyMember, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 import { Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    progress: {
-      marginLeft: '50%'
-    },
-    text: {
-      textAlign: 'center'
-    }
-  })
-);
-
 const PartiesPage = ({
   dispatch,
   party
@@ -38,7 +26,6 @@ const PartiesPage = ({
   dispatch: any;
   party: TypePartyData;
 }): JSX.Element => {
-  const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -58,7 +45,7 @@ const PartiesPage = ({
   }, [page, rowsPerPage]);
   if (!party) {
     return (
-      <div className={classes.progress}>
+      <div className="progress">
         <CircularProgress />
       </div>
     );
@@ -68,7 +55,7 @@ const PartiesPage = ({
       <CardHeader title={`${party.name} (${party.abbr})`} />
       <CardContent>
         {party.total === 0 ? (
-          <div className={classes.text}>
+          <div className="notFoundtext">
             <Typography variant="body1">
               No members from {party.name}
             </Typography>
@@ -142,7 +129,7 @@ const PartiesPage = ({
             </TableFooter>
           </Table>
         ) : (
-          <div className={classes.progress}>
+          <div className="progress">
             <CircularProgress />
           </div>
         )}

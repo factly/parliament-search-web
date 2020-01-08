@@ -27,7 +27,6 @@ import TermsFilter from '../../components/TermsFilter';
 import { selectedConstants, searchConstants } from './../../store/constants';
 import url from 'url';
 import SelectedFilters from '../../components/SelectedFilters';
-import { makeStyles, createStyles } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import Radio from '@material-ui/core/Radio';
 import ListItem from '@material-ui/core/ListItem';
@@ -39,19 +38,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MemberBox from '../../components/MemberBox';
 import CircularProgress from '@material-ui/core/CircularProgress';
-const useStyles = makeStyles(() =>
-  createStyles({
-    questionList: {
-      padding: 0
-    },
-    progress: {
-      marginLeft: '50%'
-    },
-    results: {
-      textAlign: 'center'
-    }
-  })
-);
+
 const SearchPage = ({
   dispatch,
   selected,
@@ -67,8 +54,6 @@ const SearchPage = ({
   filters: TypeFilter;
   ministries: TypeMinistries;
 }): JSX.Element => {
-  const classes = useStyles();
-
   React.useEffect(() => {
     const query: any = {};
     if (selected.page && selected.page > 1) query.page = selected.page;
@@ -272,7 +257,7 @@ const SearchPage = ({
               </Select>
             }
           />
-          <CardContent className={classes.questionList}>
+          <CardContent className="questionList">
             {results && results.length > 0 ? (
               <div>
                 <List>
@@ -306,11 +291,11 @@ const SearchPage = ({
                 />
               </div>
             ) : total === -1 ? (
-              <div className={classes.progress}>
+              <div className="progress">
                 <CircularProgress />
               </div>
             ) : (
-              <div className={classes.results}>
+              <div className="notFoundtext">
                 <Typography variant="body1">
                   No results found for selected filters
                 </Typography>

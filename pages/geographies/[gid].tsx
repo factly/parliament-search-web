@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -28,26 +27,6 @@ const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
 });
 
-const useStyles = makeStyles((theme: Theme) => ({
-  marginBottomOne: {
-    marginBottom: theme.spacing(1)
-  },
-  map: {
-    margin: 0,
-    padding: 0,
-    '&:last-child': {
-      paddingBottom: 0
-    }
-  },
-  root: {
-    width: '100%',
-    overflowX: 'auto'
-  },
-  progress: {
-    marginLeft: '50%'
-  }
-}));
-
 const GeographyPage = ({
   geography,
   questions
@@ -55,11 +34,9 @@ const GeographyPage = ({
   geography: TypeGeographyData;
   questions: TypeQuestionData[];
 }): JSX.Element => {
-  const classes = useStyles();
-
   if (!geography) {
     return (
-      <div className={classes.progress}>
+      <div className="progress">
         <CircularProgress />
       </div>
     );
@@ -69,7 +46,7 @@ const GeographyPage = ({
       <Card>
         <CardHeader title={geography.name} />
         {geography.type === 'constituency' ? (
-          <CardContent className={classes.map}>
+          <CardContent className="map">
             <MapWithNoSSR geographyId={geography.GID} />
           </CardContent>
         ) : null}
@@ -78,7 +55,7 @@ const GeographyPage = ({
         <CardHeader
           title={`MP's from ${geography.name} (${geography.parent.name})`}
         />
-        <CardContent className={classes.root}>
+        <CardContent>
           <Table className="table" aria-label="list of MP's">
             <TableHead>
               <TableRow>
@@ -137,7 +114,7 @@ const GeographyPage = ({
         <CardContent>
           {questions ? (
             questions.map((question: TypeQuestionData) => (
-              <div key={question.QID} className={classes.marginBottomOne}>
+              <div key={question.QID} className="marginBottomOne">
                 <QuestionBox question={question} />
               </div>
             ))

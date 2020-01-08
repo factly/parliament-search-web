@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import { selectedActions } from '../store/actions';
 import {
@@ -22,21 +20,6 @@ interface TypeIDObject {
   [key: number]: TypeCheckBoxFilter;
 }
 
-const useStyles = makeStyles(theme => ({
-  title: {
-    flexGrow: 'inherit'
-  },
-  selectedRoot: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  selected: {
-    borderRadius: theme.spacing(0.5),
-    marginRight: theme.spacing(0.5),
-    marginBottom: theme.spacing(0.5)
-  }
-}));
-
 const SelectedFilters = ({
   selected,
   filters,
@@ -46,7 +29,6 @@ const SelectedFilters = ({
   filters: TypeFilter;
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
-  const classes = useStyles();
   const list: TypeLists[] = [];
   const typeList = [
     'state',
@@ -83,12 +65,12 @@ const SelectedFilters = ({
   });
 
   return (
-    <div className={classes.selectedRoot}>
+    <div className="askedRoot">
       {list.map(value => (
         <Chip
           size="small"
           key={value.type + value.id}
-          className={classes.selected}
+          className="selected"
           label={value.label}
           onDelete={(): TypeSetAll =>
             dispatch(selectedActions.toogle(value.id, value.type))
@@ -98,7 +80,7 @@ const SelectedFilters = ({
       {selected.ageMin !== 25 || selected.ageMax !== 100 ? (
         <Chip
           size="small"
-          className={classes.selected}
+          className="selected"
           label={`${selected.ageMin}-${selected.ageMax}`}
           onDelete={(): TypeSetAll =>
             dispatch(selectedActions.setAge([25, 100]))

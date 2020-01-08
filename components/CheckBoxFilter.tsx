@@ -5,17 +5,10 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-const useStyles = makeStyles({
-  content: {
-    width: '100%'
-  }
-});
 
 const CheckBoxFilter = ({
   defaultShow,
@@ -34,7 +27,6 @@ const CheckBoxFilter = ({
   toogle: (...args: number[]) => void;
   limit: number;
 }): JSX.Element => {
-  const classes = useStyles();
   const [term, setTerm] = React.useState('');
   const [options, setOptions] = React.useState(list);
 
@@ -84,7 +76,7 @@ const CheckBoxFilter = ({
         <Typography variant="body2">{heading}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <div className={classes.content}>
+        <div className="checkBoxFilter">
           <div>
             {search ? (
               <Input
