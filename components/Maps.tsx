@@ -4,16 +4,16 @@ import Router from 'next/router';
 import PropTypes from 'prop-types';
 import dataMap from '../public/static/map_data/new.json';
 
-const GeographyMap = ({ geographyId }) => {
-  let center = [];
+const GeographyMap = ({ geographyId }: { geographyId: number }) => {
+  let center: number[] = [];
   let zoom = 8;
   const index = dataMap.features.findIndex(
     each => each.properties.pc_id === geographyId
   );
   if (index >= 0) {
     const { coordinates } = dataMap.features[index].geometry;
-    const latitudes = [];
-    const longitutdes = [];
+    const latitudes: number[] = [];
+    const longitutdes: number[] = [];
     coordinates.map(each =>
       each.map(each1 => each1.map(each2 => latitudes.push(each2[0])))
     );
@@ -32,7 +32,7 @@ const GeographyMap = ({ geographyId }) => {
   }
   const [hover, setHover] = React.useState(geographyId);
 
-  const onEachFeature = (feature, layer) => {
+  const onEachFeature = (feature: any, layer: any) => {
     const click = () =>
       Router.push(
         '/geographies/[gid]',
@@ -63,7 +63,7 @@ const GeographyMap = ({ geographyId }) => {
     });
   };
 
-  const geoJSONStyle = feature => ({
+  const geoJSONStyle = (feature: any) => ({
     color: '#1f2021',
     weight: 1,
     fillOpacity: 0.5,
@@ -73,7 +73,7 @@ const GeographyMap = ({ geographyId }) => {
 
   return (
     <Map
-      center={center}
+      center={center as any}
       zoom={zoom}
       style={{ height: 500 }}
       scrollWheelZoom={false}
@@ -85,7 +85,7 @@ const GeographyMap = ({ geographyId }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <GeoJSON
-        data={dataMap}
+        data={dataMap as any}
         style={geoJSONStyle}
         onEachFeature={onEachFeature}
       />
