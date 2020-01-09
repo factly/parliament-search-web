@@ -14,8 +14,6 @@ function questions(
       action.data.forEach((each: TypeQuestionData) => {
         if (!state[+each.QID] || !state[+each.QID].answer)
           newQuestions[+each.QID] = each;
-
-        return state;
       });
       return { ...state, ...newQuestions };
     default:

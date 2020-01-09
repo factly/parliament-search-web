@@ -11,6 +11,7 @@ type
 questionBy {
   MID
   name
+  gender
 }
 ministry {
   name

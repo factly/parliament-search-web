@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: theme.spacing(1),
     maxWidth: 550
   },
-  inputBar: {
-    padding: 4,
-    width: '100%'
-  },
   searchButton: {
     color: theme.palette.common.black,
     padding: theme.spacing(1)
@@ -87,7 +83,7 @@ const Header = ({
               <div className={classes.search}>
                 <InputBase
                   placeholder="Search…"
-                  className={classes.inputBar}
+                  className="inputBar"
                   value={value}
                   onChange={onChange}
                   onKeyDown={onKeyDown}

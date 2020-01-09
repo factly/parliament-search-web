@@ -34,6 +34,7 @@ export interface TypeMemberTerms {
 export interface TypePartyMember {
   MID: number;
   name: string;
+  gender: string;
   terms: {
     geography: {
       GID: number;
@@ -64,6 +65,7 @@ export interface TypeGeographyMember {
 export interface TypeQuestionBy {
   MID: number;
   name: string;
+  gender: string;
 }
 
 export interface TypeMemberData {

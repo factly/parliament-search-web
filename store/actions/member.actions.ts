@@ -9,6 +9,7 @@ import { questionNodesQuery } from './question.actions';
 export const memberNodesQuery = `
 MID
 name
+gender
 terms {
   party {
     PID

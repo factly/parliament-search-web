@@ -80,9 +80,7 @@ const PartiesPage = ({
                           <div className="flexDisplay">
                             <Avatar
                               alt="Mp's image"
-                              src={
-                                'https://material-ui.com/static/images/avatar/1.jpg'
-                              }
+                              src={`/static/images/${member.gender.toLowerCase()}.png`}
                             />
                             <div className="paddingOnLeft">{member.name}</div>
                           </div>

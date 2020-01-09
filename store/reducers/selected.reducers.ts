@@ -133,7 +133,8 @@ function selected(state = initialState, action: actionType): TypeSelected {
           ? action.data.category
           : initialState.category,
         page: initialState.page,
-        topic: []
+        topic: [],
+        questionBy: []
       };
     default:
       return state;

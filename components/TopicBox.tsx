@@ -14,7 +14,7 @@ const TopicBox = ({ topic }: { topic: TypeCheckBoxFilter }): JSX.Element => {
         <a className="link">
           <CardMedia
             className="topicBoxImage"
-            image="/static/images/live-from-space.jpg"
+            image="/static/images/topics.jpg"
             title="Live from space album cover"
           />
           <CardContent>

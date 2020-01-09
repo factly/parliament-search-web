@@ -16,6 +16,7 @@ const partyQuery = gql`
       nodes {
         MID
         name
+        gender
         terms {
           geography {
             GID

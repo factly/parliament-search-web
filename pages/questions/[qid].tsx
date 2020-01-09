@@ -54,7 +54,11 @@ const QuestionPage = ({
                 <Chip
                   className="chip"
                   label={member.name}
-                  avatar={<Avatar src="/static/images/mp.jpg" />}
+                  avatar={
+                    <Avatar
+                      src={`/static/images/${member.gender.toLowerCase()}.png`}
+                    />
+                  }
                 />
               </a>
             </Link>

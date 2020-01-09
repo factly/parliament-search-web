@@ -40,7 +40,11 @@ const QuestionBox = ({
                   <Chip
                     className="chip"
                     label={each.name}
-                    avatar={<Avatar src="/static/images/mp.jpg" />}
+                    avatar={
+                      <Avatar
+                        src={`/static/images/${each.gender.toLowerCase()}.png`}
+                      />
+                    }
                   />
                 </a>
               </Link>

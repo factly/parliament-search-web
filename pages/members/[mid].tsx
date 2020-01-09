@@ -48,7 +48,7 @@ const MembersPage = ({
               <Grid item md={2}>
                 <Avatar
                   alt="Mp's image"
-                  src="/static/images/mp.jpg"
+                  src={`/static/images/${member.gender.toLowerCase()}.png`}
                   className="membersImageLarge"
                 />
               </Grid>
