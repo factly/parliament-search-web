@@ -14,10 +14,6 @@ class MyDocument extends Document {
           />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
-          />
-          <link
-            rel="stylesheet"
             href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css"
           />
           <link rel="stylesheet" href="/static/css/main.css" />

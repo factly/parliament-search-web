@@ -15,7 +15,7 @@ function questions(
         if (!state[+each.QID] || !state[+each.QID].answer)
           newQuestions[+each.QID] = each;
 
-        return null;
+        return state;
       });
       return { ...state, ...newQuestions };
     default:

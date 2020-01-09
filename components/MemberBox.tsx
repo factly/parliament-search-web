@@ -30,7 +30,12 @@ const MemberBox = ({ member }: { member: TypeMemberData }): JSX.Element => {
                     key={member.MID + index}
                     className="memberBox"
                     label={`${each.geography.name} (${each.geography.parent.name})`}
-                    avatar={<Avatar src="/static/images/bjp.png" />}
+                    avatar={
+                      <Avatar
+                        src="/static/images/party.png"
+                        title={each.party.name}
+                      />
+                    }
                   />
                 ))
             : null}

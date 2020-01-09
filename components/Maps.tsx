@@ -4,7 +4,11 @@ import Router from 'next/router';
 import PropTypes from 'prop-types';
 import dataMap from '../public/static/map_data/new.json';
 
-const GeographyMap = ({ geographyId }: { geographyId: number }) => {
+const GeographyMap = ({
+  geographyId
+}: {
+  geographyId: number;
+}): JSX.Element => {
   let center: number[] = [];
   let zoom = 8;
   const index = dataMap.features.findIndex(
@@ -41,10 +45,10 @@ const GeographyMap = ({ geographyId }: { geographyId: number }) => {
 
     const mouseOver = () => {
       setHover(feature.properties.pc_id);
-      layer.setStyle({
-        fillColor: '#cf8f8f'
-      });
       layer
+        .setStyle({
+          fillColor: '#cf8f8f'
+        })
         .bindTooltip(
           `${feature.properties.pc_name}, ${feature.properties.st_name}(${feature.properties.pc_category})`,
           { direction: 'auto', sticky: true }
@@ -52,9 +56,10 @@ const GeographyMap = ({ geographyId }: { geographyId: number }) => {
         .openTooltip();
     };
     const mouseOut = () => {
-      layer.setStyle({
-        fillColor: '#d5dbd6'
-      });
+      if (geographyId !== hover)
+        layer.setStyle({
+          fillColor: '#d5dbd6'
+        });
     };
     layer.on({
       click,

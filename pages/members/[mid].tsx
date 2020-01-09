@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 import { getMemberById } from '../../store/actions';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -26,16 +25,6 @@ import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
 import moment from 'moment';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    img: {
-      margin: theme.spacing(2),
-      width: '80%',
-      height: '80%'
-    }
-  })
-);
-
 const MembersPage = ({
   member,
   questions
@@ -43,8 +32,6 @@ const MembersPage = ({
   member: TypeMemberData;
   questions: TypeQuestionData[];
 }): JSX.Element => {
-  const classes = useStyles();
-
   if (!member)
     return (
       <div className="progress">
@@ -62,7 +49,7 @@ const MembersPage = ({
                 <Avatar
                   alt="Mp's image"
                   src="/static/images/mp.jpg"
-                  className={classes.img}
+                  className="membersImageLarge"
                 />
               </Grid>
               <Grid item md={8}>

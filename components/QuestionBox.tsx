@@ -40,9 +40,7 @@ const QuestionBox = ({
                   <Chip
                     className="chip"
                     label={each.name}
-                    avatar={
-                      <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" />
-                    }
+                    avatar={<Avatar src="/static/images/mp.jpg" />}
                   />
                 </a>
               </Link>

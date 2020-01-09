@@ -1,36 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { AppState } from '../store/reducers';
 import TopicBox from '../components/TopicBox';
 import { TypeCheckBoxFilter } from '../types';
 
-const useStyles = makeStyles({
-  wrapper: {
-    padding: 32
-  },
-  media: {
-    width: 100,
-    height: 100,
-    margin: 'auto'
-  },
-  topic: {
-    minWidth: 100
-  },
-  link: {
-    textDecoration: 'none',
-    cursor: 'pointer'
-  }
-});
-
 const HomePage = ({ topic }: { topic: TypeCheckBoxFilter[] }): JSX.Element => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.topic}>
+    <div className="wrapper">
+      <div className="topic">
         <Grid container spacing={3}>
           {topic.map((x: TypeCheckBoxFilter) => (
             <Grid item md={3} sm={6} key={x.id}>

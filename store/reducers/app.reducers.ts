@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { appConstants } from '../constants';
 
 const initialState: { theme: string; error: string | null } = {
@@ -12,8 +11,6 @@ function app(
 ): { theme: string; error: string | null } {
   switch (action.type) {
     case appConstants.CHANGE_THEME:
-      Cookies.remove('theme');
-      Cookies.set('theme', action.data);
       return {
         ...state,
         theme: action.data
