@@ -16,6 +16,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { bindActionCreators, Store } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
 
 const QuestionPage = ({
   question
@@ -101,12 +103,20 @@ const QuestionPage = ({
   );
 };
 
-QuestionPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
+QuestionPage.getInitialProps = async ({
+  store,
+  query
+}: {
+  store: Store;
+  query: ParsedUrlQuery;
+}): Promise<void> => {
+  const questionById = bindActionCreators(getQuestionById, store.dispatch);
+  const qid = +(query.qid as string);
   if (
-    !store.getState().questions[+query.qid] ||
-    !store.getState().questions[+query.qid].answer
+    !store.getState().questions[qid] ||
+    !store.getState().questions[qid].answer
   )
-    await store.dispatch(getQuestionById(+query.qid));
+    await questionById(qid);
 };
 
 const mapStateToProps = (

@@ -18,6 +18,7 @@ import { Dispatch } from 'react';
 import { gql } from 'apollo-boost';
 import { selectedActions } from './selected.actions';
 import { membersByVariableQuery } from './member.actions';
+import { ParsedUrlQuery } from 'querystring';
 
 const filtersQuery = gql`
   query {
@@ -101,7 +102,7 @@ export function getSearchPageResults(variables: TypeQuestionGraphql) {
   };
 }
 
-export function searchPageInitial(query: any) {
+export function searchPageInitial(query: ParsedUrlQuery) {
   return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     return client
       .query({

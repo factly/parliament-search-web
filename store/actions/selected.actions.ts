@@ -1,5 +1,6 @@
 import { selectedConstants } from '../constants';
 import { TypeSetAll, TypeSetAllSelected } from '../../types';
+import { ParsedUrlQuery } from 'querystring';
 function urlParser(param: string | string[]): number[] {
   if (typeof param === 'object')
     return param
@@ -7,10 +8,11 @@ function urlParser(param: string | string[]): number[] {
       .map((each: string) => +each);
   return param.trim() !== '' ? [+param] : [];
 }
-function setAll(query: any): TypeSetAll {
+function setAll(query: ParsedUrlQuery): TypeSetAll {
   const setQuery: TypeSetAllSelected = {};
-  if (query.q && query.q.trim() != '') setQuery.q = query.q;
-  if (query.page && +query.page > 1) setQuery.page = +query.page;
+  if (query.q && (query.q as string).trim() != '')
+    setQuery.q = query.q as string;
+  if (query.page && +query.page > 1) setQuery.page = +(query.page as string);
   if (query.education) setQuery.education = urlParser(query.education);
   if (query.marital) setQuery.marital = urlParser(query.marital);
   if (query.member) setQuery.questionBy = urlParser(query.member);
@@ -18,10 +20,10 @@ function setAll(query: any): TypeSetAll {
   if (query.state) setQuery.state = urlParser(query.state);
   if (query.gender) setQuery.gender = urlParser(query.gender);
   if (query.topic) setQuery.topic = urlParser(query.topic);
-  if (query.ageMin) setQuery.ageMin = +query.ageMin;
-  if (query.ageMax) setQuery.ageMax = +query.ageMax;
+  if (query.ageMin) setQuery.ageMin = +(query.ageMin as string);
+  if (query.ageMax) setQuery.ageMax = +(query.ageMax as string);
   if (query.house) setQuery.house = urlParser(query.house);
-  if (query.category) setQuery.category = query.category;
+  if (query.category) setQuery.category = query.category as string;
   return { type: selectedConstants.SET_ALL, data: setQuery };
 }
 

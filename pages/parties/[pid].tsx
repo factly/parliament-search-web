@@ -18,12 +18,14 @@ import { getPartyById, getPartyMembers } from '../../store/actions';
 import { TypePartyMember, TypePartyData } from '../../types';
 import { AppState } from '../../store/reducers';
 import { Typography } from '@material-ui/core';
+import { bindActionCreators, Store, Dispatch, AnyAction } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
 
 const PartiesPage = ({
   dispatch,
   party
 }: {
-  dispatch: any;
+  dispatch: Dispatch<AnyAction>;
   party: TypePartyData;
 }): JSX.Element => {
   const [page, setPage] = React.useState(0);
@@ -39,7 +41,8 @@ const PartiesPage = ({
         (page + 1) * rowsPerPage < party.total
           ? (page + 1) * rowsPerPage - party.members.length
           : party.total - page * rowsPerPage;
-      dispatch(getPartyMembers(party.PID, rowsPerPage, page + 1, required));
+      const partyMembers = bindActionCreators(getPartyMembers, dispatch);
+      partyMembers(party.PID, rowsPerPage, page + 1, required);
     }
     window.scrollTo(0, 0);
   }, [page, rowsPerPage]);
@@ -136,9 +139,16 @@ const PartiesPage = ({
   );
 };
 
-PartiesPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
-  if (!store.getState().parties[+query.pid])
-    await store.dispatch(getPartyById(+query.pid));
+PartiesPage.getInitialProps = async ({
+  store,
+  query
+}: {
+  store: Store;
+  query: ParsedUrlQuery;
+}): Promise<void> => {
+  const partyById = bindActionCreators(getPartyById, store.dispatch);
+  const pid = +(query.pid as string);
+  if (!store.getState().parties[pid]) await partyById(pid);
 };
 
 const mapStateToProps = (

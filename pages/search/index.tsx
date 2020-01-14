@@ -20,7 +20,8 @@ import {
   TypeQuestionBox,
   TypeSelected,
   TypeMinistries,
-  TypeMemberData
+  TypeMemberData,
+  TypeSetAll
 } from '../../types';
 import { getSearchPageResults } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
@@ -38,6 +39,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MemberBox from '../../components/MemberBox';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { bindActionCreators, Store, Dispatch, AnyAction } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
 
 const SearchPage = ({
   dispatch,
@@ -47,7 +50,7 @@ const SearchPage = ({
   filters,
   ministries
 }: {
-  dispatch: any;
+  dispatch: Dispatch<AnyAction>;
   selected: TypeSelected;
   results: TypeMemberData[] | TypeQuestionBox[];
   total: number;
@@ -106,7 +109,11 @@ const SearchPage = ({
       data: { ids: [], total: -1 }
     });
     //total is equal to -1 indicates loading results for selected filters
-    dispatch(getSearchPageResults(query));
+    const searchPageResults = bindActionCreators(
+      getSearchPageResults,
+      dispatch
+    );
+    searchPageResults(query);
     window.scrollTo(0, 0);
   }, [selected]);
   return (
@@ -121,7 +128,9 @@ const SearchPage = ({
               aria-label="category"
               name="category"
               value={selected.category}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+              onChange={(
+                event: React.ChangeEvent<HTMLInputElement>
+              ): TypeSetAll =>
                 dispatch({
                   type: selectedConstants.SET_CATEGORY,
                   data: { category: (event.target as HTMLInputElement).value }
@@ -148,7 +157,7 @@ const SearchPage = ({
             defaultShow
             heading="Topics"
             list={filters.topic}
-            toogle={(value): void =>
+            toogle={(value): TypeSetAll =>
               dispatch(selectedActions.toogle(value, 'topic'))
             }
             selected={selected.topic}
@@ -160,7 +169,7 @@ const SearchPage = ({
           defaultShow
           heading="State"
           list={filters.state}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'state'))
           }
           selected={selected.state}
@@ -171,7 +180,7 @@ const SearchPage = ({
           defaultShow
           heading="Party"
           list={filters.party}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'party'))
           }
           selected={selected.party}
@@ -180,7 +189,7 @@ const SearchPage = ({
           limit={filters.house.length}
           heading="House"
           list={filters.house}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'house'))
           }
           selected={selected.house}
@@ -189,7 +198,7 @@ const SearchPage = ({
           limit={filters.education.length}
           heading="Education"
           list={filters.education}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'education'))
           }
           selected={selected.education}
@@ -197,7 +206,7 @@ const SearchPage = ({
         <AgeFilter
           heading="Age"
           selected={[selected.ageMin, selected.ageMax]}
-          toogle={(event, value): void =>
+          toogle={(event, value): TypeSetAll =>
             dispatch(selectedActions.setAge(value as number[]))
           }
         />
@@ -205,7 +214,7 @@ const SearchPage = ({
           limit={filters.marital.length}
           heading="Marital"
           list={filters.marital}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'marital'))
           }
           selected={selected.marital}
@@ -214,7 +223,7 @@ const SearchPage = ({
           limit={filters.gender.length}
           heading="Gender"
           list={filters.gender}
-          toogle={(value): void =>
+          toogle={(value): TypeSetAll =>
             dispatch(selectedActions.toogle(value, 'gender'))
           }
           selected={selected.gender}
@@ -222,7 +231,7 @@ const SearchPage = ({
         <TermsFilter
           heading="Terms"
           selected={selected.terms}
-          toogle={(event, value): void =>
+          toogle={(event, value): TypeSetAll =>
             dispatch(selectedActions.setTerms(value as number))
           }
         />
@@ -243,7 +252,7 @@ const SearchPage = ({
                 value={selected.sort}
                 onChange={(
                   event: React.ChangeEvent<{ value: unknown }>
-                ): void =>
+                ): TypeSetAll =>
                   dispatch(
                     selectedActions.setSort(event.target.value as string)
                   )
@@ -285,7 +294,7 @@ const SearchPage = ({
                   count={total >= 0 ? total : 0}
                   rowsPerPage={10}
                   page={total ? selected.page - 1 : 0}
-                  onChangePage={(event, newPage: number): void =>
+                  onChangePage={(event, newPage: number): TypeSetAll =>
                     dispatch(selectedActions.setPage(newPage + 1))
                   }
                 />
@@ -308,14 +317,21 @@ const SearchPage = ({
   );
 };
 
-SearchPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
+SearchPage.getInitialProps = async ({
+  store,
+  query
+}: {
+  store: Store;
+  query: ParsedUrlQuery;
+}): Promise<void> => {
+  const searchPageInit = bindActionCreators(searchPageInitial, store.dispatch);
   if (
     store.getState().filters.state.length > 0 &&
     store.getState().filters.party.length > 0
   ) {
     await store.dispatch(selectedActions.setAll(query));
   } else {
-    await store.dispatch(searchPageInitial(query));
+    await searchPageInit(query);
   }
 };
 

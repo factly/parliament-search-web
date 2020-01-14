@@ -24,6 +24,8 @@ import Link from 'next/link';
 import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
 import { AppState } from '../../store/reducers';
 import moment from 'moment';
+import { bindActionCreators, Store } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
 
 const MembersPage = ({
   member,
@@ -185,13 +187,22 @@ const MembersPage = ({
   );
 };
 
-MembersPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
+MembersPage.getInitialProps = async ({
+  store,
+  query
+}: {
+  store: Store;
+  query: ParsedUrlQuery;
+}): Promise<void> => {
+  const memberById = bindActionCreators(getMemberById, store.dispatch);
+  const mid = +(query.mid as string);
   if (
-    !store.getState().members[+query.mid] ||
-    !store.getState().members[+query.mid].maritalStatus
+    !store.getState().members[mid] ||
+    !store.getState().members[mid].maritalStatus
   )
-    await store.dispatch(getMemberById(+query.mid));
+    await memberById(mid);
 };
+
 const mapStateToProps = (
   state: AppState,
   props: {

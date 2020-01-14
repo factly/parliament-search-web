@@ -22,6 +22,8 @@ import {
   TypeQuestionData
 } from '../../types';
 import { AppState } from '../../store/reducers';
+import { bindActionCreators, Store } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
 
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
@@ -130,9 +132,13 @@ const GeographyPage = ({
 GeographyPage.getInitialProps = async ({
   store,
   query
-}: any): Promise<void> => {
-  if (!store.getState().geographies[+query.gid])
-    await store.dispatch(getGeographyById(+query.gid));
+}: {
+  store: Store;
+  query: ParsedUrlQuery;
+}): Promise<void> => {
+  const geographyById = bindActionCreators(getGeographyById, store.dispatch);
+  const gid = +(query.gid as string);
+  if (!store.getState().geographies[gid]) await geographyById(gid);
 };
 
 const mapStateToProps = (
