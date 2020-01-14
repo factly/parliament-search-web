@@ -45,7 +45,9 @@ export const geographyQuery = gql(String.raw`
 `);
 
 export function getGeographyById(gid: number) {
-  return async (dispatch: Dispatch<AppActions>) => {
+  return async (
+    dispatch: Dispatch<AppActions>
+  ): Promise<{ type: string; data: string } | undefined> => {
     return client
       .query({
         query: geographyQuery,

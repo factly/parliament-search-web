@@ -140,3 +140,12 @@ export interface TypeQuestionObject {
 export interface TypePartyObject {
   [index: number]: TypePartyData;
 }
+
+// Maps
+export interface TypeGeoJSONStyle {
+  color: string;
+  weight: number;
+  fillOpacity: number;
+  fillColor: string;
+  zIndex: number;
+}

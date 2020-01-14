@@ -7,7 +7,7 @@ import members from './members.reducers';
 import parties from './parties.reducers';
 import questions from './questions.reducers';
 import search from './search.reducers';
-import ministries from './ministies.reducers';
+import ministries from './ministries.reducers';
 
 const rootReducer = combineReducers({
   filters,

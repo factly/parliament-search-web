@@ -1,15 +1,15 @@
 import { searchConstants } from '../constants/search.constants';
+import { TypeSearch, TypeSetSearchPageQuestions } from '../../types';
 
-interface TypeSearch {
-  ids: number[];
-  total: number;
-}
 const initialState: TypeSearch = {
   ids: [],
   total: -1
 };
 
-function search(state = initialState, action: any): TypeSearch {
+function search(
+  state = initialState,
+  action: TypeSetSearchPageQuestions
+): TypeSearch {
   switch (action.type) {
     case searchConstants.SET_SEARCHPAGE:
       return action.data;

@@ -72,3 +72,8 @@ export interface TypeQuestionGraphql {
   house?: number[];
   category?: string;
 }
+
+export interface TypeSearch {
+  ids: number[];
+  total: number;
+}

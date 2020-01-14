@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
+import { withRouter, SingletonRouter } from 'next/router';
 import Link from 'next/link';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -143,10 +143,12 @@ PartiesPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
 
 const mapStateToProps = (
   state: AppState,
-  props: any
+  props: {
+    router: SingletonRouter;
+  }
 ): {
   party: TypePartyData;
 } => ({
-  party: state.parties[+props.router.query.pid]
+  party: state.parties[+(props.router.query.pid as string)]
 });
 export default withRouter(connect(mapStateToProps)(PartiesPage));

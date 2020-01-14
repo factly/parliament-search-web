@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
+import { withRouter, SingletonRouter } from 'next/router';
 import { getMemberById } from '../../store/actions';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -194,12 +194,14 @@ MembersPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
 };
 const mapStateToProps = (
   state: AppState,
-  props: any
+  props: {
+    router: SingletonRouter;
+  }
 ): {
   member: TypeMemberData;
   questions: TypeQuestionData[];
 } => {
-  const member = state.members[props.router.query.mid];
+  const member = state.members[+(props.router.query.mid as string)];
   return {
     member: member,
     questions: member.popularQuestionIds

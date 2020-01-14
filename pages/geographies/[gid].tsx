@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
+import { withRouter, SingletonRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import Avatar from '@material-ui/core/Avatar';
@@ -137,9 +137,11 @@ GeographyPage.getInitialProps = async ({
 
 const mapStateToProps = (
   state: AppState,
-  props: any
+  props: {
+    router: SingletonRouter;
+  }
 ): { geography: TypeGeographyData; questions: TypeQuestionData[] } => {
-  const geography = state.geographies[+props.router.query.gid];
+  const geography = state.geographies[+(props.router.query.gid as string)];
   return {
     geography: geography,
     questions:

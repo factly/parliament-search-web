@@ -39,7 +39,11 @@ const MyApp = ({
   );
 };
 
-MyApp.getInitialProps = async (context: any) => {
+MyApp.getInitialProps = async (
+  context: any
+): Promise<{
+  pageProps: {};
+}> => {
   const { Component, ctx } = context;
   let pageProps = {};
 

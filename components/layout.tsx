@@ -24,7 +24,10 @@ const Wrapper = ({
 }: {
   Component: any;
   pageProps: any;
-  app: any;
+  app: {
+    theme: string;
+    error: string | null;
+  };
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
   React.useEffect(() => {
@@ -49,7 +52,14 @@ const Wrapper = ({
   );
 };
 
-const mapStateToProps = (state: AppState): { app: any } => ({
+const mapStateToProps = (
+  state: AppState
+): {
+  app: {
+    theme: string;
+    error: string | null;
+  };
+} => ({
   app: state.app
 });
 

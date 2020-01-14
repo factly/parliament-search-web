@@ -1,7 +1,7 @@
 // TODO add answer by ministry
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'next/router';
+import { withRouter, SingletonRouter } from 'next/router';
 import Link from 'next/link';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
@@ -111,7 +111,9 @@ QuestionPage.getInitialProps = async ({ store, query }: any): Promise<void> => {
 
 const mapStateToProps = (
   state: AppState,
-  props: any
+  props: {
+    router: SingletonRouter;
+  }
 ): {
   question: TypeQuestionData;
 } => ({

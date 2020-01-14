@@ -1,6 +1,6 @@
 import React from 'react';
 import initializeStore from '../store';
-import { Store } from 'redux';
+import { Store, AnyAction } from 'redux';
 
 interface Props {
   initialReduxState: object;
@@ -11,7 +11,9 @@ const isServer = typeof window === 'undefined';
 const NEXT_REDUX_STORE = '__NEXT_REDUX_STORE__';
 */
 let reduxStore: Store;
-const getOrCreateStore = (initialState?: Record<string, any>) => {
+const getOrCreateStore = (
+  initialState?: Record<string, any>
+): Store<any, AnyAction> => {
   // Always make a new store if server, otherwise state is shared between requests
   if (typeof window === 'undefined') {
     return initializeStore(initialState);
@@ -40,7 +42,11 @@ const getOrCreateStore = (initialState?: Record<string, any>) => {
 
 export default (App: any): React.ElementType =>
   class AppWithRedux extends React.Component<Props> {
-    static async getInitialProps(appContext: any) {
+    static async getInitialProps(
+      appContext: any
+    ): Promise<{
+      initialReduxState: any;
+    }> {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState
       const store = getOrCreateStore();

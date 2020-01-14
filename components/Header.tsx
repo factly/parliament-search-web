@@ -57,7 +57,9 @@ const Header = ({
   const searchFunc = (): void => {
     Router.push(`/search?q=${value}`);
   };
-  const onKeyDown = (e: React.KeyboardEvent<any>): void => {
+  const onKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
+  ): void => {
     if (e.key === 'Enter') {
       searchFunc();
     }

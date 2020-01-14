@@ -1,4 +1,4 @@
-import { TypeSetAllSelected, TypeFilter } from './reducers.types';
+import { TypeSetAllSelected, TypeFilter, TypeSearch } from './reducers.types';
 import {
   TypeQuestionObject,
   TypePartyData,
@@ -91,10 +91,7 @@ export interface TypeSetFilters {
 
 export interface TypeSetSearchPageQuestions {
   type: typeof searchConstants.SET_SEARCHPAGE;
-  data: {
-    ids: number[];
-    total: number;
-  };
+  data: TypeSearch;
 }
 
 export interface TypeAddError {

@@ -3,6 +3,7 @@ import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import dataMap from '../public/static/map_data/new.json';
+import { TypeGeoJSONStyle } from '../types/index.js';
 
 const GeographyMap = ({
   geographyId
@@ -36,14 +37,14 @@ const GeographyMap = ({
   }
   const [hover, setHover] = React.useState(geographyId);
 
-  const onEachFeature = (feature: any, layer: any) => {
-    const click = () =>
+  const onEachFeature = (feature: any, layer: any): void => {
+    const click = (): Promise<boolean> =>
       Router.push(
         '/geographies/[gid]',
         `/geographies/${feature.properties.pc_id}`
       );
 
-    const mouseOver = () => {
+    const mouseOver = (): void => {
       setHover(feature.properties.pc_id);
       layer
         .setStyle({
@@ -55,7 +56,7 @@ const GeographyMap = ({
         )
         .openTooltip();
     };
-    const mouseOut = () => {
+    const mouseOut = (): void => {
       if (geographyId !== hover)
         layer.setStyle({
           fillColor: '#d5dbd6'
@@ -68,7 +69,7 @@ const GeographyMap = ({
     });
   };
 
-  const geoJSONStyle = (feature: any) => ({
+  const geoJSONStyle = (feature: any): TypeGeoJSONStyle => ({
     color: '#1f2021',
     weight: 1,
     fillOpacity: 0.5,
