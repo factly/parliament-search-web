@@ -1,3 +1,10 @@
+import {
+  TypeGeographyObject,
+  TypeMemberObject,
+  TypePartyObject,
+  TypeQuestionObject
+} from './data.types';
+
 export interface TypeCheckBoxFilter {
   id: number;
   name: string;
@@ -76,4 +83,22 @@ export interface TypeQuestionGraphql {
 export interface TypeSearch {
   ids: number[];
   total: number;
+}
+
+export interface TypeApp {
+  theme: string;
+  error: string | null;
+}
+
+//App State
+export interface AppState {
+  app: TypeApp;
+  filters: TypeFilter;
+  geographies: TypeGeographyObject;
+  members: TypeMemberObject;
+  ministries: TypeMinistries;
+  parties: TypePartyObject;
+  questions: TypeQuestionObject;
+  search: TypeSearch;
+  selected: TypeSelected;
 }

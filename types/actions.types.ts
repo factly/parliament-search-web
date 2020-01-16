@@ -3,7 +3,8 @@ import {
   TypeQuestionObject,
   TypePartyData,
   TypeGeographyData,
-  TypeMemberData
+  TypeMemberData,
+  TypePartyMember
 } from './data.types';
 import {
   geographyConstants,
@@ -79,8 +80,8 @@ export interface TypeSetPopularQuestions {
 export interface TypeSetPartyMembers {
   type: typeof partyConstants.ADD_PARTY_MEMBERS;
   data: {
-    pid: number;
-    members: TypeMemberData;
+    PID: number;
+    members: TypePartyMember[];
   };
 }
 

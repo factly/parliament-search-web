@@ -1,6 +1,7 @@
 import React from 'react';
 import initializeStore from '../store';
-import { Store, AnyAction } from 'redux';
+import { Store } from 'redux';
+import { AppState } from '../types';
 
 interface Props {
   initialReduxState: object;
@@ -10,10 +11,8 @@ interface Props {
 const isServer = typeof window === 'undefined';
 const NEXT_REDUX_STORE = '__NEXT_REDUX_STORE__';
 */
-let reduxStore: Store;
-const getOrCreateStore = (
-  initialState?: Record<string, any>
-): Store<any, AnyAction> => {
+let reduxStore: Store<AppState>;
+const getOrCreateStore = (initialState?: {}): Store<AppState> => {
   // Always make a new store if server, otherwise state is shared between requests
   if (typeof window === 'undefined') {
     return initializeStore(initialState);
@@ -45,7 +44,7 @@ export default (App: any): React.ElementType =>
     static async getInitialProps(
       appContext: any
     ): Promise<{
-      initialReduxState: any;
+      initialReduxState: {};
     }> {
       // Get or Create the store with `undefined` as initialState
       // This allows you to set a custom default initialState
@@ -64,7 +63,7 @@ export default (App: any): React.ElementType =>
         initialReduxState: store.getState()
       };
     }
-    store: Store;
+    store: Store<AppState>;
     constructor(props: Props) {
       super(props);
       this.store = getOrCreateStore(props.initialReduxState);

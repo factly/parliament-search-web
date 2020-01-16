@@ -3,16 +3,15 @@ import { client } from './client.apollo';
 import { AppActions } from '../../types';
 import { Dispatch } from 'react';
 import { partyConstants, appConstants } from '../constants';
-import { memberNodesQuery } from './member.actions';
 
 const partyQuery = gql`
-  query($pid: Int!, $limit: Int, $page: Int) {
-    party(id: $pid) {
+  query($PID: Int!, $limit: Int, $page: Int) {
+    party(id: $PID) {
       PID
       name
       abbr
     }
-    members(party: [$pid], limit: $limit, page: $page) {
+    members(party: [$PID], limit: $limit, page: $page) {
       nodes {
         MID
         name
@@ -36,19 +35,30 @@ const memberWithVariablesQuery = gql`
   query($limit: Int, $page: Int, $party: [Int]) {
     members(limit: $limit, page: $page, party: $party) {
       nodes {
-        ${memberNodesQuery}
+        MID
+        name
+        gender
+        terms {
+          geography {
+            GID
+            name
+            parent {
+              name
+            }
+          }
+        }
       }
       total
     }
   }
 `;
 
-export function getPartyById(pid: number) {
+export function getPartyById(PID: number) {
   return (dispatch: Dispatch<AppActions>): Promise<void> => {
     return client
       .query({
         query: partyQuery,
-        variables: { pid }
+        variables: { PID }
       })
       .then(({ data }) => {
         if (data.party === null) {
@@ -84,7 +94,7 @@ export function getPartyById(pid: number) {
 }
 
 export function getPartyMembers(
-  pid: number,
+  PID: number,
   limit = 10,
   page = 1,
   required: number
@@ -93,7 +103,7 @@ export function getPartyMembers(
     return client
       .query({
         query: memberWithVariablesQuery,
-        variables: { party: [pid], limit, page }
+        variables: { party: [PID], limit, page }
       })
       .then(({ data }) => {
         let members = [];
@@ -105,7 +115,7 @@ export function getPartyMembers(
 
         dispatch({
           type: partyConstants.ADD_PARTY_MEMBERS,
-          data: { pid, members }
+          data: { PID, members }
         });
       })
       .catch(({ graphQLErrors, networkError }) => {

@@ -8,8 +8,9 @@ import parties from './parties.reducers';
 import questions from './questions.reducers';
 import search from './search.reducers';
 import ministries from './ministries.reducers';
+import { AppState } from '../../types';
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<AppState>({
   filters,
   selected,
   app,
@@ -20,7 +21,5 @@ const rootReducer = combineReducers({
   search,
   ministries
 });
-
-export type AppState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

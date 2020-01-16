@@ -1,10 +1,11 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
 import ReduxThunk, { ThunkMiddleware } from 'redux-thunk';
-import reducers, { AppState } from './reducers';
-import { AppActions } from '../types';
+import reducers from './reducers';
+import { AppState, AppActions } from '../types';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const initializeStore = (initialState: any) =>
+//Remove Redux DevTools
+const initializeStore = (initialState: {} = {}): Store<AppState> =>
   createStore(
     reducers,
     initialState,

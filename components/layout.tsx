@@ -6,13 +6,12 @@ import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
 import { appActions } from '../store/actions';
-import { AppState } from '../store/reducers';
 
 import light from '../lib/theme/light';
 import dark from '../lib/theme/dark';
 import Header from './Header';
 import { Dispatch } from 'redux';
-import { AppActions } from '../types';
+import { AppActions, AppState, TypeApp } from '../types';
 import ErrorBox from './ErrorBox';
 import ErrorBoundary from './ErrorBoundary';
 
@@ -24,10 +23,7 @@ const Wrapper = ({
 }: {
   Component: any;
   pageProps: any;
-  app: {
-    theme: string;
-    error: string | null;
-  };
+  app: TypeApp;
   dispatch: Dispatch<AppActions>;
 }): JSX.Element => {
   React.useEffect(() => {
@@ -52,14 +48,7 @@ const Wrapper = ({
   );
 };
 
-const mapStateToProps = (
-  state: AppState
-): {
-  app: {
-    theme: string;
-    error: string | null;
-  };
-} => ({
+const mapStateToProps = (state: AppState): { app: TypeApp } => ({
   app: state.app
 });
 

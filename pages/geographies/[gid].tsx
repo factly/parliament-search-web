@@ -19,11 +19,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {
   TypeGeographyMember,
   TypeGeographyData,
-  TypeQuestionData
+  TypeQuestionData,
+  AppState,
+  AppActions
 } from '../../types';
-import { AppState } from '../../store/reducers';
-import { bindActionCreators, Store } from 'redux';
+import { Store } from 'redux';
 import { ParsedUrlQuery } from 'querystring';
+import { ThunkDispatch } from 'redux-thunk';
 
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
@@ -133,12 +135,14 @@ GeographyPage.getInitialProps = async ({
   store,
   query
 }: {
-  store: Store;
+  store: Store<AppState>;
   query: ParsedUrlQuery;
 }): Promise<void> => {
-  const geographyById = bindActionCreators(getGeographyById, store.dispatch);
   const gid = +(query.gid as string);
-  if (!store.getState().geographies[gid]) await geographyById(gid);
+  if (!store.getState().geographies[gid])
+    await (store.dispatch as ThunkDispatch<AppState, undefined, AppActions>)(
+      getGeographyById(gid)
+    );
 };
 
 const mapStateToProps = (

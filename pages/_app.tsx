@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import withReduxStore from '../lib/with-redux-store';
 import Wrapper from '../components/layout';
 import { Store } from 'redux';
+import { AppContextType } from 'next/dist/next-server/lib/utils';
 
 const MyApp = ({
   Component,
@@ -13,7 +14,7 @@ const MyApp = ({
   store
 }: {
   Component: PropTypes.Validator<PropTypes.ReactComponentLike>;
-  pageProps: any;
+  pageProps: {};
   store: Store;
 }): JSX.Element => {
   React.useEffect(() => {
@@ -40,7 +41,7 @@ const MyApp = ({
 };
 
 MyApp.getInitialProps = async (
-  context: any
+  context: AppContextType
 ): Promise<{
   pageProps: {};
 }> => {

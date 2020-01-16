@@ -7,8 +7,12 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { getQuestionById } from '../../store/actions';
-import { AppState } from '../../store/reducers';
-import { TypeQuestionBy, TypeQuestionData } from '../../types';
+import {
+  TypeQuestionBy,
+  TypeQuestionData,
+  AppState,
+  AppActions
+} from '../../types';
 import moment from 'moment';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,8 +20,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AttachmentIcon from '@material-ui/icons/Attachment';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { bindActionCreators, Store } from 'redux';
+import { Store } from 'redux';
 import { ParsedUrlQuery } from 'querystring';
+import { ThunkDispatch } from 'redux-thunk';
 
 const QuestionPage = ({
   question
@@ -107,16 +112,17 @@ QuestionPage.getInitialProps = async ({
   store,
   query
 }: {
-  store: Store;
+  store: Store<AppState>;
   query: ParsedUrlQuery;
 }): Promise<void> => {
-  const questionById = bindActionCreators(getQuestionById, store.dispatch);
   const qid = +(query.qid as string);
   if (
     !store.getState().questions[qid] ||
     !store.getState().questions[qid].answer
   )
-    await questionById(qid);
+    await (store.dispatch as ThunkDispatch<AppState, undefined, AppActions>)(
+      getQuestionById(qid)
+    );
 };
 
 const mapStateToProps = (

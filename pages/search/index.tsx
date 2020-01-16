@@ -12,7 +12,6 @@ import CheckBoxFilter from '../../components/CheckBoxFilter';
 import AgeFilter from '../../components/AgeFilter';
 import QuestionBox from '../../components/QuestionBox';
 import { selectedActions, searchPageInitial } from '../../store/actions';
-import { AppState } from '../../store/reducers/index';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import {
@@ -21,7 +20,9 @@ import {
   TypeSelected,
   TypeMinistries,
   TypeMemberData,
-  TypeSetAll
+  TypeSetAll,
+  AppState,
+  AppActions
 } from '../../types';
 import { getSearchPageResults } from '../../store/actions';
 import TermsFilter from '../../components/TermsFilter';
@@ -39,8 +40,9 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MemberBox from '../../components/MemberBox';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { bindActionCreators, Store, Dispatch, AnyAction } from 'redux';
+import { Store, Dispatch } from 'redux';
 import { ParsedUrlQuery } from 'querystring';
+import { ThunkDispatch } from 'redux-thunk';
 
 const SearchPage = ({
   dispatch,
@@ -50,7 +52,7 @@ const SearchPage = ({
   filters,
   ministries
 }: {
-  dispatch: Dispatch<AnyAction>;
+  dispatch: Dispatch<AppActions>;
   selected: TypeSelected;
   results: TypeMemberData[] | TypeQuestionBox[];
   total: number;
@@ -109,11 +111,10 @@ const SearchPage = ({
       data: { ids: [], total: -1 }
     });
     //total is equal to -1 indicates loading results for selected filters
-    const searchPageResults = bindActionCreators(
-      getSearchPageResults,
-      dispatch
+
+    (dispatch as ThunkDispatch<AppState, undefined, AppActions>)(
+      getSearchPageResults(query)
     );
-    searchPageResults(query);
     window.scrollTo(0, 0);
   }, [selected]);
   return (
@@ -324,14 +325,15 @@ SearchPage.getInitialProps = async ({
   store: Store;
   query: ParsedUrlQuery;
 }): Promise<void> => {
-  const searchPageInit = bindActionCreators(searchPageInitial, store.dispatch);
   if (
     store.getState().filters.state.length > 0 &&
     store.getState().filters.party.length > 0
   ) {
     await store.dispatch(selectedActions.setAll(query));
   } else {
-    await searchPageInit(query);
+    await (store.dispatch as ThunkDispatch<AppState, undefined, AppActions>)(
+      searchPageInitial(query)
+    );
   }
 };
 

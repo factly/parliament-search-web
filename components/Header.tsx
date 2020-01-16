@@ -14,8 +14,7 @@ import HighlightIcon from '@material-ui/icons/Highlight';
 import InputBase from '@material-ui/core/InputBase';
 
 import { appActions } from '../store/actions';
-import { AppState } from '../store/reducers';
-import { AppActions, TypeChangeTheme } from '../types';
+import { AppActions, TypeChangeTheme, AppState } from '../types';
 import { Dispatch } from 'redux';
 
 import Grid from '@material-ui/core/Grid';

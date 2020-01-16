@@ -1,6 +1,7 @@
 import { appConstants } from '../constants';
+import { TypeApp } from '../../types';
 
-const initialState: { theme: string; error: string | null } = {
+const initialState: TypeApp = {
   theme: 'light',
   error: null
 };
@@ -8,7 +9,7 @@ const initialState: { theme: string; error: string | null } = {
 function app(
   state = initialState,
   action: { type: string; data: string }
-): { theme: string; error: string | null } {
+): TypeApp {
   switch (action.type) {
     case appConstants.CHANGE_THEME:
       return {

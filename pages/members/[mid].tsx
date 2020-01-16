@@ -21,11 +21,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Link from 'next/link';
-import { TypeMemberTerms, TypeMemberData, TypeQuestionData } from '../../types';
-import { AppState } from '../../store/reducers';
+import {
+  TypeMemberTerms,
+  TypeMemberData,
+  TypeQuestionData,
+  AppState,
+  AppActions
+} from '../../types';
 import moment from 'moment';
-import { bindActionCreators, Store } from 'redux';
+import { Store } from 'redux';
 import { ParsedUrlQuery } from 'querystring';
+import { ThunkDispatch } from 'redux-thunk';
 
 const MembersPage = ({
   member,
@@ -191,16 +197,17 @@ MembersPage.getInitialProps = async ({
   store,
   query
 }: {
-  store: Store;
+  store: Store<AppState>;
   query: ParsedUrlQuery;
 }): Promise<void> => {
-  const memberById = bindActionCreators(getMemberById, store.dispatch);
   const mid = +(query.mid as string);
   if (
     !store.getState().members[mid] ||
     !store.getState().members[mid].maritalStatus
   )
-    await memberById(mid);
+    await (store.dispatch as ThunkDispatch<AppState, undefined, AppActions>)(
+      getMemberById(mid)
+    );
 };
 
 const mapStateToProps = (
