@@ -22,6 +22,7 @@ export const geographyQuery = gql(String.raw`
       nodes {
         MID
         name
+        gender
         terms {
           party {
             PID
