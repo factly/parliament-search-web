@@ -45,9 +45,7 @@ export const geographyQuery = gql(String.raw`
 `);
 
 export function getGeographyById(gid: number) {
-  return async (
-    dispatch: Dispatch<AppActions>
-  ): Promise<{ type: string; data: string } | undefined> => {
+  return async (dispatch: Dispatch<AppActions>): Promise<void> => {
     return client
       .query({
         query: geographyQuery,
@@ -57,45 +55,48 @@ export function getGeographyById(gid: number) {
       })
       .then(({ data }) => {
         if (data.geography === null) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'INVALID_ID'
           });
-        }
-        const popularQuestionIds: number[] = data.questions.nodes.map(
-          (each: TypeQuestionData) => each.QID
-        );
-        dispatch({
-          type: questionConstants.SET_QUESTIONS,
-          data: data.questions.nodes
-        });
+        } else {
+          const popularQuestionIds: number[] = data.questions.nodes.map(
+            (each: TypeQuestionData) => each.QID
+          );
+          dispatch({
+            type: questionConstants.SET_QUESTIONS,
+            data: data.questions.nodes
+          });
 
-        dispatch({
-          type: geographyConstants.SET_GEOGRAPHY,
-          data: {
-            ...data.geography,
-            members: data.members.nodes,
-            popularQuestionIds
-          }
-        });
+          dispatch({
+            type: geographyConstants.SET_GEOGRAPHY,
+            data: {
+              ...data.geography,
+              members: data.members.nodes,
+              popularQuestionIds
+            }
+          });
+        }
       })
       .catch(({ graphQLErrors, networkError }) => {
         if (networkError) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'NETWORK_ERROR'
           });
         }
         if (graphQLErrors) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'GRAPHQL_ERROR'
           });
         }
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'SOMETHING_WENT_WRONG'
-        });
+        if (!networkError && !graphQLErrors) {
+          dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'SOMETHING_WENT_WRONG'
+          });
+        }
       });
   };
 }

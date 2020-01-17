@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { AppActions } from '../../types';
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { partyConstants, appConstants } from '../constants';
 
 const partyQuery = gql`
@@ -62,31 +62,38 @@ export function getPartyById(PID: number) {
       })
       .then(({ data }) => {
         if (data.party === null) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'INVALID_ID'
           });
+        } else {
+          dispatch({
+            type: partyConstants.SET_PARTY,
+            data: {
+              ...data.party,
+              members: data.members.nodes,
+              total: data.members.total
+            }
+          });
         }
-        dispatch({
-          type: partyConstants.SET_PARTY,
-          data: {
-            ...data.party,
-            members: data.members.nodes,
-            total: data.members.total
-          }
-        });
       })
       .catch(({ graphQLErrors, networkError }) => {
         if (networkError) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'NETWORK_ERROR'
           });
         }
         if (graphQLErrors) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'GRAPHQL_ERROR'
+          });
+        }
+        if (!networkError && !graphQLErrors) {
+          dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'SOMETHING_WENT_WRONG'
           });
         }
       });
@@ -120,21 +127,23 @@ export function getPartyMembers(
       })
       .catch(({ graphQLErrors, networkError }) => {
         if (networkError) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'NETWORK_ERROR'
           });
         }
         if (graphQLErrors) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'GRAPHQL_ERROR'
           });
         }
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'SOMETHING_WENT_WRONG'
-        });
+        if (!networkError && !graphQLErrors) {
+          dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'SOMETHING_WENT_WRONG'
+          });
+        }
       });
   };
 }

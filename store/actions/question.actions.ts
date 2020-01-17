@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { AppActions } from '../../types';
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { questionConstants, appConstants } from '../constants';
 
 export const questionNodesQuery = `
@@ -95,33 +95,36 @@ export function getQuestionById(id: number) {
       })
       .then(({ data }) => {
         if (data.question === null) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'INVALID_ID'
           });
+        } else {
+          dispatch({
+            type: questionConstants.SET_QUESTIONS,
+            data: [data.question]
+          });
         }
-        dispatch({
-          type: questionConstants.SET_QUESTIONS,
-          data: [data.question]
-        });
       })
       .catch(({ graphQLErrors, networkError }) => {
         if (networkError) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'NETWORK_ERROR'
           });
         }
         if (graphQLErrors) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'GRAPHQL_ERROR'
           });
         }
-        return dispatch({
-          type: appConstants.ADD_ERROR,
-          data: 'SOMETHING_WENT_WRONG'
-        });
+        if (!networkError && !graphQLErrors) {
+          dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'SOMETHING_WENT_WRONG'
+          });
+        }
       });
   };
 }
