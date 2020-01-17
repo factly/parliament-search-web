@@ -147,6 +147,10 @@ export function getMemberById(mid: number) {
             data: 'GRAPHQL_ERROR'
           });
         }
+        return dispatch({
+          type: appConstants.ADD_ERROR,
+          data: 'SOMETHING_WENT_WRONG'
+        });
       });
   };
 }

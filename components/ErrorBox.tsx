@@ -23,6 +23,9 @@ const ErrorBox = ({ error }: { error: string }): JSX.Element => {
         {error === 'GRAPHQL_ERROR' ? (
           <Typography variant="body1">Internal server error</Typography>
         ) : null}
+        {error === 'SOMETHING_WENT_WRONG' ? (
+          <Typography variant="body1">Something went wrong</Typography>
+        ) : null}
       </CardContent>
     </Card>
   );
