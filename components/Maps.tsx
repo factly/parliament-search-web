@@ -17,12 +17,12 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
     };
     // hover style
     const hoverStyle = {
-      fillColor: '#cf8f8f',
+      fillColor: '#66c2a5',
       fillOpacity: 0.7
     };
     //feature style
     const featureGeoStyle = {
-      fillColor: '#cf8f8f',
+      fillColor: '#66c2a5',
       color: '#777',
       weight: 2,
       opacity: 0.3,
@@ -52,7 +52,7 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
         });
         if (mapRef.current) {
           mapRef.current.addLayer(layer);
-          mapRef.current.setView(layer.getBounds().getCenter(), 9);
+          mapRef.current.fitBounds(layer.getBounds());
         }
       }
     };
@@ -89,7 +89,7 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
 
     drawFeatures(currentFeature);
 
-    return () => {
+    return (): void | undefined => {
       if (mapRef.current) mapRef.current.remove();
     };
   });
