@@ -1,10 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+
+import moment from 'moment';
+
+// import material-ui components
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
+
+// import types
 import { TypeQuestionBy, TypeQuestionBox } from '../types';
-import moment from 'moment';
 
 const QuestionBox = ({
   question

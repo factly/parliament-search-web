@@ -1,4 +1,7 @@
+// import constants
 import { memberConstants } from '../constants';
+
+// import types
 import { TypeMemberObject, TypeMemberData } from '../../types';
 
 const initialState: TypeMemberObject = {};

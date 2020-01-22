@@ -1,7 +1,18 @@
 import * as React from 'react';
+import { Store, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ParsedUrlQuery } from 'querystring';
+
 import { withRouter, SingletonRouter } from 'next/router';
 import Link from 'next/link';
+
+// import material-ui components
+import Avatar from '@material-ui/core/Avatar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+
+// import material-ui table components
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -9,22 +20,22 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+
+// import material-ui card components
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
-import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import party actions
 import { getPartyById, getPartyMembers } from '../../store/actions';
+
+// import types
 import {
   TypePartyMember,
   TypePartyData,
   AppState,
   AppActions
 } from '../../types';
-import { Typography } from '@material-ui/core';
-import { Store, Dispatch } from 'redux';
-import { ParsedUrlQuery } from 'querystring';
-import { ThunkDispatch } from 'redux-thunk';
 
 const PartiesPage = ({
   dispatch,

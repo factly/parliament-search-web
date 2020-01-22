@@ -1,19 +1,55 @@
 import * as React from 'react';
+import { Store, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ParsedUrlQuery } from 'querystring';
+import url from 'url';
+
 import Router from 'next/router';
 
+// import material-ui components
 import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TablePagination from '@material-ui/core/TablePagination';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+// import material-ui card components
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+
+// import material-ui list components
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
+// import material-ui expansion components
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+
+// import material-ui radio components
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+
+// import components
 import CheckBoxFilter from '../../components/CheckBoxFilter';
 import AgeFilter from '../../components/AgeFilter';
 import QuestionBox from '../../components/QuestionBox';
-import { selectedActions, searchPageInitial } from '../../store/actions';
-import TablePagination from '@material-ui/core/TablePagination';
+import MemberBox from '../../components/MemberBox';
+import TermsFilter from '../../components/TermsFilter';
+import SelectedFilters from '../../components/SelectedFilters';
 
+// import actions
+import {
+  selectedActions,
+  searchPageInitial,
+  getSearchPageResults
+} from '../../store/actions';
+
+// import types
 import {
   TypeFilter,
   TypeQuestionBox,
@@ -24,25 +60,9 @@ import {
   AppState,
   AppActions
 } from '../../types';
-import { getSearchPageResults } from '../../store/actions';
-import TermsFilter from '../../components/TermsFilter';
+
+// import constants
 import { selectedConstants, searchConstants } from './../../store/constants';
-import url from 'url';
-import SelectedFilters from '../../components/SelectedFilters';
-import List from '@material-ui/core/List';
-import Radio from '@material-ui/core/Radio';
-import ListItem from '@material-ui/core/ListItem';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import MemberBox from '../../components/MemberBox';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Store, Dispatch } from 'redux';
-import { ParsedUrlQuery } from 'querystring';
-import { ThunkDispatch } from 'redux-thunk';
 
 const SearchPage = ({
   dispatch,

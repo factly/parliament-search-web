@@ -1,6 +1,10 @@
 import React from 'react';
+
+// material-ui components
 import Typography from '@material-ui/core/Typography';
 import ErrorIcon from '@material-ui/icons/Error';
+
+// import material-ui card components
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Card from '@material-ui/core/Card';

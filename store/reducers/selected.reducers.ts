@@ -1,5 +1,9 @@
 /* eslint-disable no-case-declarations */
+
+// import constants
 import { selectedConstants } from '../constants';
+
+// import types
 import { TypeSelected, TypeSetAllSelected } from '../../types';
 
 type actionType = {

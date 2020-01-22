@@ -1,9 +1,15 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { questionConstants, appConstants } from '../constants';
-import { TypeQuestionBox, AppActions } from '../../types';
+
 import { Dispatch } from 'redux';
-import { memberConstants } from '../constants';
+
+// import constants
+import { questionConstants, appConstants, memberConstants } from '../constants';
+
+// import types
+import { TypeQuestionBox, AppActions } from '../../types';
+
+// import actions
 import { questionNodesQuery } from './question.actions';
 
 export const memberNodesQuery = `

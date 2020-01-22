@@ -1,4 +1,7 @@
+// import types
 import { TypeFilter } from '../../types';
+
+// import constants
 import { filterConstants } from '../constants';
 
 const initialState: TypeFilter = {};

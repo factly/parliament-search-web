@@ -1,19 +1,27 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+
 import Cookies from 'js-cookie';
 
+// import material-ui components
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 
-import { appActions } from '../store/actions';
-
+// import themes
 import light from '../lib/theme/light';
 import dark from '../lib/theme/dark';
+
+// import components
 import Header from './Header';
-import { Dispatch } from 'redux';
-import { AppActions, AppState, TypeApp } from '../types';
 import ErrorBox from './ErrorBox';
 import ErrorBoundary from './ErrorBoundary';
+
+// import actions
+import { appActions } from '../store/actions';
+
+// import types
+import { AppActions, AppState, TypeApp } from '../types';
 
 const Wrapper = ({
   Component,

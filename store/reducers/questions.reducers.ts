@@ -1,5 +1,9 @@
 /* eslint-disable no-case-declarations */
+
+// import constants
 import { questionConstants } from '../constants';
+
+// import types
 import { TypeQuestionObject, TypeQuestionData } from '../../types';
 
 const initialState: TypeQuestionObject = {};

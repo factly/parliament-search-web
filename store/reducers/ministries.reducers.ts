@@ -1,3 +1,4 @@
+// import types
 import { TypeMinistries } from '../../types';
 
 const initialState: TypeMinistries = {

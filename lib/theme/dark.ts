@@ -2,7 +2,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const dark = createMuiTheme({
   palette: {
-    type: 'dark'
+    type: 'dark',
+    primary: {
+      main: '#003333'
+    },
+    secondary: {
+      main: '#028c88'
+    }
   },
   overrides: {
     MuiExpansionPanel: {

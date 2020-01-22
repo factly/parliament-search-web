@@ -1,9 +1,12 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import Router from 'next/router';
 import PropTypes from 'prop-types';
+
+import Router from 'next/router';
 import Link from 'next/link';
 
+// import material-ui components
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,12 +15,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import Toolbar from '@material-ui/core/Toolbar';
 import HighlightIcon from '@material-ui/icons/Highlight';
 import InputBase from '@material-ui/core/InputBase';
-
-import { appActions } from '../store/actions';
-import { AppActions, TypeChangeTheme, AppState } from '../types';
-import { Dispatch } from 'redux';
-
 import Grid from '@material-ui/core/Grid';
+
+// import app actions
+import { appActions } from '../store/actions';
+
+// import types
+import { AppActions, TypeChangeTheme, AppState } from '../types';
 
 const useStyles = makeStyles((theme: Theme) => ({
   search: {
@@ -75,7 +79,7 @@ const Header = ({
                   <img
                     className="logo"
                     alt="Home"
-                    src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png"
+                    src="/static/images/logo.png"
                   />
                 </a>
               </Link>

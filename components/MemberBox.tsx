@@ -1,9 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import Typography from '@material-ui/core/Typography';
-import { TypeMemberData, TypeMemberTerms } from '../types';
-import { Avatar, Chip } from '@material-ui/core';
+
 import moment from 'moment';
+
+// import material-ui components
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip';
+
+// import types
+import { TypeMemberData, TypeMemberTerms } from '../types';
 
 const MemberBox = ({ member }: { member: TypeMemberData }): JSX.Element => {
   return (

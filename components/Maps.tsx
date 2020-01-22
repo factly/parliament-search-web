@@ -1,7 +1,11 @@
-import L from 'leaflet';
 import React from 'react';
-import dataMap from '../public/static/map_data/new.json';
 import Router from 'next/router';
+
+// import leaflet
+import L from 'leaflet';
+
+// import constituency shape file
+import dataMap from '../public/static/map_data/constituency_shapefile.json';
 
 const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
   const mapRef = React.useRef<L.Map>();
@@ -64,7 +68,7 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
           layer
             .setStyle(hoverStyle)
             .bindTooltip(
-              `${feature.properties.pc_name}, ${feature.properties.st_name}(${feature.properties.pc_category})`,
+              `${feature.properties.name}, ${feature.properties.state}(${feature.properties.category})`,
               { direction: 'auto', sticky: true }
             )
             .openTooltip();
@@ -75,7 +79,7 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
         layer.on('click', () => {
           Router.push(
             '/geographies/[gid]',
-            `/geographies/${feature.properties.pc_id}`
+            `/geographies/${feature.properties.GID}`
           );
         });
       }
@@ -83,7 +87,7 @@ const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
 
     // to get current feature's index
     const index = dataMap.features.findIndex(
-      each => each.properties.pc_id === geographyId
+      each => each.properties.GID === geographyId
     );
     const currentFeature = dataMap.features[index];
 

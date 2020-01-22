@@ -1,6 +1,11 @@
-import { selectedConstants } from '../constants';
-import { TypeSetAll, TypeSetAllSelected } from '../../types';
 import { ParsedUrlQuery } from 'querystring';
+
+// import constants
+import { selectedConstants } from '../constants';
+
+// import types
+import { TypeSetAll, TypeSetAllSelected } from '../../types';
+
 function urlParser(param: string | string[]): number[] {
   if (typeof param === 'object')
     return param
@@ -8,6 +13,7 @@ function urlParser(param: string | string[]): number[] {
       .map((each: string) => +each);
   return param.trim() !== '' ? [+param] : [];
 }
+
 function setAll(query: ParsedUrlQuery): TypeSetAll {
   const setQuery: TypeSetAllSelected = {};
   if (query.q && (query.q as string).trim() != '')
@@ -30,21 +36,26 @@ function setAll(query: ParsedUrlQuery): TypeSetAll {
 function setSort(state: string): TypeSetAll {
   return { type: selectedConstants.SET_SORT, data: { sort: state } };
 }
+
 function setPage(state: number): TypeSetAll {
   return { type: selectedConstants.SET_PAGE, data: { page: state } };
 }
+
 function toogle(state: number, field: string): TypeSetAll {
   return { type: selectedConstants.TOOGLE_ONE, data: { [field]: state } };
 }
+
 function setAge(state: number[]): TypeSetAll {
   return {
     type: selectedConstants.SET_AGE,
     data: { ageMin: state[0], ageMax: state[1] }
   };
 }
+
 function setTerms(state: number): TypeSetAll {
   return { type: selectedConstants.SET_TERMS, data: { terms: state } };
 }
+
 export const selectedActions = {
   setSort,
   setPage,

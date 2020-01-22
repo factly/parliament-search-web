@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+//import material-ui components
 import Grid from '@material-ui/core/Grid';
+
+// components
 import TopicBox from '../components/TopicBox';
+
+// import types
 import { TypeCheckBoxFilter, AppState } from '../types';
 
 const HomePage = ({ topic }: { topic: TypeCheckBoxFilter[] }): JSX.Element => {

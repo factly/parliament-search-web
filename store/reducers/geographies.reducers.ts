@@ -1,4 +1,7 @@
+// import constants
 import { geographyConstants } from '../constants';
+
+// import types
 import { TypeGeographyObject, TypeGeographyData } from '../../types';
 
 const initialState: TypeGeographyObject = {};

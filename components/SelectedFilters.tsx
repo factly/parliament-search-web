@@ -1,6 +1,13 @@
 import React from 'react';
+import { Dispatch } from 'redux';
+
+// import material-ui components
 import Chip from '@material-ui/core/Chip';
+
+// import selected actions
 import { selectedActions } from '../store/actions';
+
+// import types
 import {
   AppActions,
   TypeFilter,
@@ -8,7 +15,6 @@ import {
   TypeSetAll,
   TypeCheckBoxFilter
 } from '../types';
-import { Dispatch } from 'redux';
 
 interface TypeLists {
   id: number;

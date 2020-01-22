@@ -1,10 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
-import { TypeCheckBoxFilter } from '../types';
+
+// import material-ui components
+import Typography from '@material-ui/core/Typography';
+
+// import material-ui card components
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+
+// import types
+import { TypeCheckBoxFilter } from '../types';
 
 const TopicBox = ({ topic }: { topic: TypeCheckBoxFilter }): JSX.Element => {
   const { id, name } = topic;

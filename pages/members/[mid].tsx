@@ -1,26 +1,44 @@
 import React from 'react';
+import { Store } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ParsedUrlQuery } from 'querystring';
+
 import { withRouter, SingletonRouter } from 'next/router';
-import { getMemberById } from '../../store/actions';
+import Link from 'next/link';
+
+import moment from 'moment';
+
+// import material-ui components
 import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import material-ui card components
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import QuestionBox from '../../components/QuestionBox';
-import Button from '@material-ui/core/Button';
+
+// import material-ui table components
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+// import material-ui list components
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Link from 'next/link';
+
+// import  member action
+import { getMemberById } from '../../store/actions';
+
+// import types
 import {
   TypeMemberTerms,
   TypeMemberData,
@@ -28,10 +46,6 @@ import {
   AppState,
   AppActions
 } from '../../types';
-import moment from 'moment';
-import { Store } from 'redux';
-import { ParsedUrlQuery } from 'querystring';
-import { ThunkDispatch } from 'redux-thunk';
 
 const MembersPage = ({
   member,

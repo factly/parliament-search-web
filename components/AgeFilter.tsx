@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+//import material-ui components
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+
+// import material-ui expansion components
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
 
 const marks = [
   {

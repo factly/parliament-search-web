@@ -1,4 +1,7 @@
+// import constants
 import { partyConstants } from '../constants';
+
+// import types
 import { TypePartyObject, TypePartyData } from '../../types';
 
 const initialState: TypePartyObject = {};

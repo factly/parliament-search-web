@@ -1,9 +1,19 @@
+import { Dispatch } from 'redux';
+
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { questionConstants, appConstants } from '../constants';
+
+// import constants
+import {
+  questionConstants,
+  appConstants,
+  geographyConstants
+} from '../constants';
+
+// import types
 import { TypeQuestionData, AppActions } from '../../types';
-import { Dispatch } from 'redux';
-import { geographyConstants } from '../constants';
+
+// import actions
 import { questionNodesQuery } from './question.actions';
 
 export const geographyQuery = gql(String.raw`

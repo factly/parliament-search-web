@@ -1,6 +1,10 @@
-import { appConstants } from '../constants';
-import { TypeChangeTheme } from '../../types';
 import Cookies from 'js-cookie';
+
+// import constants
+import { appConstants } from '../constants';
+
+// import types
+import { TypeChangeTheme } from '../../types';
 
 function changeTheme(state: string): TypeChangeTheme {
   if (state === 'dark' || state === 'light') {

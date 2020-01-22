@@ -1,7 +1,12 @@
 import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
-import { AppActions } from '../../types';
+
 import { Dispatch } from 'redux';
+
+// import types
+import { AppActions } from '../../types';
+
+// import actions
 import { partyConstants, appConstants } from '../constants';
 
 const partyQuery = gql`

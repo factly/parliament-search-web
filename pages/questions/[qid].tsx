@@ -1,28 +1,38 @@
 // TODO add answer by ministry
 import React from 'react';
+import { Store } from 'redux';
 import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ParsedUrlQuery } from 'querystring';
+
+import moment from 'moment';
+
 import { withRouter, SingletonRouter } from 'next/router';
 import Link from 'next/link';
+
+// import material-ui components
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import AttachmentIcon from '@material-ui/icons/Attachment';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import material-ui list components
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+//import question action
 import { getQuestionById } from '../../store/actions';
+
+//import types
 import {
   TypeQuestionBy,
   TypeQuestionData,
   AppState,
   AppActions
 } from '../../types';
-import moment from 'moment';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import AttachmentIcon from '@material-ui/icons/Attachment';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Store } from 'redux';
-import { ParsedUrlQuery } from 'querystring';
-import { ThunkDispatch } from 'redux-thunk';
 
 const QuestionPage = ({
   question

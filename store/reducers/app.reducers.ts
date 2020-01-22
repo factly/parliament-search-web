@@ -1,4 +1,7 @@
+// import constants
 import { appConstants } from '../constants';
+
+// import types
 import { TypeApp } from '../../types';
 
 const initialState: TypeApp = {

@@ -1,5 +1,10 @@
-import { questionsByVariablesQuery } from './question.actions';
 import { client } from './client.apollo';
+import { gql } from 'apollo-boost';
+
+import { Dispatch } from 'redux';
+import { ParsedUrlQuery } from 'querystring';
+
+// import constants
 import {
   questionConstants,
   searchConstants,
@@ -7,6 +12,8 @@ import {
   appConstants,
   memberConstants
 } from '../constants';
+
+// import types
 import {
   TypeQuestionBox,
   AppActions,
@@ -14,11 +21,11 @@ import {
   TypeMemberData,
   TypeQuestionData
 } from '../../types';
-import { Dispatch } from 'redux';
-import { gql } from 'apollo-boost';
+
+// import actions
 import { selectedActions } from './selected.actions';
 import { membersByVariableQuery } from './member.actions';
-import { ParsedUrlQuery } from 'querystring';
+import { questionsByVariablesQuery } from './question.actions';
 
 const filtersQuery = gql`
   query {

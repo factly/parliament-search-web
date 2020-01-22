@@ -1,4 +1,7 @@
+// import constants
 import { searchConstants } from '../constants/search.constants';
+
+// import types
 import { TypeSearch, TypeSetSearchPageQuestions } from '../../types';
 
 const initialState: TypeSearch = {

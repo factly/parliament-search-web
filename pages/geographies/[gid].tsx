@@ -1,21 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, SingletonRouter } from 'next/router';
+import { Store } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { ParsedUrlQuery } from 'querystring';
+
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { withRouter, SingletonRouter } from 'next/router';
+
+// import material-ui components
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import material-ui card components
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+
+// import material-ui table components
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+// import components
 import QuestionBox from '../../components/QuestionBox';
+
+//import Geography action
 import { getGeographyById } from '../../store/actions';
-import CircularProgress from '@material-ui/core/CircularProgress';
+
+// import types
 import {
   TypeGeographyMember,
   TypeGeographyData,
@@ -23,9 +39,6 @@ import {
   AppState,
   AppActions
 } from '../../types';
-import { Store } from 'redux';
-import { ParsedUrlQuery } from 'querystring';
-import { ThunkDispatch } from 'redux-thunk';
 
 const MapWithNoSSR = dynamic(() => import('../../components/Maps'), {
   ssr: false
