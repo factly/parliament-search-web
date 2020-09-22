@@ -49,6 +49,7 @@ export interface TypePartyMember {
 export interface TypeGeographyMember {
   MID: number;
   name: string;
+  gender: string;
   terms: {
     party: {
       PID: number;

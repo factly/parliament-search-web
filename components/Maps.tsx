@@ -1,104 +1,100 @@
+import L from 'leaflet';
 import React from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
-import Router from 'next/router';
-import PropTypes from 'prop-types';
 import dataMap from '../public/static/map_data/new.json';
-import { TypeGeoJSONStyle } from '../types/index.js';
+import Router from 'next/router';
 
-const GeographyMap = ({
-  geographyId
-}: {
-  geographyId: number;
-}): JSX.Element => {
-  let center: number[] = [];
-  let zoom = 8;
-  const index = dataMap.features.findIndex(
-    each => each.properties.pc_id === geographyId
-  );
-  if (index >= 0) {
-    const { coordinates } = dataMap.features[index].geometry;
-    const latitudes: number[] = [];
-    const longitutdes: number[] = [];
-    coordinates.map(each =>
-      each.map(each1 => each1.map(each2 => latitudes.push(each2[0])))
-    );
-    coordinates.map(each =>
-      each.map(each1 => each1.map(each2 => longitutdes.push(each2[1])))
-    );
-    const minLat = Math.min(...latitudes);
-    const maxLat = Math.max(...latitudes);
-    const minLng = Math.min(...longitutdes);
-    const maxLng = Math.max(...longitutdes);
-    // center
-    center = [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
-    const a =
-      maxLat - minLat > maxLng - minLng ? maxLat - minLat : maxLng - minLng;
-    zoom = a > 3 ? 7 : a > 1 ? 8 : 9.5;
-  }
-  const [hover, setHover] = React.useState(geographyId);
+const GeoMap = ({ geographyId }: { geographyId: number }): JSX.Element => {
+  const mapRef = React.useRef<L.Map>();
+  React.useEffect(() => {
+    //layer style
+    const layerStyle = {
+      clickable: true,
+      color: '#00d',
+      fillColor: '#d5dbd6',
+      weight: 1.0,
+      opacity: 0.3,
+      fillOpacity: 0.3
+    };
+    // hover style
+    const hoverStyle = {
+      fillColor: '#cf8f8f',
+      fillOpacity: 0.7
+    };
+    //feature style
+    const featureGeoStyle = {
+      fillColor: '#cf8f8f',
+      color: '#777',
+      weight: 2,
+      opacity: 0.3,
+      fillOpacity: 0.5,
+      clickable: false
+    };
 
-  const onEachFeature = (feature: any, layer: any): void => {
-    const click = (): Promise<boolean> =>
-      Router.push(
-        '/geographies/[gid]',
-        `/geographies/${feature.properties.pc_id}`
-      );
-
-    const mouseOver = (): void => {
-      setHover(feature.properties.pc_id);
-      layer
-        .setStyle({
-          fillColor: '#cf8f8f'
+    mapRef.current = L.map('mapid', {
+      scrollWheelZoom: false,
+      zoomControl: true,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      layers: [
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         })
-        .bindTooltip(
-          `${feature.properties.pc_name}, ${feature.properties.st_name}(${feature.properties.pc_category})`,
-          { direction: 'auto', sticky: true }
-        )
-        .openTooltip();
-    };
-    const mouseOut = (): void => {
-      if (geographyId !== hover)
-        layer.setStyle({
-          fillColor: '#d5dbd6'
-        });
-    };
-    layer.on({
-      click,
-      mouseover: mouseOver,
-      mouseout: mouseOut
+      ]
     });
-  };
+    mapRef.current.zoomControl.setPosition('topleft');
+    const drawFeatures = (currentFeature: any): void => {
+      // draw current feature
+      if (currentFeature) {
+        const layer = L.geoJSON(currentFeature as any, {
+          style: featureGeoStyle
+        });
+        if (mapRef.current) {
+          mapRef.current.addLayer(layer);
+          mapRef.current.setView(layer.getBounds().getCenter(), 9);
+        }
+      }
+    };
+    // draw remaining features
+    new L.GeoJSON(dataMap as any, {
+      style: layerStyle,
+      onEachFeature: (feature: any, layer: any): void => {
+        layer.on('mouseover', function() {
+          layer
+            .setStyle(hoverStyle)
+            .bindTooltip(
+              `${feature.properties.pc_name}, ${feature.properties.st_name}(${feature.properties.pc_category})`,
+              { direction: 'auto', sticky: true }
+            )
+            .openTooltip();
+        });
+        layer.on('mouseout', () => {
+          layer.setStyle(layerStyle);
+        });
+        layer.on('click', () => {
+          Router.push(
+            '/geographies/[gid]',
+            `/geographies/${feature.properties.pc_id}`
+          );
+        });
+      }
+    }).addTo(mapRef.current);
 
-  const geoJSONStyle = (feature: any): TypeGeoJSONStyle => ({
-    color: '#1f2021',
-    weight: 1,
-    fillOpacity: 0.5,
-    fillColor: feature.properties.pc_id === geographyId ? '#cf8f8f' : '#d5dbd6',
-    zIndex: 0
+    // to get current feature's index
+    const index = dataMap.features.findIndex(
+      each => each.properties.pc_id === geographyId
+    );
+    const currentFeature = dataMap.features[index];
+
+    drawFeatures(currentFeature);
+
+    return () => {
+      if (mapRef.current) mapRef.current.remove();
+    };
   });
 
-  return (
-    <Map
-      center={center as any}
-      zoom={zoom}
-      style={{ height: 500 }}
-      scrollWheelZoom={false}
-      maxZoom={18}
-      minZoom={4}
-    >
-      <TileLayer
-        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <GeoJSON
-        data={dataMap as any}
-        style={geoJSONStyle}
-        onEachFeature={onEachFeature}
-      />
-    </Map>
-  );
+  return <div id="mapid" style={{ width: '100%', height: '500px' }} />;
 };
-GeographyMap.propTypes = {
-  geographyId: PropTypes.number.isRequired
-};
-export default GeographyMap;
+
+export default GeoMap;

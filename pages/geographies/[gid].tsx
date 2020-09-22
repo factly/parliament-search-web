@@ -78,7 +78,7 @@ const GeographyPage = ({
                           <div className="flexDisplay">
                             <Avatar
                               alt="Mp's image"
-                              src="/static/images/mp.jpg"
+                              src={`/static/images/${member.gender.toLowerCase()}.png`}
                             />
                             <div className="paddingOnLeft">{member.name}</div>
                           </div>

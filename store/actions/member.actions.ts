@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 import { client } from './client.apollo';
 import { questionConstants, appConstants } from '../constants';
 import { TypeQuestionBox, AppActions } from '../../types';
-import { Dispatch } from 'react';
+import { Dispatch } from 'redux';
 import { memberConstants } from '../constants';
 import { questionNodesQuery } from './question.actions';
 
@@ -114,37 +114,43 @@ export function getMemberById(mid: number) {
       })
       .then(({ data }) => {
         if (data.member === null) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'INVALID_ID'
           });
+        } else {
+          const popularQuestionIds: number[] = data.questions.nodes.map(
+            (each: TypeQuestionBox) => each.QID
+          );
+
+          dispatch({
+            type: questionConstants.SET_QUESTIONS,
+            data: data.questions.nodes
+          });
+
+          dispatch({
+            type: memberConstants.SET_MEMBER,
+            data: [{ ...data.member, popularQuestionIds }]
+          });
         }
-
-        const popularQuestionIds: number[] = data.questions.nodes.map(
-          (each: TypeQuestionBox) => each.QID
-        );
-
-        dispatch({
-          type: questionConstants.SET_QUESTIONS,
-          data: data.questions.nodes
-        });
-
-        dispatch({
-          type: memberConstants.SET_MEMBER,
-          data: [{ ...data.member, popularQuestionIds }]
-        });
       })
       .catch(({ graphQLErrors, networkError }) => {
         if (networkError) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'NETWORK_ERROR'
           });
         }
         if (graphQLErrors) {
-          return dispatch({
+          dispatch({
             type: appConstants.ADD_ERROR,
             data: 'GRAPHQL_ERROR'
+          });
+        }
+        if (!networkError && !graphQLErrors) {
+          dispatch({
+            type: appConstants.ADD_ERROR,
+            data: 'SOMETHING_WENT_WRONG'
           });
         }
       });

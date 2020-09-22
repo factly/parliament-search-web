@@ -351,11 +351,11 @@ const mapStateToProps = (
   results:
     state.selected.category === 'members'
       ? state.search.ids
+          .filter((each: number) => state.members[each] !== undefined)
           .map((each: number) => state.members[each])
-          .filter((each: undefined | TypeMemberData) => each !== undefined)
       : state.search.ids
-          .map((each: number) => state.questions[each])
-          .filter((each: undefined | TypeQuestionBox) => each !== undefined),
+          .filter((each: number) => state.questions[each] !== undefined)
+          .map((each: number) => state.questions[each]),
   total: state.search.total,
   ministries: state.ministries
 });
