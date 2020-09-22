@@ -49,11 +49,11 @@ const GeographyPage = ({
     <div>
       <Card>
         <CardHeader title={geography.name} />
-        {geography.type === 'constituency' ? (
+        {/* {geography.type === 'constituency' ? (
           <CardContent className="map">
             <MapWithNoSSR geographyId={geography.GID} />
           </CardContent>
-        ) : null}
+        ) : null} */}
       </Card>
       <Card className="marginTopOne">
         <CardHeader
