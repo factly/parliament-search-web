@@ -75,7 +75,7 @@ const Header = ({
                   <img
                     className="logo"
                     alt="Home"
-                    src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_4ee2f9.png"
+                    src="/static/images/parlens.png"
                   />
                 </a>
               </Link>
