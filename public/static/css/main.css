@@ -114,7 +114,8 @@
 }
 
 .topicBoxImage {
-  height: 150px
+  height: 150px;
+  background-size: contain !important;
 }
 
 .errorBoxHeader {

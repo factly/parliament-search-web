@@ -7,15 +7,15 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 const TopicBox = ({ topic }: { topic: TypeCheckBoxFilter }): JSX.Element => {
-  const { id, name } = topic;
+  const { id, name, image } = topic;
   return (
     <Card className="topicBox">
       <Link href={`/search?topic=${id}`}>
         <a className="link">
           <CardMedia
             className="topicBoxImage"
-            image="/static/images/topics.jpg"
-            title="Live from space album cover"
+            image={image}
+            title={name}
           />
           <CardContent>
             <Typography color="textPrimary" component="h6" variant="h6">

@@ -8,6 +8,7 @@ import {
 export interface TypeCheckBoxFilter {
   id: number;
   name: string;
+  image?: string;
 }
 
 export interface TypeSelectedFilter {
